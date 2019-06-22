@@ -21,10 +21,9 @@ public class UserService {
     @Transactional
     public Long registerUser(UserInformation userInformation) {
         UserEntity entity = UserEntity.builder()
-                            .userInformation(userInformation)
-                            .build();
-        userRepository.save(entity);
-        return 0l;
+                .userInformation(userInformation)
+                .build();
+        return userRepository.save(entity).getUid();
     }
 
     @Transactional

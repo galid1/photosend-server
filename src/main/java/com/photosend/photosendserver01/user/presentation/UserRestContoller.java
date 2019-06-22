@@ -14,9 +14,8 @@ public class UserRestContoller {
     private UserService userService;
 
     @PostMapping("/")
-    public String registerUser(@RequestBody UserInformation userInformation) {
-        userService.registerUser(userInformation);
-        return "OK";
+    public Long registerUser(@RequestBody UserInformation userInformation) {
+        return userService.registerUser(userInformation);
     }
 
     @PostMapping("/{users-id}/tickets")
