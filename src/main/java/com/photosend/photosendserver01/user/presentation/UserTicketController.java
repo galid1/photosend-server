@@ -21,14 +21,14 @@ public class UserTicketController {
     }
 
     @PostMapping("/{users-id}/tickets")
-    public TicketImageUrl uploadTicket(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
+    public TicketImageUrl uploadTicketImage(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
         return userTicketService.uploadTicketImage(userId, ticketsFile);
     }
 
     // 요청을 5분당 3번만 가능하도록 변경하기
     @PutMapping("/{users-id}/tickets")
-    public TicketImageUrl changeTicket(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
-        return userTicketService.changeTicketImage(userId, ticketsFile);
+    public TicketImageUrl modifyTicketImage(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
+        return userTicketService.modifyTicketImage(userId, ticketsFile);
     }
 
     @ExceptionHandler

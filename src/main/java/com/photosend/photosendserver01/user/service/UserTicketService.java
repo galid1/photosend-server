@@ -39,11 +39,11 @@ public class UserTicketService {
     }
 
     @Transactional
-    public TicketImageUrl changeTicketImage(Long userId, MultipartFile ticketImageFile) {
+    public TicketImageUrl modifyTicketImage(Long userId, MultipartFile ticketImageFile) {
         String imageUrl = uploadFileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename());
 
         Optional<UserEntity> userEntity = userRepository.findById(userId);
-        userEntity.get().changeTicketsImagePath(imageUrl);
+        userEntity.get().modifyTicketsImagePath(imageUrl);
 
         uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
         return new TicketImageUrl(imageUrl);

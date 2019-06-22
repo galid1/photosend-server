@@ -47,11 +47,9 @@ public class UserEntity {
     }
 
     // 변경시에는 티켓이 존재하지 않을 때 에러
-    public void changeTicketsImagePath(String imagePath) {
+    public void modifyTicketsImagePath(String imagePath) {
         if(!verifyTicketExist())
             throw new UploadTicketException("ticket doesn't exist");
-
-
 
         this.ticket = Ticket.builder()
                     .ticketImagePath(imagePath)
