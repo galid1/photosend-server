@@ -4,6 +4,8 @@ import com.photosend.photosendserver01.user.domain.exception.UploadTicketExcepti
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +51,11 @@ public class UserEntity {
         if(!verifyTicketExist())
             throw new UploadTicketException("ticket doesn't exist");
 
+
+
         this.ticket = Ticket.builder()
                     .ticketImagePath(imagePath)
+                    .ticketImageChangeTime(Timestamp.valueOf(LocalDateTime.now()))
                     .build();
     }
 

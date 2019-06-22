@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.sql.Timestamp;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,4 +17,5 @@ public class Ticket {
     @Column(name = "image_path")
     private String ticketImagePath;
 
+    private Timestamp ticketImageChangeTime;
 }
