@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.user.domain;
 
+import com.photosend.photosendserver01.user.domain.exception.UploadTicketException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -43,7 +44,7 @@ public class UserEntity {
 
     private void verifyTicketExist() {
         if(ticket != null)
-            throw new IllegalStateException("이미 업로드한 티켓이 존재합니다.");
+            throw new UploadTicketException("already ticket is exist");
     }
 
     public void uploadCloth(ClothesEntity cloth) {
