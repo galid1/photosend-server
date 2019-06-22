@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.user.domain;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -12,6 +13,7 @@ import javax.persistence.Embeddable;
 public class Ticket {
     // Required Field
     @NonNull
+    @Column(name = "image_path")
     private String ticketImagePath;
 
 }
