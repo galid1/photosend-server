@@ -26,9 +26,8 @@ public class UserRestContoller {
     }
 
     @PostMapping("/{users-id}/tickets")
-    public String uploadTicket(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
-        String imageUrl = userService.uploadTicketImage(userId, ticketsFile);
-        return imageUrl;
+    public TicketImageUrl uploadTicket(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
+        return userService.uploadTicketImage(userId, ticketsFile);
     }
 
     @ExceptionHandler

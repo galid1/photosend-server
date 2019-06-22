@@ -35,7 +35,7 @@ public class UserService {
     }
 
     @Transactional
-    public String uploadTicketImage(Long userId, MultipartFile ticketImageFile) {
+    public TicketImageUrl uploadTicketImage(Long userId, MultipartFile ticketImageFile) {
         // uploadPath 얻어오기
         String imageUrl = uploadFileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename());
 
@@ -46,7 +46,7 @@ public class UserService {
         // storage에 file upload
         uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
 
-        return imageUrl;
+        return new TicketImageUrl(imageUrl);
     }
 
     @Transactional
