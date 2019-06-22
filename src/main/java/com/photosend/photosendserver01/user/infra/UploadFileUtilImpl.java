@@ -15,9 +15,8 @@ public class UploadFileUtilImpl implements UploadFileUtil {
     // test
     public static final String clothesImageFolder = "clothes";
 
-
-
-    private String makeFileUploadPath(Long userId, String fileName) {
+    @Override
+    public String makeFileUploadPath(Long userId, String fileName) {
         return "C:/" + ticketsImageFolder + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
     }
 
@@ -26,10 +25,8 @@ public class UploadFileUtilImpl implements UploadFileUtil {
     }
 
     @Override
-    public String uploadFile(Long userId, MultipartFile file) {
-        String imagePath = makeFileUploadPath(userId, file.getOriginalFilename());
-
-        File destinationFile = new File(imagePath);
+    public void uploadFile(String uploadPath, MultipartFile file) {
+        File destinationFile = new File(uploadPath);
         if (!destinationFile.getParentFile().exists())
             destinationFile.getParentFile().mkdir();
         try {
@@ -37,7 +34,5 @@ public class UploadFileUtilImpl implements UploadFileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return imagePath;
     }
 }
