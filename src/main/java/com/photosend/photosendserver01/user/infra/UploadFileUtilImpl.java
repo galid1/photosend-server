@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.user.infra;
 
-import com.photosend.photosendserver01.user.service.users.UploadFileUtil;
+import com.photosend.photosendserver01.user.service.UploadFileUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 

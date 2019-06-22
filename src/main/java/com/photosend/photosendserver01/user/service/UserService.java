@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.user.service.users;
+package com.photosend.photosendserver01.user.service;
 
 import com.photosend.photosendserver01.user.domain.ClothesEntity;
 import com.photosend.photosendserver01.user.domain.UserEntity;
@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Optional;
 
 @Service
 public class UserService {

@@ -1,7 +1,6 @@
 package com.photosend.photosendserver01.user.service;
 
 import com.photosend.photosendserver01.user.domain.*;
-import com.photosend.photosendserver01.user.service.users.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

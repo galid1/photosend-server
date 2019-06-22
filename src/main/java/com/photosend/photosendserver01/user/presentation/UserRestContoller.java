@@ -1,7 +1,7 @@
-package com.photosend.photosendserver01.user.presentation.users;
+package com.photosend.photosendserver01.user.presentation;
 
 import com.photosend.photosendserver01.user.domain.UserInformation;
-import com.photosend.photosendserver01.user.service.users.UserService;
+import com.photosend.photosendserver01.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

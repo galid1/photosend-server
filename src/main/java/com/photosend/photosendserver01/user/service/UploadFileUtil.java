@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.user.service.users;
+package com.photosend.photosendserver01.user.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

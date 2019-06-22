@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.user.presentation.users;
+package com.photosend.photosendserver01.user.presentation;
 
 import com.photosend.photosendserver01.user.domain.Size;
 
