@@ -1,7 +1,6 @@
 package com.photosend.photosendserver01.user.presentation;
 
-import com.photosend.photosendserver01.user.domain.UserInformation;
-import com.photosend.photosendserver01.user.domain.exception.UploadTicketException;
+import com.photosend.photosendserver01.user.domain.exception.TicketException;
 import com.photosend.photosendserver01.user.service.UserTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class UserTicketController {
     }
 
     @ExceptionHandler
-    public ResponseEntity uploadTicketExceptionHandler(UploadTicketException uploadTicketException) {
+    public ResponseEntity uploadTicketExceptionHandler(TicketException uploadTicketException) {
         String exceptionJsonBody = "{\"message\" : \"" + uploadTicketException.getMessage() + "\" }";
         return ResponseEntity.badRequest().body(exceptionJsonBody);
     }
