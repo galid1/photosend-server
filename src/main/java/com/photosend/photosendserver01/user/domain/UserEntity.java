@@ -36,15 +36,27 @@ public class UserEntity {
     }
 
     public void putTicketsImagePath(String imagePath) {
-        verifyTicketExist();
+        if(verifyTicketExist())
+            throw new UploadTicketException("already ticket exist");
+
         this.ticket = Ticket.builder()
                     .ticketImagePath(imagePath)
                     .build();
     }
 
-    private void verifyTicketExist() {
-        if(ticket != null)
-            throw new UploadTicketException("already ticket is exist");
+    // 변경시에는 티켓이 존재하지 않을 때 에러
+    public void changeTicketsImagePath(String imagePath) {
+        if(!verifyTicketExist())
+            throw new UploadTicketException("ticket doesn't exist");
+
+        this.ticket = Ticket.builder()
+                    .ticketImagePath(imagePath)
+                    .build();
+    }
+
+    // 티켓 존재시 true , 아닐 시 false return
+    private boolean verifyTicketExist() {
+        return ticket != null ? true : false;
     }
 
     public void uploadCloth(ClothesEntity cloth) {
