@@ -2,7 +2,7 @@ package com.photosend.photosendserver01.user.presentation;
 
 import com.photosend.photosendserver01.user.domain.UserInformation;
 import com.photosend.photosendserver01.user.domain.exception.UploadTicketException;
-import com.photosend.photosendserver01.user.service.UserService;
+import com.photosend.photosendserver01.user.service.UserTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,24 +10,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/users")
-public class UserRestContoller {
+public class UserTicketController {
 
     @Autowired
-    private UserService userService;
-
-    @PostMapping("/")
-    public Long registerUser(@RequestBody UserInformation userInformation) {
-        return userService.registerUser(userInformation);
-    }
+    private UserTicketService userTicketService;
 
     @GetMapping("/{users-id}/tickets")
     public TicketImageUrl getTicketUrl(@PathVariable("users-id") Long userId) {
-        return userService.getUserTicketImageUrl(userId);
+        return userTicketService.getUserTicketImageUrl(userId);
     }
 
     @PostMapping("/{users-id}/tickets")
     public TicketImageUrl uploadTicket(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
-        return userService.uploadTicketImage(userId, ticketsFile);
+        return userTicketService.uploadTicketImage(userId, ticketsFile);
     }
 
     @ExceptionHandler

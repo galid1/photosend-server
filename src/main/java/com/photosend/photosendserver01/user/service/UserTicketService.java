@@ -1,8 +1,6 @@
 package com.photosend.photosendserver01.user.service;
 
-import com.photosend.photosendserver01.user.domain.ClothesEntity;
 import com.photosend.photosendserver01.user.domain.UserEntity;
-import com.photosend.photosendserver01.user.domain.UserInformation;
 import com.photosend.photosendserver01.user.domain.UserRepository;
 import com.photosend.photosendserver01.user.presentation.TicketImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 
 @Service
-public class UserService {
-
+public class UserTicketService {
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private UploadFileUtil uploadFileUtil;
-
-    @Transactional
-    public Long registerUser(UserInformation userInformation) {
-        UserEntity entity = UserEntity.builder()
-                .userInformation(userInformation)
-                .build();
-        return userRepository.save(entity).getUid();
-    }
 
     public TicketImageUrl getUserTicketImageUrl(Long userId) {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
@@ -48,20 +37,4 @@ public class UserService {
 
         return new TicketImageUrl(imageUrl);
     }
-
-    @Transactional
-    public Long uploadClothImage(Long userId, ClothesEntity cloth) {
-        UserEntity userEntity = userRepository.findById(userId).orElse(null);
-
-        if (userEntity == null)
-            throw new IllegalArgumentException("없는 회원입니다.");
-
-        userEntity.uploadCloth(cloth);
-        return Long.valueOf(userEntity.getLastUploadClothIndex());
-    }
-
-    public Long putClothInfo(Long clothId) {
-        return 0l;
-    }
-
 }
