@@ -19,6 +19,7 @@ public class ClothesEntity {
 
     // Required Field
     @NonNull
+    @Column(name = "image_path")
     private String clothImagePath;
 
     // Optional Field
