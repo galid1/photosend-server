@@ -29,12 +29,24 @@ public class UserTicketService {
         String imageUrl = uploadFileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename());
 
         // userentity에 tickets imageUrl 추가
-        UserEntity userEntity = userRepository.findById(userId).orElse(null);
-        userEntity.putTicketsImagePath(imageUrl);
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+        userEntity.get().putTicketsImagePath(imageUrl);
 
         // storage에 file upload
         uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
 
         return new TicketImageUrl(imageUrl);
     }
+
+    @Transactional
+    public TicketImageUrl changeTicketImage(Long userId, MultipartFile ticketImageFile) {
+        String imageUrl = uploadFileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename());
+
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+        userEntity.get().changeTicketsImagePath(imageUrl);
+
+        uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
+        return new TicketImageUrl(imageUrl);
+    }
+
 }
