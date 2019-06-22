@@ -20,8 +20,13 @@ public class UserRestContoller {
         return userService.registerUser(userInformation);
     }
 
+    @GetMapping("/{users-id}/tickets")
+    public TicketImageUrl getTicketUrl(@PathVariable("users-id") Long userId) {
+        return userService.getUserTicketImageUrl(userId);
+    }
+
     @PostMapping("/{users-id}/tickets")
-    public String uploadTickets(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
+    public String uploadTicket(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
         String imageUrl = userService.uploadTicketImage(userId, ticketsFile);
         return imageUrl;
     }
