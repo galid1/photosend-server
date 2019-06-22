@@ -28,12 +28,15 @@ public class UserService {
 
     @Transactional
     public String uploadTicketImage(Long userId, MultipartFile ticketImageFile) {
-        // storage에 file upload
-        String imageUrl = uploadFileUtil.uploadFile(userId, ticketImageFile);
+        // uploadPath 얻어오기
+        String imageUrl = uploadFileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename());
 
         // userentity에 tickets imageUrl 추가
         UserEntity userEntity = userRepository.findById(userId).orElse(null);
         userEntity.putTicketsImagePath(imageUrl);
+
+        // storage에 file upload
+        uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
 
         return imageUrl;
     }
