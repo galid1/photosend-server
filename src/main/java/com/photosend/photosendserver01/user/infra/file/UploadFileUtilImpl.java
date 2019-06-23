@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.user.infra;
+package com.photosend.photosendserver01.user.infra.file;
 
 import com.photosend.photosendserver01.user.service.UploadFileUtil;
 import org.springframework.stereotype.Component;
@@ -10,14 +10,9 @@ import java.util.UUID;
 
 @Component
 public class UploadFileUtilImpl implements UploadFileUtil {
-    // test
-    public static final String ticketsImageFolder = "tickets";
-    // test
-    public static final String clothesImageFolder = "clothes";
-
     @Override
-    public String makeFileUploadPath(Long userId, String fileName) {
-        return "C:/" + ticketsImageFolder + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
+    public String makeFileUploadPath(Long userId, String fileName, ImageType fileType) {
+        return "C:/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
     }
 
     private String makeRandomFileName(String originFileName) {

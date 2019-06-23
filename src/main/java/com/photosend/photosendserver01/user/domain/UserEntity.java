@@ -1,8 +1,12 @@
 package com.photosend.photosendserver01.user.domain;
 
+import com.photosend.photosendserver01.user.domain.exception.TicketException;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,15 +39,58 @@ public class UserEntity {
     }
 
     public void putTicketsImagePath(String imagePath) {
-        verifyTicketExist();
+        if(verifyTicketExist())
+            throw new TicketException("already ticket exist");
+
         this.ticket = Ticket.builder()
                     .ticketImagePath(imagePath)
                     .build();
     }
 
-    private void verifyTicketExist() {
-        if(ticket != null)
-            throw new IllegalStateException("이미 업로드한 티켓이 존재합니다.");
+    // 티켓 이미지 변경 메소드 (변경시에는 티켓이 존재하지 않을 때 에러)
+    public void modifyTicketsImagePath(String imagePath) {
+        if(!verifyTicketExist())
+            throw new TicketException("ticket doesn't exist");
+
+        verifyRequestModifyTicketImageInLimit();
+
+        int modifyCount = 1;
+        if(this.ticket.getTicketModifyCountPerThreeMinutes() != null)
+            modifyCount = this.ticket.getTicketModifyCountPerThreeMinutes() + 1;
+
+        this.ticket = Ticket.builder()
+                    .ticketImagePath(imagePath)
+                    .lastTicketImageModifyTime(Timestamp.valueOf(LocalDateTime.now()))
+                    .ticketModifyCountPerThreeMinutes(modifyCount)
+                    .build();
+    }
+
+    // 티켓 존재시 true , 아닐 시 false return
+    private boolean verifyTicketExist() {
+        return ticket != null ? true : false;
+    }
+
+    // 해당 유저가 3분 이내에 5번 초과의 요청을 했는지 검사
+    private void verifyRequestModifyTicketImageInLimit() {
+        if (this.ticket.getLastTicketImageModifyTime() != null && this.ticket.getTicketModifyCountPerThreeMinutes() != null) {
+            resetTicketModifyCountPerThreeMinutes();
+
+            if (this.ticket.getTicketModifyCountPerThreeMinutes() >= 5)
+                throw new TicketException("can only request five times per three minutes!");
+        }
+    }
+
+    // 마지막 변경 요청 후 3분이 지나면 count 초기화
+    private void resetTicketModifyCountPerThreeMinutes() {
+        LocalDateTime lastModifyTime = this.ticket.getLastTicketImageModifyTime().toLocalDateTime();
+        Duration duration = Duration.between(lastModifyTime, LocalDateTime.now());
+
+        if (duration.toMinutes() > 3)
+            this.ticket = Ticket.builder()
+                    .ticketImagePath(this.ticket.getTicketImagePath())
+                    .lastTicketImageModifyTime(Timestamp.valueOf(LocalDateTime.now()))
+                    .ticketModifyCountPerThreeMinutes(0)
+                    .build();
     }
 
     public void uploadCloth(ClothesEntity cloth) {
