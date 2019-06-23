@@ -5,10 +5,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Getter
@@ -47,7 +47,7 @@ public class UserEntity {
                     .build();
     }
 
-    // 변경시에는 티켓이 존재하지 않을 때 에러
+    // 티켓 이미지 변경 메소드 (변경시에는 티켓이 존재하지 않을 때 에러)
     public void modifyTicketsImagePath(String imagePath) {
         if(!verifyTicketExist())
             throw new TicketException("ticket doesn't exist");
@@ -82,13 +82,10 @@ public class UserEntity {
 
     // 마지막 변경 요청 후 3분이 지나면 count 초기화
     private void resetTicketModifyCountPerThreeMinutes() {
-        // 3분 계산 방식 바꿔야 함
-        int lastModifyMinutes = this.ticket.getLastTicketImageModifyTime().toLocalDateTime().getMinute();
-        int curMinutes = LocalDateTime.now().getMinute();
+        LocalDateTime lastModifyTime = this.ticket.getLastTicketImageModifyTime().toLocalDateTime();
+        Duration duration = Duration.between(lastModifyTime, LocalDateTime.now());
 
-        int subMinutes = Math.abs(lastModifyMinutes - curMinutes);
-
-        if (subMinutes > 3)
+        if (duration.toMinutes() > 3)
             this.ticket = Ticket.builder()
                     .ticketImagePath(this.ticket.getTicketImagePath())
                     .lastTicketImageModifyTime(Timestamp.valueOf(LocalDateTime.now()))
