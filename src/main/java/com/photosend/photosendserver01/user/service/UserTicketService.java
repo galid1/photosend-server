@@ -47,7 +47,7 @@ public class UserTicketService {
         userEntity.get().modifyTicketsImagePath(imageUrl);
 
         uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
-        return new TicketImageUrl(imageUrl);
+        return TicketImageUrl.builder().ticketImageUrl(imageUrl).build();
     }
 
 }
