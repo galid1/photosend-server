@@ -10,10 +10,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class Clothes {
     // Required Field
+    @JsonProperty("clothes-id")
+    private Long cid;
     @NotNull
-    @JsonProperty("image_path")
+    @JsonProperty("image-path")
     private String clothImagePath;
 
     // Optional Field

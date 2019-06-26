@@ -1,7 +1,7 @@
 package com.photosend.photosendserver01.user.infra.file;
 
 public enum ImageType {
-    CLOTHES("clothes"), TICKET("ticket");
+    CLOTHES("clothes"), TICKET("tickets");
 
     final private String value;
 

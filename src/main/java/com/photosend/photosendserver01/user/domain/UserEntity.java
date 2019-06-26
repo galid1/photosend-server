@@ -1,6 +1,8 @@
 package com.photosend.photosendserver01.user.domain;
 
+import com.photosend.photosendserver01.user.domain.exception.ClothesException;
 import com.photosend.photosendserver01.user.domain.exception.TicketException;
+import com.photosend.photosendserver01.user.presentation.ClothesImageUrl;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,12 +12,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "user")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long uid;
 
     // Required Field
@@ -28,22 +32,21 @@ public class UserEntity {
     private Ticket ticket;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "uid")
+    @JoinColumn(name = "user_id")
     private List<ClothesEntity> clothesList = new ArrayList<>();
 
     @Builder
     public UserEntity(@NonNull UserInformation userInformation, Ticket ticket, List<ClothesEntity> clothList) {
         this.userInformation = userInformation;
         this.ticket = ticket;
-        this.clothesList = clothList;
     }
 
-    public void putTicketsImagePath(String imagePath) {
+    public void putTicketsImagePath(String ticketImagePath) {
         if(verifyTicketExist())
             throw new TicketException("already ticket exist");
 
         this.ticket = Ticket.builder()
-                    .ticketImagePath(imagePath)
+                    .ticketImagePath(ticketImagePath)
                     .build();
     }
 
@@ -93,18 +96,14 @@ public class UserEntity {
                     .build();
     }
 
-    public void uploadCloth(ClothesEntity cloth) {
+    public void putClothesImagePath(ClothesEntity clothesEntity) {
         if(clothesList == null)
-            clothesList = new ArrayList<>();
+            this.clothesList = new ArrayList<>();
 
-        if(cloth != null)
-            clothesList.add(cloth);
+        if(clothesEntity == null)
+            throw new ClothesException("clothes image path is null !");
+
+        this.clothesList.add(clothesEntity);
     }
 
-    public int getLastUploadClothIndex() {
-        if (this.clothesList.size() == 0)
-            throw new IllegalStateException("업로드된 Clothes가 없습니다.");
-
-        return clothesList.size();
-    }
 }

@@ -7,20 +7,17 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "clothes")
 public class ClothesEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "clothes_id")
     private Long cid;
-
-//    @ManyToOne
-//    @JoinColumn(name = "uid", insertable = false, updatable = false)
-//    private UserEntity entity;
 
     // Required Field
     @NonNull
     @Column(name = "image_path")
-    private String clothImagePath;
+    private String clothesImagePath;
 
     // Optional Field
     private String name;
@@ -29,8 +26,8 @@ public class ClothesEntity {
     private Size size;
 
     @Builder
-    public ClothesEntity(@NonNull String clothImagePath, String name, Integer price, String brand, Size size) {
-        this.clothImagePath = clothImagePath;
+    public ClothesEntity(@NonNull String clothesImagePath, String name, Integer price, String brand, Size size) {
+        this.clothesImagePath = clothesImagePath;
         this.name = name;
         this.price = price;
         this.brand = brand;

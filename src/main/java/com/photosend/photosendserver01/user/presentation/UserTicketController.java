@@ -3,6 +3,7 @@ package com.photosend.photosendserver01.user.presentation;
 import com.photosend.photosendserver01.user.domain.exception.TicketException;
 import com.photosend.photosendserver01.user.service.UserTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,7 @@ public class UserTicketController {
         return userTicketService.getUserTicketImageUrl(userId);
     }
 
-    @PostMapping("/{users-id}/tickets")
+    @PostMapping(value = "/{users-id}/tickets", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public TicketImageUrl uploadTicketImage(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
         return userTicketService.uploadTicketImage(userId, ticketsFile);
     }
