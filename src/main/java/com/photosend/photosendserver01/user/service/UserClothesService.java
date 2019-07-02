@@ -4,6 +4,8 @@ import com.photosend.photosendserver01.user.domain.ClothesEntity;
 import com.photosend.photosendserver01.user.domain.ClothesRepository;
 import com.photosend.photosendserver01.user.domain.UserEntity;
 import com.photosend.photosendserver01.user.domain.UserRepository;
+import com.photosend.photosendserver01.user.domain.exception.ClothesException;
+import com.photosend.photosendserver01.user.domain.exception.FileDeleteException;
 import com.photosend.photosendserver01.user.infra.file.ImageType;
 import com.photosend.photosendserver01.user.presentation.Clothes;
 import com.photosend.photosendserver01.user.presentation.ClothesImageUrl;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +27,7 @@ public class UserClothesService {
     @Autowired
     private ClothesRepository clothesRepository;
     @Autowired
-    private UploadFileUtil uploadFileUtil;
+    private FileUtil fileUtil;
 
     @Transactional
     public List<ClothesImageUrl> uploadClothesImages(Long userId, MultipartFile[] clothesImageFiles) {
@@ -31,8 +35,8 @@ public class UserClothesService {
 
         // 이미지 업로드
         for (MultipartFile file : clothesImageFiles){
-            String uploadPath = uploadFileUtil.makeFileUploadPath(userId, file.getOriginalFilename(), ImageType.CLOTHES);
-            uploadFileUtil.uploadFile(uploadPath, file);
+            String uploadPath = fileUtil.makeFileUploadPath(userId, file.getOriginalFilename(), ImageType.CLOTHES);
+            fileUtil.uploadFile(uploadPath, file);
             clothesImageUrls.add(ClothesImageUrl.builder().clothesImageUrl(uploadPath).build());
         };
 
@@ -71,6 +75,44 @@ public class UserClothesService {
                                     .build());
         });
         return clothesList;
+    }
+
+    // ClothesImage Delete Method
+    @Transactional
+    public void deleteClothesImage(Long userId, Long clothesId) {
+        UserEntity userEntity = userRepository.findById(userId).get();
+        String clothesImagePath = userEntity.getClothesList().get(0).getClothesImagePath();
+
+        // local file delete
+        File file = new File(clothesImagePath);
+        if(!file.exists())
+            throw new FileDeleteException("경로에 파일이 존재하지 않습니다.");
+        file.delete();
+
+        // UserEntity가 가지는 clothesEntity 리스트에서 제거
+        int clothesIndex = findClothesIndexById(userId, clothesId);
+
+        if(clothesIndex == -1)
+            throw new ClothesException("해당 id의 ClothesEntity가 존재하지 않습니다.");
+
+        userEntity.deleteClothes(clothesIndex);
+        userRepository.save(userEntity);
+    }
+
+    private int findClothesIndexById(Long uid, Long cid) {
+        UserEntity userEntity = userRepository.findById(uid).get();
+        int index = 0;
+        ClothesEntity clothesEntity = null;
+
+        for (ClothesEntity entity : userEntity.getClothesList()) {
+            if(entity.getCid() == cid) {
+                clothesEntity = entity;
+                break;
+            }
+            index ++;
+        }
+
+        return clothesEntity != null ? index : -1;
     }
 
 }

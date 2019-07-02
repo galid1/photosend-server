@@ -20,4 +20,9 @@ public class UserClothesController {
         return userClothesService.uploadClothesImages(userId, clothesImageFiles);
     }
 
+    @DeleteMapping(value = "/{users-id}/clothes/{clothes-id}")
+    public void deleteClothes(@PathVariable("users-id") Long userId, @PathVariable("clothes-id") Long clothesId) {
+        userClothesService.deleteClothesImage(userId, clothesId);
+    }
+
 }

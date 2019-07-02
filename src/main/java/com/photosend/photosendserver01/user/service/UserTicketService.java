@@ -17,7 +17,7 @@ public class UserTicketService {
     private UserRepository userRepository;
 
     @Autowired
-    private UploadFileUtil uploadFileUtil;
+    private FileUtil fileUtil;
 
     public TicketImageUrl getUserTicketImageUrl(Long userId) {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
@@ -27,26 +27,26 @@ public class UserTicketService {
     @Transactional
     public TicketImageUrl uploadTicketImage(Long userId, MultipartFile ticketImageFile) {
         // uploadPath 얻어오기
-        String imageUrl = uploadFileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
+        String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
         // userentity에 tickets imageUrl 추가
         Optional<UserEntity> userEntity = userRepository.findById(userId);
         userEntity.get().putTicketsImagePath(imageUrl);
 
         // storage에 file upload
-        uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
+        fileUtil.uploadFile(imageUrl, ticketImageFile);
 
         return new TicketImageUrl(imageUrl);
     }
 
     @Transactional
     public TicketImageUrl modifyTicketImage(Long userId, MultipartFile ticketImageFile) {
-        String imageUrl = uploadFileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
+        String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
         Optional<UserEntity> userEntity = userRepository.findById(userId);
         userEntity.get().modifyTicketsImagePath(imageUrl);
 
-        uploadFileUtil.uploadFile(imageUrl, ticketImageFile);
+        fileUtil.uploadFile(imageUrl, ticketImageFile);
         return TicketImageUrl.builder().ticketImageUrl(imageUrl).build();
     }
 
