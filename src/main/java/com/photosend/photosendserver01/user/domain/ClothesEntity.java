@@ -20,17 +20,12 @@ public class ClothesEntity {
     private String clothesImagePath;
 
     // Optional Field
-    private String name;
-    private Integer price;
-    private String brand;
-    private Size size;
+    @Embedded
+    private ClothesInformation clothesInformation;
 
     @Builder
-    public ClothesEntity(@NonNull String clothesImagePath, String name, Integer price, String brand, Size size) {
+    public ClothesEntity(@NonNull String clothesImagePath, ClothesInformation clothesInformation) {
         this.clothesImagePath = clothesImagePath;
-        this.name = name;
-        this.price = price;
-        this.brand = brand;
-        this.size = size;
+        this.clothesInformation = clothesInformation;
     }
 }
