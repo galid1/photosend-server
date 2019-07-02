@@ -21,7 +21,7 @@ public class FileUtilTest {
     @Autowired
     private FileUtil fileUtil;
 
-    String filePath = "/Users/jeonjun-yeob/clothes/clothesImage.png";
+    String filePath = System.getProperty("user.home") + "/clothes/clothesImage.png";
 
     @Test
     public void 파일_업로드_Test() {
