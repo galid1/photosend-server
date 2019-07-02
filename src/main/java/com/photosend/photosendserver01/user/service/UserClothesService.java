@@ -23,7 +23,7 @@ public class UserClothesService {
     @Autowired
     private ClothesRepository clothesRepository;
     @Autowired
-    UploadFileUtil uploadFileUtil;
+    private UploadFileUtil uploadFileUtil;
 
     @Transactional
     public List<ClothesImageUrl> uploadClothesImages(Long userId, MultipartFile[] clothesImageFiles) {

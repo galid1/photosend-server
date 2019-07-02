@@ -16,7 +16,6 @@ public class Ticket {
     @NonNull
     @Column(name = "image_path")
     private String ticketImagePath;
-
     private Timestamp lastTicketImageModifyTime;
     private Integer ticketModifyCountPerThreeMinutes;
 }

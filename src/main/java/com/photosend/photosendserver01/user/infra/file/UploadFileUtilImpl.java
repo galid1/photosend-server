@@ -10,9 +10,11 @@ import java.util.UUID;
 
 @Component
 public class UploadFileUtilImpl implements UploadFileUtil {
+    // "C:/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
+
     @Override
     public String makeFileUploadPath(Long userId, String fileName, ImageType fileType) {
-        return "C:/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
+        return "/Users/jeonjun-yeob/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
     }
 
     private String makeRandomFileName(String originFileName) {
