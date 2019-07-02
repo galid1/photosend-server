@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.user.infra.file;
 
-import com.photosend.photosendserver01.user.service.UploadFileUtil;
+import com.photosend.photosendserver01.user.service.FileUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Component
-public class UploadFileUtilImpl implements UploadFileUtil {
+public class FileUtilImpl implements FileUtil {
     // "C:/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
 
     @Override
@@ -31,5 +31,11 @@ public class UploadFileUtilImpl implements UploadFileUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void deleteFile(String filePath) {
+        File file = new File(filePath);
+        file.delete();
     }
 }
