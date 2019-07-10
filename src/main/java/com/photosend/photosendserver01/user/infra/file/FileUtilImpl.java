@@ -11,7 +11,7 @@ import java.util.UUID;
 @Component
 public class FileUtilImpl implements FileUtil {
     @Override
-    public String makeFileUploadPath(Long userId, String fileName, ImageType fileType) {
+    public String makeFileUploadPath(String userId, String fileName, ImageType fileType) {
         return System.getProperty("user.home") + "/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
     }
 

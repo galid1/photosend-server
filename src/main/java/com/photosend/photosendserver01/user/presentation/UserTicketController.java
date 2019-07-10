@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.user.presentation;
 
 import com.photosend.photosendserver01.user.domain.exception.TicketException;
+import com.photosend.photosendserver01.user.presentation.request_reponse.TicketImageUrl;
 import com.photosend.photosendserver01.user.service.UserTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,18 +17,18 @@ public class UserTicketController {
     private UserTicketService userTicketService;
 
     @GetMapping("/{users-id}/tickets")
-    public TicketImageUrl getTicketUrl(@PathVariable("users-id") Long userId) {
+    public TicketImageUrl getTicketUrl(@PathVariable("users-id") String userId) {
         return userTicketService.getUserTicketImageUrl(userId);
     }
 
     @PostMapping(value = "/{users-id}/tickets", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public TicketImageUrl uploadTicketImage(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
+    public TicketImageUrl uploadTicketImage(@PathVariable("users-id") String userId, @RequestParam("file") MultipartFile ticketsFile) {
         return userTicketService.uploadTicketImage(userId, ticketsFile);
     }
 
     // 요청을 5분당 3번만 가능하도록 변경하기
     @PutMapping("/{users-id}/tickets")
-    public TicketImageUrl modifyTicketImage(@PathVariable("users-id") Long userId, @RequestParam("file") MultipartFile ticketsFile) {
+    public TicketImageUrl modifyTicketImage(@PathVariable("users-id") String userId, @RequestParam("file") MultipartFile ticketsFile) {
         return userTicketService.modifyTicketImage(userId, ticketsFile);
     }
 

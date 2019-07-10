@@ -3,7 +3,7 @@ package com.photosend.photosendserver01.user.service;
 import com.photosend.photosendserver01.user.domain.UserEntity;
 import com.photosend.photosendserver01.user.domain.UserRepository;
 import com.photosend.photosendserver01.user.infra.file.ImageType;
-import com.photosend.photosendserver01.user.presentation.TicketImageUrl;
+import com.photosend.photosendserver01.user.presentation.request_reponse.TicketImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +19,13 @@ public class UserTicketService {
     @Autowired
     private FileUtil fileUtil;
 
-    public TicketImageUrl getUserTicketImageUrl(Long userId) {
+    public TicketImageUrl getUserTicketImageUrl(String userId) {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
         return new TicketImageUrl(userEntity.get().getTicket().getTicketImagePath());
     }
 
     @Transactional
-    public TicketImageUrl uploadTicketImage(Long userId, MultipartFile ticketImageFile) {
+    public TicketImageUrl uploadTicketImage(String userId, MultipartFile ticketImageFile) {
         // uploadPath 얻어오기
         String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
@@ -40,7 +40,7 @@ public class UserTicketService {
     }
 
     @Transactional
-    public TicketImageUrl modifyTicketImage(Long userId, MultipartFile ticketImageFile) {
+    public TicketImageUrl modifyTicketImage(String userId, MultipartFile ticketImageFile) {
         String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
         Optional<UserEntity> userEntity = userRepository.findById(userId);

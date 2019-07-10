@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.user.presentation;
+package com.photosend.photosendserver01.user.presentation.request_reponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

@@ -7,15 +7,14 @@ import com.photosend.photosendserver01.user.domain.UserRepository;
 import com.photosend.photosendserver01.user.domain.exception.ClothesException;
 import com.photosend.photosendserver01.user.domain.exception.FileDeleteException;
 import com.photosend.photosendserver01.user.infra.file.ImageType;
-import com.photosend.photosendserver01.user.presentation.Clothes;
-import com.photosend.photosendserver01.user.presentation.ClothesImageUrl;
+import com.photosend.photosendserver01.user.presentation.request_reponse.Clothes;
+import com.photosend.photosendserver01.user.presentation.request_reponse.ClothesImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class UserClothesService {
     private FileUtil fileUtil;
 
     @Transactional
-    public List<ClothesImageUrl> uploadClothesImages(Long userId, MultipartFile[] clothesImageFiles) {
+    public List<ClothesImageUrl> uploadClothesImages(String userId, MultipartFile[] clothesImageFiles) {
         List<ClothesImageUrl> clothesImageUrls = new ArrayList<>();
 
         // 이미지 업로드
@@ -53,7 +52,7 @@ public class UserClothesService {
         return returnClothesImageUrlList;
     }
 
-    private void addClothesImageUrlsToUser(Long userId, List<ClothesImageUrl> clothesImageUrls) {
+    private void addClothesImageUrlsToUser(String userId, List<ClothesImageUrl> clothesImageUrls) {
         UserEntity userEntity = userRepository.findById(userId).get(); // ClothesImage url들을 추가할 UserEntity 얻어오기
 
         clothesImageUrls.stream().forEach(v -> {
@@ -66,7 +65,7 @@ public class UserClothesService {
     }
 
     // clothes의 정보와 이미지를 반환
-    public List<Clothes> getClothesList(Long userId) {
+    public List<Clothes> getClothesList(String userId) {
         List<ClothesEntity> clothesEntities = userRepository.findById(userId).get().getClothesList();
         List<Clothes> clothesList = new ArrayList<>();
         clothesEntities.stream().forEach(v -> {
@@ -79,7 +78,7 @@ public class UserClothesService {
 
     // ClothesImage Delete Method
     @Transactional
-    public void deleteClothesImage(Long userId, Long clothesId) {
+    public void deleteClothesImage(String userId, Long clothesId) {
         UserEntity userEntity = userRepository.findById(userId).get();
         String clothesImagePath = userEntity.getClothesList().get(0).getClothesImagePath();
 
@@ -99,7 +98,7 @@ public class UserClothesService {
         userRepository.save(userEntity);
     }
 
-    private int findClothesIndexById(Long uid, Long cid) {
+    private int findClothesIndexById(String uid, Long cid) {
         UserEntity userEntity = userRepository.findById(uid).get();
         int index = 0;
         ClothesEntity clothesEntity = null;

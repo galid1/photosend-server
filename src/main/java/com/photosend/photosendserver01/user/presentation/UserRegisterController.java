@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.user.presentation;
 
 import com.photosend.photosendserver01.user.domain.UserInformation;
+import com.photosend.photosendserver01.user.presentation.request_reponse.UserRegisterRequest;
 import com.photosend.photosendserver01.user.service.UserRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class UserRegisterController {
     private UserRegisterService userRegisterService;
 
     @PostMapping("/")
-    public Long registerUser(@RequestBody UserInformation userInformation) {
-        return userRegisterService.registerUser(userInformation);
+    public String registerUser(@RequestBody UserRegisterRequest request) {
+        return userRegisterService.registerUser(request);
     }
 }

@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.user;
+package com.photosend.photosendserver01.user.domain;
 
 import com.photosend.photosendserver01.user.domain.*;
 import org.junit.Test;

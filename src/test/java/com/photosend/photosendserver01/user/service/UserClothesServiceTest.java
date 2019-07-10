@@ -2,7 +2,8 @@ package com.photosend.photosendserver01.user.service;
 
 import com.photosend.photosendserver01.user.domain.*;
 import com.photosend.photosendserver01.user.infra.file.ImageType;
-import com.photosend.photosendserver01.user.presentation.ClothesImageUrl;
+import com.photosend.photosendserver01.user.presentation.request_reponse.ClothesImageUrl;
+import com.photosend.photosendserver01.user.presentation.request_reponse.UserRegisterRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,12 +38,18 @@ public class UserClothesServiceTest {
     @Autowired
     private FileUtil fileUtil;
 
-    private Long userId;
+    private String userId;
     private MockMultipartFile mockFile;
 
     @Before
     public void setUp() {
-        userId = registerService.registerUser(UserInformation.builder().name("jjy").age(12).build());
+        UserInformation userInformation = UserInformation.builder().name("jjy").age(12).build();
+        UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
+                .wechatUid("A")
+                .userInformation(userInformation)
+                .build();
+
+        userId = registerService.registerUser(userRegisterRequest);
         mockFile = new MockMultipartFile("clothesImage", "clothes.png", null, "lkjasdinzxcl image".getBytes());
     }
 

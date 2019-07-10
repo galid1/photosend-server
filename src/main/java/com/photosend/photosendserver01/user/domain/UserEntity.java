@@ -17,9 +17,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private Long uid;
+    private String wechatUid;
 
     // Required Field
     @Embedded
@@ -35,9 +34,11 @@ public class UserEntity {
     private List<ClothesEntity> clothesList = new ArrayList<>();
 
     @Builder
-    public UserEntity(@NonNull UserInformation userInformation, Ticket ticket, List<ClothesEntity> clothList) {
+    public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, Ticket ticket, List<ClothesEntity> clothesList) {
+        this.wechatUid = wechatUid;
         this.userInformation = userInformation;
         this.ticket = ticket;
+        this.clothesList = clothesList;
     }
 
     public void putTicketsImagePath(String ticketImagePath) {
