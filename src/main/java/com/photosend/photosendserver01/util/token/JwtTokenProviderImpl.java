@@ -1,6 +1,5 @@
 package com.photosend.photosendserver01.util.token;
 
-import com.photosend.photosendserver01.domains.user.service.JwtTokenProvider;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;

@@ -3,7 +3,6 @@ package com.photosend.photosendserver01.util.token;
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.TokenExpiredException;
 import com.photosend.photosendserver01.domains.user.domain.exception.TokenWrongAudienceException;
-import com.photosend.photosendserver01.domains.user.service.JwtTokenVerifier;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
