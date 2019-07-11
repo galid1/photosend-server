@@ -17,15 +17,10 @@ public class UserRegisterController {
     private UserRegisterService userRegisterService;
 
     @PostMapping("/")
-    public ResponseEntity registerUser(@RequestBody UserRegisterRequest request) {
+    public UidAndToken registerUser(@RequestBody UserRegisterRequest request) {
         UidAndToken uidAndToken = userRegisterService.registerUser(request);
 
-        ResponseEntity responseEntity = ResponseEntity
-                                            .ok()
-                                            .header("X-JWT", uidAndToken.getJwtToken())
-                                            .body(uidAndToken.getUid());
-
-        return responseEntity;
+        return uidAndToken;
     }
 
     //TODO 토큰 익셉션 핸들러를 이용해 토큰 재발급 로직 처리

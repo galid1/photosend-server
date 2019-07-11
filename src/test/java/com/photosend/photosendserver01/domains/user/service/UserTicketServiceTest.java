@@ -38,7 +38,7 @@ public class UserTicketServiceTest {
     }
 
     @Test(expected = TicketException.class)
-    public void modifyTicketTest() {
+    public void 이미지수정_요청시_존재하는이미지가_없다면_TicketException_Test() {
         MockMultipartFile mockMultipartFile = new MockMultipartFile("A", "A", null, "ASD".getBytes());
         userTicketService.modifyTicketImage(uid, mockMultipartFile);
     }

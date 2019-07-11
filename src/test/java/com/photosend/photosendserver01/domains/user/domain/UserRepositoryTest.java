@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,6 @@ public class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private ClothesRepository clothRepository;
 
     // UserEntity 저장 Test
     @Test
@@ -30,12 +29,13 @@ public class UserRepositoryTest {
                 .age(10)
                 .build();
 
-        UserEntity entity = UserEntity.builder()
-                .userInformation(information)
-                .build();
+        UserRegisterRequest registerRequest = UserRegisterRequest.builder()
+                                                    .wechatUid("A")
+                                                    .userInformation(information)
+                                                    .build();
 
         // when
-        userRepository.save(entity);
+        userRepository.save(registerRequest.toEntity("A"));
 
         // then
         List<UserEntity> entities = userRepository.findAll();

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photosend.photosendserver01.domains.user.domain.Token;
 import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.UserInformation;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class UserRegisterControllerTest {
                         .content(objString))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(header().exists("X-JWT"));
+                .andExpect(content().string(Matchers.containsString("uid")))
+                .andExpect(content().string(Matchers.containsString("jwtToken")));
     }
 }

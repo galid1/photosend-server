@@ -1,5 +1,8 @@
 package com.photosend.photosendserver01.domains.user.presentation;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.photosend.photosendserver01.domains.user.domain.UserInformation;
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +24,29 @@ public class UserRestControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper objMapper;
+
     @Test
     public void testRegisterUser() throws Exception {
+        // given
+        UserInformation information = UserInformation.builder()
+                .age(12)
+                .name("asd")
+                .build();
+
+        UserRegisterRequest registerRequest = UserRegisterRequest.builder()
+                .userInformation(information)
+                .wechatUid("A")
+                .build();
+
+        // when, then
         mockMvc.perform(post("/users/")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content("{ \"name\" : \"jjy\" , \"age\" : 10 }")
+                    .content(objMapper.writeValueAsString(registerRequest))
                 )
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("1"));
+                .andExpect(status().isOk());
     }
 
 }
