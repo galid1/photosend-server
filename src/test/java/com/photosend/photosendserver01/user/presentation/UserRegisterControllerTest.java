@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.user.presentation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.photosend.photosendserver01.user.domain.Token;
 import com.photosend.photosendserver01.user.domain.UserEntity;
 import com.photosend.photosendserver01.user.domain.UserInformation;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -38,6 +39,7 @@ public class UserRegisterControllerTest {
         UserEntity entity = UserEntity.builder()
                 .wechatUid("A")
                 .userInformation(userInformation)
+                .token(Token.builder().jwtToken("ASD").build())
                 .build();
 
         String objString = objMapper.writeValueAsString(entity);
@@ -47,7 +49,7 @@ public class UserRegisterControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                         .content(objString))
                 .andDo(print())
-                .andExpect(status().isOk());
-
+                .andExpect(status().isOk())
+                .andExpect(header().exists("X-JWT"));
     }
 }

@@ -1,8 +1,7 @@
 package com.photosend.photosendserver01.user.service;
 
-import com.photosend.photosendserver01.user.domain.UserEntity;
-import com.photosend.photosendserver01.user.domain.UserInformation;
 import com.photosend.photosendserver01.user.domain.UserRepository;
+import com.photosend.photosendserver01.user.presentation.request_reponse.UidAndToken;
 import com.photosend.photosendserver01.user.presentation.request_reponse.UserRegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,20 @@ public class UserRegisterService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @Transactional
-    public String registerUser(UserRegisterRequest userRegisterRequest) {
-        return userRepository.save(userRegisterRequest.toEntity()).getWechatUid();
+    public UidAndToken registerUser(UserRegisterRequest userRegisterRequest) {
+        //TODO 중복 확인 여기서 ?
+
+        String jwtToken = jwtTokenProvider.createToken(userRegisterRequest.getWechatUid());
+        String uid = userRepository.save(userRegisterRequest.toEntity(jwtToken)).getWechatUid();
+
+        return UidAndToken.builder()
+                .uid(uid)
+                .jwtToken(jwtToken)
+                .build();
     }
 
 }

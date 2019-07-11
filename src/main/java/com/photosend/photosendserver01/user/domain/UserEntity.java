@@ -25,6 +25,10 @@ public class UserEntity {
     @NonNull
     private UserInformation userInformation;
 
+    @Embedded
+    @NonNull
+    private Token token;
+
     // Optional Field
     @Embedded
     private Ticket ticket;
@@ -34,9 +38,10 @@ public class UserEntity {
     private List<ClothesEntity> clothesList = new ArrayList<>();
 
     @Builder
-    public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, Ticket ticket, List<ClothesEntity> clothesList) {
+    public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket, List<ClothesEntity> clothesList) {
         this.wechatUid = wechatUid;
         this.userInformation = userInformation;
+        this.token = token;
         this.ticket = ticket;
         this.clothesList = clothesList;
     }

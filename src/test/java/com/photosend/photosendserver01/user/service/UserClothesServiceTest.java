@@ -3,6 +3,7 @@ package com.photosend.photosendserver01.user.service;
 import com.photosend.photosendserver01.user.domain.*;
 import com.photosend.photosendserver01.user.infra.file.ImageType;
 import com.photosend.photosendserver01.user.presentation.request_reponse.ClothesImageUrl;
+import com.photosend.photosendserver01.user.presentation.request_reponse.UidAndToken;
 import com.photosend.photosendserver01.user.presentation.request_reponse.UserRegisterRequest;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class UserClothesServiceTest {
     @Autowired
     private FileUtil fileUtil;
 
-    private String userId;
+    private UidAndToken uidAndToken;
     private MockMultipartFile mockFile;
 
     @Before
@@ -49,7 +50,7 @@ public class UserClothesServiceTest {
                 .userInformation(userInformation)
                 .build();
 
-        userId = registerService.registerUser(userRegisterRequest);
+        uidAndToken = registerService.registerUser(userRegisterRequest);
         mockFile = new MockMultipartFile("clothesImage", "clothes.png", null, "lkjasdinzxcl image".getBytes());
     }
 
@@ -58,23 +59,23 @@ public class UserClothesServiceTest {
     @Test
     public void uploadClothesImageTest() {
         // when
-        userClothesService.uploadClothesImages(userId, new MultipartFile[]{mockFile});
+        userClothesService.uploadClothesImages(uidAndToken.getUid(), new MultipartFile[]{mockFile});
 
         // then
-        UserEntity userEntity = userRepository.findById(userId).get();
+        UserEntity userEntity = userRepository.findById(uidAndToken.getUid()).get();
         ClothesEntity clothesEntity = userEntity.getClothesList().get(0);
-        String uploadPath = fileUtil.makeFileUploadPath(userId, "clothesImage", ImageType.CLOTHES);
+        String uploadPath = fileUtil.makeFileUploadPath(uidAndToken.getUid(), "clothesImage", ImageType.CLOTHES);
         assertNotEquals(uploadPath, clothesEntity.getClothesImagePath());
     }
 
     @Test(expected = NoSuchElementException.class)
     public void 이미지_삭제요청시_로컬에서_이미지삭제후_UserEntity의_ClothesEntity목록에서_제거_Test() {
         // given
-        List<ClothesImageUrl> clothesImageUrlList = userClothesService.uploadClothesImages(userId, new MultipartFile[]{mockFile});
+        List<ClothesImageUrl> clothesImageUrlList = userClothesService.uploadClothesImages(uidAndToken.getUid(), new MultipartFile[]{mockFile});
         Long clothesId = clothesImageUrlList.get(0).getCid();
 
         // when
-        userClothesService.deleteClothesImage(userId, clothesId);
+        userClothesService.deleteClothesImage(uidAndToken.getUid(), clothesId);
 
         // then
         File file = new File(clothesImageUrlList.get(0).getClothesImageUrl());
