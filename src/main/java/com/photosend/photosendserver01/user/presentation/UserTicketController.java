@@ -1,8 +1,10 @@
 package com.photosend.photosendserver01.user.presentation;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.photosend.photosendserver01.user.domain.exception.TicketException;
 import com.photosend.photosendserver01.user.presentation.request_reponse.TicketImageUrl;
 import com.photosend.photosendserver01.user.service.UserTicketService;
+import com.photosend.photosendserver01.util.ExceptionMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ public class UserTicketController {
 
     @Autowired
     private UserTicketService userTicketService;
+    @Autowired
+    private ExceptionMessageUtil exceptionMessageUtil;
 
     @GetMapping("/{users-id}/tickets")
     public TicketImageUrl getTicketUrl(@PathVariable("users-id") String userId) {
@@ -33,8 +37,8 @@ public class UserTicketController {
     }
 
     @ExceptionHandler
-    public ResponseEntity uploadTicketExceptionHandler(TicketException uploadTicketException) {
-        String exceptionJsonBody = "{\"message\" : \"" + uploadTicketException.getMessage() + "\" }";
+    public ResponseEntity uploadTicketExceptionHandler(TicketException uploadTicketException) throws JsonProcessingException {
+        String exceptionJsonBody = exceptionMessageUtil.createExceptionMessage(uploadTicketException.getMessage());
         return ResponseEntity.badRequest().body(exceptionJsonBody);
     }
 }
