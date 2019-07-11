@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.domains.user.service;
+package com.photosend.photosendserver01.util.token;
 
 public interface JwtTokenVerifier {
     void verifyToken(String uid, String jwtTokenRequest);

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.photosend.photosendserver01.domains.user.domain.exception.TicketException;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.TicketImageUrl;
 import com.photosend.photosendserver01.domains.user.service.UserTicketService;
-import com.photosend.photosendserver01.util.ExceptionMessageUtil;
+import com.photosend.photosendserver01.util.exception.ExceptionMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

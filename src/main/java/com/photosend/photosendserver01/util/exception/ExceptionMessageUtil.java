@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.util;
+package com.photosend.photosendserver01.util.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

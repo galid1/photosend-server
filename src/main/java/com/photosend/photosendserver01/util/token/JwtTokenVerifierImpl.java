@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.domains.user.infra.token;
+package com.photosend.photosendserver01.util.token;
 
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.TokenExpiredException;
