@@ -68,22 +68,22 @@ public class UserClothesServiceTest {
         assertNotEquals(uploadPath, clothesEntity.getClothesImagePath());
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void 이미지_삭제요청시_로컬에서_이미지삭제후_UserEntity의_ClothesEntity목록에서_제거_Test() {
-        // given
-        List<ClothesImageUrl> clothesImageUrlList = userClothesService.uploadClothesImages(uidAndToken.getUid(), new MultipartFile[]{mockFile});
-        Long clothesId = clothesImageUrlList.get(0).getCid();
-
-        // when
-        userClothesService.deleteClothesImage(uidAndToken.getUid(), clothesId);
-
-        // then
-        File file = new File(clothesImageUrlList.get(0).getClothesImageUrl());
-        assertFalse(file.exists());
-
-        // NoSuchElementException
-        ClothesEntity clothesEntity = clothesRepository.findById(clothesId).get();
-    }
+//    @Test(expected = NoSuchElementException.class)
+//    public void 이미지_삭제요청시_로컬에서_이미지삭제후_UserEntity의_ClothesEntity목록에서_제거_Test() {
+//        // given
+//        List<ClothesImageUrl> clothesImageUrlList = userClothesService.uploadClothesImages(uidAndToken.getUid(), new MultipartFile[]{mockFile});
+//        Long clothesId = clothesImageUrlList.get(0).getCid();
+//
+//        // when
+//        userClothesService.deleteClothesImage(uidAndToken.getUid(), clothesId);
+//
+//        // then
+//        File file = new File(clothesImageUrlList.get(0).getClothesImageUrl());
+//        assertFalse(file.exists());
+//
+//        // NoSuchElementException
+//        ClothesEntity clothesEntity = clothesRepository.findById(clothesId).get();
+//    }
 
 
 }
