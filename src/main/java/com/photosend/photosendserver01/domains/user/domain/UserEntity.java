@@ -33,7 +33,7 @@ public class UserEntity {
     @Embedded
     private Ticket ticket;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "user_id")
     private List<ClothesEntity> clothesList = new ArrayList<>();
 
