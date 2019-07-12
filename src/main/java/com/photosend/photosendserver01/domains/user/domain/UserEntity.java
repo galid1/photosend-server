@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
 import com.photosend.photosendserver01.domains.user.domain.exception.ClothesException;
+import com.photosend.photosendserver01.domains.user.domain.exception.ClothesUploadCountException;
 import com.photosend.photosendserver01.domains.user.domain.exception.TicketException;
 import lombok.*;
 
@@ -38,12 +39,11 @@ public class UserEntity {
     private List<ClothesEntity> clothesList = new ArrayList<>();
 
     @Builder
-    public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket, List<ClothesEntity> clothesList) {
+    public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket) {
         this.wechatUid = wechatUid;
         this.userInformation = userInformation;
         this.token = token;
         this.ticket = ticket;
-        this.clothesList = clothesList;
     }
 
     public void putTicketsImagePath(String ticketImagePath) {
@@ -103,13 +103,18 @@ public class UserEntity {
 
     // 옷 사진의 이미지 경로 추가 메소드
     public void putClothesImagePath(ClothesEntity clothesEntity) {
-        if(clothesList == null)
-            this.clothesList = new ArrayList<>();
+        verifyClothesCountFive();
 
         if(clothesEntity == null)
             throw new ClothesException("ClothesEntity Null 입니다.");
 
         this.clothesList.add(clothesEntity);
+    }
+
+    // 옷 사진 최대 5개 업로드 가능 제한 로직
+    private void verifyClothesCountFive() {
+        if (this.clothesList.size() >= 5)
+            throw new ClothesUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
     }
 
     // 옷 사진 제거 메소드
