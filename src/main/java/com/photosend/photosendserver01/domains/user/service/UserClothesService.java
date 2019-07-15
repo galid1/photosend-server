@@ -33,11 +33,7 @@ public class UserClothesService {
         List<ClothesImageUrl> clothesImageUrls = new ArrayList<>();
 
         // 이미지 업로드
-        for (MultipartFile file : clothesImageFiles){
-            String uploadPath = fileUtil.makeFileUploadPath(userId, file.getOriginalFilename(), ImageType.CLOTHES);
-            fileUtil.uploadFile(uploadPath, file);
-            clothesImageUrls.add(ClothesImageUrl.builder().clothesImageUrl(uploadPath).build());
-        };
+        uploadImageToStorage(userId, clothesImageFiles, clothesImageUrls);
 
         // 영속화 (유저 엔티티에 이미지 경로 추가)
         addClothesImageUrlsToUser(userId, clothesImageUrls);
@@ -50,6 +46,14 @@ public class UserClothesService {
                     .build());
         });
         return returnClothesImageUrlList;
+    }
+
+    private void uploadImageToStorage(String userId, MultipartFile[] clothesImageFiles, List<ClothesImageUrl> clothesImageUrls) {
+        for (MultipartFile file : clothesImageFiles){
+            String uploadPath = fileUtil.makeFileUploadPath(userId, file.getOriginalFilename(), ImageType.CLOTHES);
+            fileUtil.uploadFile(uploadPath, file);
+            clothesImageUrls.add(ClothesImageUrl.builder().clothesImageUrl(uploadPath).build());
+        }
     }
 
     private void addClothesImageUrlsToUser(String userId, List<ClothesImageUrl> clothesImageUrls) {
