@@ -2,7 +2,6 @@ package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.domains.user.domain.*;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
-import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ClothesImageUrl;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UidAndToken;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import org.junit.Before;
@@ -14,11 +13,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.util.List;
-import java.util.NoSuchElementException;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

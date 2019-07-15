@@ -32,7 +32,7 @@ public class UserClothesService {
     public List<ClothesImageUrl> uploadClothesImages(String userId, MultipartFile[] clothesImageFiles) {
         List<ClothesImageUrl> clothesImageUrls = new ArrayList<>();
 
-        // 이미지 업로드
+        // 스토리지에 이미지 업로드
         uploadImageToStorage(userId, clothesImageFiles, clothesImageUrls);
 
         // 영속화 (유저 엔티티에 이미지 경로 추가)
@@ -86,11 +86,8 @@ public class UserClothesService {
         UserEntity userEntity = userRepository.findById(userId).get();
         String clothesImagePath = userEntity.getClothesList().get(0).getClothesImagePath();
 
-        // local file delete
-        File file = new File(clothesImagePath);
-        if(!file.exists())
-            throw new FileDeleteException("경로에 파일이 존재하지 않습니다.");
-        file.delete();
+        // 스토리지에서 이미지 제거
+        deleteImageFromStorage(clothesImagePath);
 
         // UserEntity가 가지는 clothesEntity 리스트에서 제거
         int clothesIndex = findClothesIndexById(userId, clothesId);
@@ -100,6 +97,14 @@ public class UserClothesService {
 
         userEntity.deleteClothes(clothesIndex);
         userRepository.save(userEntity);
+    }
+
+    private void deleteImageFromStorage(String clothesImagePath) {
+        // local file delete
+        File file = new File(clothesImagePath);
+        if(!file.exists())
+            throw new FileDeleteException("경로에 파일이 존재하지 않습니다.");
+        file.delete();
     }
 
     private int findClothesIndexById(String uid, Long cid) {
