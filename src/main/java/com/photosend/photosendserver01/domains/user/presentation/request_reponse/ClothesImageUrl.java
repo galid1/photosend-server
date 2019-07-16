@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.domains.user.presentation.request_repons
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.photosend.photosendserver01.domains.user.domain.ClothesEntity;
+import com.photosend.photosendserver01.domains.user.domain.ClothesLocation;
 import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import lombok.*;
 
@@ -16,8 +17,9 @@ public class ClothesImageUrl {
     @JsonProperty("image-path")
     private String clothesImageUrl;
 
-    public ClothesEntity toEntity(UserEntity user) {
+    public ClothesEntity toEntity(ClothesLocation clothesLocation, UserEntity user) {
         return ClothesEntity.builder()
+                .clothesLocation(clothesLocation)
                 .clothesImagePath(this.clothesImageUrl)
                 .userEntity(user)
                 .build();

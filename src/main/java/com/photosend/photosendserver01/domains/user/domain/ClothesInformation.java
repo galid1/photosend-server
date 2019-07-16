@@ -3,8 +3,6 @@ package com.photosend.photosendserver01.domains.user.domain;
 import lombok.*;
 
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 @Embeddable
 @NoArgsConstructor
@@ -18,7 +16,4 @@ public class ClothesInformation {
     private Integer price;
     @NonNull
     private String brand;
-    @NonNull
-    @Enumerated(EnumType.STRING)
-    private Size size;
 }

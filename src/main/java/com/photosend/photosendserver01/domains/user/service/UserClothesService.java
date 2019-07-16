@@ -1,9 +1,6 @@
 package com.photosend.photosendserver01.domains.user.service;
 
-import com.photosend.photosendserver01.domains.user.domain.ClothesEntity;
-import com.photosend.photosendserver01.domains.user.domain.ClothesRepository;
-import com.photosend.photosendserver01.domains.user.domain.UserEntity;
-import com.photosend.photosendserver01.domains.user.domain.UserRepository;
+import com.photosend.photosendserver01.domains.user.domain.*;
 import com.photosend.photosendserver01.domains.user.domain.exception.ClothesException;
 import com.photosend.photosendserver01.domains.user.domain.exception.FileDeleteException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
@@ -29,14 +26,14 @@ public class UserClothesService {
     private FileUtil fileUtil;
 
     @Transactional
-    public List<ClothesImageUrl> uploadClothesImages(String userId, MultipartFile[] clothesImageFiles) {
+    public List<ClothesImageUrl> uploadClothesImages(String userId, ClothesLocation clothesLocation, MultipartFile[] clothesImageFiles) {
         List<ClothesImageUrl> clothesImageUrls = new ArrayList<>();
 
         // 스토리지에 이미지 업로드
         uploadImageToStorage(userId, clothesImageFiles, clothesImageUrls);
 
         // 영속화 (유저 엔티티에 이미지 경로 추가)
-        addClothesImageUrlsToUser(userId, clothesImageUrls);
+        addClothesImageUrlAndLocationToUser(userId, clothesLocation, clothesImageUrls);
 
         List<ClothesImageUrl> returnClothesImageUrlList = new ArrayList<>();
         userRepository.findById(userId).get().getClothesList().stream().forEach(v -> {
@@ -56,11 +53,11 @@ public class UserClothesService {
         }
     }
 
-    private void addClothesImageUrlsToUser(String userId, List<ClothesImageUrl> clothesImageUrls) {
+    private void addClothesImageUrlAndLocationToUser(String userId, ClothesLocation clothesLocation, List<ClothesImageUrl> clothesImageUrls) {
         UserEntity userEntity = userRepository.findById(userId).get(); // ClothesImage url들을 추가할 UserEntity 얻어오기
 
         clothesImageUrls.stream().forEach(v -> {
-            ClothesEntity clothesEntity = v.toEntity(userEntity);
+            ClothesEntity clothesEntity = v.toEntity(clothesLocation, userEntity);
             clothesRepository.save(clothesEntity); // 새로 생성한 ClothesEntity를 UserEntity의 ClothesList에 저장하기 위해 우선 영속화시킴
             userEntity.putClothesImagePath(clothesEntity);
         });
@@ -84,21 +81,20 @@ public class UserClothesService {
     @Transactional
     public void deleteClothesImage(String userId, Long clothesId) {
         UserEntity userEntity = userRepository.findById(userId).get();
-        String clothesImagePath = userEntity.getClothesList().get(0).getClothesImagePath();
 
         // 스토리지에서 이미지 제거
+        String clothesImagePath = userEntity.getClothesList().get(0).getClothesImagePath();
         deleteImageFromStorage(clothesImagePath);
 
         // UserEntity가 가지는 clothesEntity 리스트에서 제거
         int clothesIndex = findClothesIndexById(userId, clothesId);
-
         if(clothesIndex == -1)
             throw new ClothesException("해당 id의 ClothesEntity가 존재하지 않습니다.");
-
         userEntity.deleteClothes(clothesIndex);
         userRepository.save(userEntity);
     }
 
+    // TODO archive 로 변경하기 (나중에 이미지를 사용할 것)
     private void deleteImageFromStorage(String clothesImagePath) {
         // local file delete
         File file = new File(clothesImagePath);

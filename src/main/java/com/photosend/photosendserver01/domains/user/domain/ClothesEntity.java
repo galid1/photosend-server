@@ -19,6 +19,9 @@ public class ClothesEntity {
     @Column(name = "image_path")
     private String clothesImagePath;
 
+    @Embedded
+    private ClothesLocation clothesLocation;
+
     // Optional Field
     @Embedded
     private ClothesInformation clothesInformation;
@@ -28,8 +31,9 @@ public class ClothesEntity {
     private UserEntity user;
 
     @Builder
-    public ClothesEntity(@NonNull String clothesImagePath, ClothesInformation clothesInformation, UserEntity userEntity) {
+    public ClothesEntity(@NonNull String clothesImagePath, ClothesLocation clothesLocation, ClothesInformation clothesInformation, UserEntity userEntity) {
         this.clothesImagePath = clothesImagePath;
+        this.clothesLocation = clothesLocation;
         this.clothesInformation = clothesInformation;
         this.user = userEntity;
     }

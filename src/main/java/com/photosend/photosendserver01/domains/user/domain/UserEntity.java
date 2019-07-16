@@ -117,7 +117,7 @@ public class UserEntity {
             throw new ClothesUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
     }
 
-    // 옷 사진 제거 메소드
+    // 옷 사진 제거 메소드 (로깅의 이유로 사진 삭제 X)
     public void deleteClothes(int clothesIndex) {
         verifyValidClothesIndex(clothesIndex);
         clothesList.remove(clothesIndex);
@@ -127,5 +127,4 @@ public class UserEntity {
         if(clothesList.size() - 1 < clothesIndex)
             throw new IllegalArgumentException("리스트의 크기보다 Index가 더 큽니다.");
     }
-
 }
