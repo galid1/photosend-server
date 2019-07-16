@@ -23,9 +23,14 @@ public class ClothesEntity {
     @Embedded
     private ClothesInformation clothesInformation;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
     @Builder
-    public ClothesEntity(@NonNull String clothesImagePath, ClothesInformation clothesInformation) {
+    public ClothesEntity(@NonNull String clothesImagePath, ClothesInformation clothesInformation, UserEntity userEntity) {
         this.clothesImagePath = clothesImagePath;
         this.clothesInformation = clothesInformation;
+        this.user = userEntity;
     }
 }

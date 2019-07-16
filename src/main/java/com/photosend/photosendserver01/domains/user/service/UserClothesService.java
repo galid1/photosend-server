@@ -60,7 +60,7 @@ public class UserClothesService {
         UserEntity userEntity = userRepository.findById(userId).get(); // ClothesImage url들을 추가할 UserEntity 얻어오기
 
         clothesImageUrls.stream().forEach(v -> {
-            ClothesEntity clothesEntity = v.toEntity();
+            ClothesEntity clothesEntity = v.toEntity(userEntity);
             clothesRepository.save(clothesEntity); // 새로 생성한 ClothesEntity를 UserEntity의 ClothesList에 저장하기 위해 우선 영속화시킴
             userEntity.putClothesImagePath(clothesEntity);
         });
