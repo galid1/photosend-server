@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,6 @@ public class UserEntityTest {
 
     @Mock
     private UserRepository userRepository;
-
 
     // ================ 셋업 ========================= //
     @Before
@@ -142,5 +142,4 @@ public class UserEntityTest {
     public void deleteClothesTest() {
 
     }
-
 }
