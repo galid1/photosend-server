@@ -3,6 +3,8 @@ package com.photosend.photosendserver01.domains.user.service;
 import com.photosend.photosendserver01.domains.user.domain.*;
 import com.photosend.photosendserver01.domains.user.domain.exception.ClothesException;
 import com.photosend.photosendserver01.domains.user.domain.exception.FileDeleteException;
+import com.photosend.photosendserver01.domains.user.domain.exception.FileUploadException;
+import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.Clothes;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ClothesImageUrl;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserClothesService {
@@ -28,6 +31,7 @@ public class UserClothesService {
     @Transactional
     public List<ClothesImageUrl> uploadClothesImages(String userId, ClothesLocation clothesLocation, MultipartFile[] clothesImageFiles) {
         List<ClothesImageUrl> clothesImageUrls = new ArrayList<>();
+        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다.")));
 
         // 스토리지에 이미지 업로드
         uploadImageToStorage(userId, clothesImageFiles, clothesImageUrls);
@@ -36,11 +40,12 @@ public class UserClothesService {
         addClothesImageUrlAndLocationToUser(userId, clothesLocation, clothesImageUrls);
 
         List<ClothesImageUrl> returnClothesImageUrlList = new ArrayList<>();
-        userRepository.findById(userId).get().getClothesList().stream().forEach(v -> {
-            returnClothesImageUrlList.add(ClothesImageUrl.builder()
-                    .cid(v.getCid())
-                    .clothesImageUrl(v.getClothesImagePath())
-                    .build());
+        userEntity.get()
+                  .getClothesList().stream().forEach(v -> {
+                        returnClothesImageUrlList.add(ClothesImageUrl.builder()
+                                                                     .cid(v.getCid())
+                                                                     .clothesImageUrl(v.getClothesImagePath())
+                                                                     .build());
         });
         return returnClothesImageUrlList;
     }
