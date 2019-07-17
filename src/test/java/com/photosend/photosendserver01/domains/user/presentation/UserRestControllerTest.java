@@ -2,7 +2,9 @@ package com.photosend.photosendserver01.domains.user.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photosend.photosendserver01.domains.user.domain.UserInformation;
+import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UserRestControllerTest {
     @Autowired
     ObjectMapper objMapper;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Test
     public void testRegisterUser() throws Exception {
         // given
@@ -49,4 +54,8 @@ public class UserRestControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @After
+    public void clear() {
+        userRepository.deleteAll();
+    }
 }

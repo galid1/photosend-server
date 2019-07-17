@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photosend.photosendserver01.domains.user.domain.Token;
 import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.UserInformation;
+import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import org.hamcrest.Matchers;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class UserRegisterControllerTest {
 
     @Autowired
     private ObjectMapper objMapper;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void userRegisterTest() throws Exception {
@@ -52,5 +57,10 @@ public class UserRegisterControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(Matchers.containsString("uid")))
                 .andExpect(content().string(Matchers.containsString("jwtToken")));
+    }
+
+    @After
+    public void clear() {
+        userRepository.deleteAll();
     }
 }
