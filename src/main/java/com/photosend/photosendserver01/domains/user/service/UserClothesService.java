@@ -9,6 +9,7 @@ import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.Clothes;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ClothesImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,9 @@ public class UserClothesService {
     private ClothesRepository clothesRepository;
     @Autowired
     private FileUtil fileUtil;
+
+    @Value("${file.upload-path.aws.prefix}")
+    private String pathPrefix;
 
     @Transactional
     public List<ClothesImageUrl> uploadClothesImages(String userId, ClothesLocation clothesLocation, MultipartFile[] clothesImageFiles) {
@@ -54,7 +58,7 @@ public class UserClothesService {
         for (MultipartFile file : clothesImageFiles){
             String uploadPath = fileUtil.makeFileUploadPath(userId, file.getOriginalFilename(), ImageType.CLOTHES);
             fileUtil.uploadFile(uploadPath, file);
-            clothesImageUrls.add(ClothesImageUrl.builder().clothesImageUrl(uploadPath).build());
+            clothesImageUrls.add(ClothesImageUrl.builder().clothesImageUrl(pathPrefix + uploadPath).build());
         }
     }
 
