@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Component
-public class FileUtilImpl implements FileUtil {
+public class UploadToLocalFileUtilImpl implements FileUtil {
     @Override
     public String makeFileUploadPath(String userId, String fileName, ImageType fileType) {
         return System.getProperty("user.home") + "/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);

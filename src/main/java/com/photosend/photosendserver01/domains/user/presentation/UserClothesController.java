@@ -17,6 +17,7 @@ public class UserClothesController {
     @Autowired
     private UserClothesService userClothesService;
 
+
     @PostMapping(value = "/{users-id}/clothes/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<ClothesImageUrl> uploadClothesImages(@PathVariable("users-id") String userId, @RequestParam("location") ClothesLocation clothesLocation, @RequestParam("file") MultipartFile[] clothesImageFiles) {
         return userClothesService.uploadClothesImages(userId, clothesLocation, clothesImageFiles);
