@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundClothesInformation;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,5 +37,9 @@ public class ClothesEntity {
         this.clothesLocation = clothesLocation;
         this.clothesInformation = clothesInformation;
         this.user = userEntity;
+    }
+
+    public void putClothesInformation(ClothesInformation clothesInformation) {
+        this.clothesInformation = clothesInformation;
     }
 }
