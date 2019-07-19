@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.domains.user.presentation;
 
 import com.photosend.photosendserver01.domains.user.domain.ClothesLocation;
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ClothesFullInformation;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ClothesImageUrl;
 import com.photosend.photosendserver01.domains.user.service.UserClothesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class UserClothesController {
     @Autowired
     private UserClothesService userClothesService;
 
+    @GetMapping("/{users-id}/clothes")
+    public List<ClothesFullInformation> getClothesFullInformation(@PathVariable("users-id")String userId) {
+        return userClothesService.getClothesInformation(userId);
+    }
 
     @PostMapping(value = "/{users-id}/clothes/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<ClothesImageUrl> uploadClothesImages(@PathVariable("users-id") String userId, @RequestParam("location") ClothesLocation clothesLocation, @RequestParam("file") MultipartFile[] clothesImageFiles) {

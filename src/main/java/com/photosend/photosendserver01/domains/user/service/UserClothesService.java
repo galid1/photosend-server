@@ -3,11 +3,11 @@ package com.photosend.photosendserver01.domains.user.service;
 import com.photosend.photosendserver01.domains.user.domain.*;
 import com.photosend.photosendserver01.domains.user.domain.exception.ClothesException;
 import com.photosend.photosendserver01.domains.user.domain.exception.FileDeleteException;
-import com.photosend.photosendserver01.domains.user.domain.exception.FileUploadException;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
-import com.photosend.photosendserver01.domains.user.presentation.request_reponse.Clothes;
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ClothesFullInformation;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ClothesImageUrl;
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundClothesInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,6 +31,29 @@ public class UserClothesService {
 
     @Value("${file.upload-path.aws.prefix}")
     private String pathPrefix;
+
+    // clothes의 정보와 이미지를 반환 (* price 정보가 null로 반환되는 경우 Client에서 아직 Information이 입력되지 않았다고 판단해야됨.
+    //                              Server에서 Exception처리를 하기에는 List형태로 Clothes를 반환하기 때문에 불가능)
+    public List<ClothesFullInformation> getClothesInformation(String userId) {
+        List<ClothesEntity> clothesEntities = userRepository.findById(userId).get().getClothesList();
+
+        List<ClothesFullInformation> clothesFullInformationList = new ArrayList<>();
+
+        clothesEntities.stream().forEach(v -> {
+            clothesFullInformationList.add(ClothesFullInformation.builder()
+                    .clothImagePath(v.getClothesImagePath())
+                    .foundClothesInformation(FoundClothesInformation.builder()
+                                                                    .cid(v.getCid())
+                                                                    .brand(v.getClothesInformation().getBrand())
+                                                                    .name(v.getClothesInformation().getName())
+                                                                    .price(v.getClothesInformation().getPrice())
+                                                                    .size(v.getClothesInformation().getSize())
+                                                                    .build())
+                    .build());
+        });
+
+        return clothesFullInformationList;
+    }
 
     @Transactional
     public List<ClothesImageUrl> uploadClothesImages(String userId, ClothesLocation clothesLocation, MultipartFile[] clothesImageFiles) {
@@ -72,18 +95,6 @@ public class UserClothesService {
         });
 
         userRepository.save(userEntity);
-    }
-
-    // clothes의 정보와 이미지를 반환
-    public List<Clothes> getClothesList(String userId) {
-        List<ClothesEntity> clothesEntities = userRepository.findById(userId).get().getClothesList();
-        List<Clothes> clothesList = new ArrayList<>();
-        clothesEntities.stream().forEach(v -> {
-            clothesList.add(Clothes.builder()
-                                    .clothImagePath(v.getClothesImagePath())
-                                    .build());
-        });
-        return clothesList;
     }
 
     // ClothesImage Delete Method

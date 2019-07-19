@@ -2,7 +2,9 @@ package com.photosend.photosendserver01.domains.user.domain;
 
 import lombok.*;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Embeddable
 @NoArgsConstructor
@@ -10,10 +12,15 @@ import javax.persistence.Embeddable;
 @Builder
 @Getter
 public class ClothesInformation {
-    @NonNull
     private String name;
+
     @NonNull
     private Integer price;
-    @NonNull
+
     private String brand;
+
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(name = "retention_stock_size", joinColumns = @JoinColumn(name = "clothes_id"))
+    private List<Size> size = new ArrayList<>();
 }
