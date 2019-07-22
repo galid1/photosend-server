@@ -1,7 +1,7 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
-import com.photosend.photosendserver01.domains.user.domain.exception.ClothesException;
-import com.photosend.photosendserver01.domains.user.domain.exception.ClothesUploadCountException;
+import com.photosend.photosendserver01.domains.user.domain.exception.ProductException;
+import com.photosend.photosendserver01.domains.user.domain.exception.ProductUploadCountException;
 import com.photosend.photosendserver01.domains.user.domain.exception.TicketException;
 import lombok.*;
 
@@ -36,7 +36,7 @@ public class UserEntity {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "user_id")
-    private List<ClothesEntity> clothesList = new ArrayList<>();
+    private List<ProductEntity> productList = new ArrayList<>();
 
     @Builder
     public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket) {
@@ -101,30 +101,30 @@ public class UserEntity {
                     .build();
     }
 
-    // 옷 사진의 이미지 경로 추가 메소드
-    public void putClothesImagePath(ClothesEntity clothesEntity) {
-        verifyClothesCountFive();
+    // 상품 사진의 이미지 경로 추가 메소드
+    public void putProductImagePath(ProductEntity productEntity) {
+        verifyProductCountFive();
 
-        if(clothesEntity == null)
-            throw new ClothesException("ClothesEntity Null 입니다.");
+        if(productEntity == null)
+            throw new ProductException("ProductEntity Null 입니다.");
 
-        this.clothesList.add(clothesEntity);
+        this.productList.add(productEntity);
     }
 
     // 옷 사진 최대 5개 업로드 가능 제한 로직
-    private void verifyClothesCountFive() {
-        if (this.clothesList.size() >= 5)
-            throw new ClothesUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
+    private void verifyProductCountFive() {
+        if (this.productList.size() >= 5)
+            throw new ProductUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
     }
 
     // 옷 사진 제거 메소드 (로깅의 이유로 사진 삭제 X)
-    public void deleteClothes(int clothesIndex) {
-        verifyValidClothesIndex(clothesIndex);
-        clothesList.remove(clothesIndex);
+    public void deleteProduct(int productIndex) {
+        verifyValidProductIndex(productIndex);
+        productList.remove(productIndex);
     }
 
-    private void verifyValidClothesIndex(Integer clothesIndex) {
-        if(clothesList.size() - 1 < clothesIndex)
+    private void verifyValidProductIndex(Integer productIndex) {
+        if(productList.size() - 1 < productIndex)
             throw new IllegalArgumentException("리스트의 크기보다 Index가 더 큽니다.");
     }
 }

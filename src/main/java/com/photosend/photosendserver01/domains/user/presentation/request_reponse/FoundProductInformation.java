@@ -12,9 +12,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class FoundClothesInformation {
-    @JsonProperty("clothes-id")
-    private Long cid;
+public class FoundProductInformation {
+    @JsonProperty("product-id")
+    private Long pid;
     private String name;
     private Integer price;
     private String brand;

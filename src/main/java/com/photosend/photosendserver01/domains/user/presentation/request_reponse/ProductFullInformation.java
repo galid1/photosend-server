@@ -10,10 +10,10 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class ClothesFullInformation {
+public class ProductFullInformation {
     @NotNull
     @JsonProperty("image-path")
-    private String clothImagePath;
+    private String productImagePath;
     // Optional Field
-    private FoundClothesInformation foundClothesInformation;
+    private FoundProductInformation foundProductInformation;
 }

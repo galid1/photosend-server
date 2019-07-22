@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -128,13 +127,13 @@ public class UserEntityTest {
     @Test
     public void putClothesImagePathTest() {
         String clothesPath = "clothesPath";
-        ClothesEntity clothesEntity = ClothesEntity.builder()
+        ProductEntity productEntity = ProductEntity.builder()
                 .clothesImagePath(clothesPath)
                 .build();
 
-        userEntity.putClothesImagePath(clothesEntity);
+        userEntity.putProductImagePath(productEntity);
 
-        assertTrue(clothesPath.equals(userEntity.getClothesList().get(0).getClothesImagePath()));
+        assertTrue(clothesPath.equals(userEntity.getProductList().get(0).getProductImagePath()));
     }
 
     // ===================== 옷 삭제 테스트 ====================== //

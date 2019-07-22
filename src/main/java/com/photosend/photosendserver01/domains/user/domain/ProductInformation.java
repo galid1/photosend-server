@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-public class ClothesInformation {
+public class ProductInformation {
     private String name;
 
     @NonNull
@@ -21,6 +21,6 @@ public class ClothesInformation {
 
     @Enumerated(EnumType.STRING)
     @ElementCollection
-    @CollectionTable(name = "retention_stock_size", joinColumns = @JoinColumn(name = "clothes_id"))
+    @CollectionTable(name = "retention_stock_size", joinColumns = @JoinColumn(name = "product_id"))
     private List<Size> size = new ArrayList<>();
 }

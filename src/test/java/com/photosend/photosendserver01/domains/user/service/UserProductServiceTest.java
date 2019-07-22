@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -19,12 +18,12 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserClothesServiceTest {
+public class UserProductServiceTest {
     @Autowired
-    UserClothesService userClothesService;
+    UserProductService userProductService;
 
     @Autowired
-    ClothesRepository clothesRepository;
+    ProductRepository productRepository;
 
     @Mock
     UserRepository userRepository;
@@ -34,7 +33,7 @@ public class UserClothesServiceTest {
     private static final String TEST_FILE_NAME = "FILE";
     // TEST 용으로 fileUtil의 makeFileUploadPath의 결과값을 아래 변수로 정함
     private static int FILE_NAME_INDEX = 0;
-    private static final String TEST_FILE_PATH = System.getProperty("user.home") + "/" + ImageType.CLOTHES + "/" + FILE_NAME_INDEX;
+    private static final String TEST_FILE_PATH = System.getProperty("user.home") + "/" + ImageType.PRODUCT + "/" + FILE_NAME_INDEX;
 
     private MockMultipartFile mockFile;
 
@@ -67,7 +66,7 @@ public class UserClothesServiceTest {
     }
 
     private void mockFileUtil() {
-        when(fileUtil.makeFileUploadPath(TEST_WECHAT_ID, TEST_FILE_NAME, ImageType.CLOTHES))
+        when(fileUtil.makeFileUploadPath(TEST_WECHAT_ID, TEST_FILE_NAME, ImageType.PRODUCT))
                 .thenAnswer(invocation -> {
                     FILE_NAME_INDEX ++;
                     return null;
@@ -77,9 +76,9 @@ public class UserClothesServiceTest {
 
     //================ 이미지 업로드 테스트 =================//
     @Test
-    public void uploadClothesImageTest() {
+    public void uploadProductImageTest() {
 //        // when
-//        userClothesService.uploadClothesImages(TEST_WECHAT_ID, new MultipartFile[]{ mockFile });
+//        userClothesService.uploadProductImages(TEST_WECHAT_ID, new MultipartFile[]{ mockFile });
 //
 //        // then
 //        assertTrue(FILE_NAME_INDEX == 1);
@@ -89,7 +88,7 @@ public class UserClothesServiceTest {
     //================ 이미지 삭제 테스트 =================//
     // 이미지 제거시 스토리지에 없어야 하며, UserEntity의 ClothesList에서 제거 되어야함.
     @Test
-    public void deleteClothesImageTest() {
+    public void deleteProductImageTest() {
 
     }
 
