@@ -26,15 +26,19 @@ public class ProductEntity {
     @Embedded
     private ProductInformation productInformation;
 
+    @Enumerated(EnumType.STRING)
+    private ProductState productState;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @Builder
-    public ProductEntity(@NonNull String productImagePath, ProductLocation productLocation, ProductInformation productInformation, UserEntity userEntity) {
+    public ProductEntity(@NonNull String productImagePath, ProductLocation productLocation, ProductInformation productInformation, ProductState productState, UserEntity userEntity) {
         this.productImagePath = productImagePath;
         this.productLocation = productLocation;
         this.productInformation = productInformation;
+        this.productState = productState;
         this.user = userEntity;
     }
 
