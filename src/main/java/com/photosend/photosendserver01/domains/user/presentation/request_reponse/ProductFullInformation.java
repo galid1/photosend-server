@@ -5,7 +5,6 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-@Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
