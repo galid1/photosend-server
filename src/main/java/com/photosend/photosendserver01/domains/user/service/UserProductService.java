@@ -99,7 +99,7 @@ public class UserProductService {
 
     // ProductImage Delete Method
     @Transactional
-    public void deleteProductImage(String userId, Long productId) {
+    public void deleteProductImage(String userId, Integer productId) {
         UserEntity userEntity = userRepository.findById(userId).get();
 
         // 스토리지에서 이미지 제거
@@ -123,13 +123,13 @@ public class UserProductService {
         file.delete();
     }
 
-    private int findProductIndexById(String uid, Long cid) {
+    private int findProductIndexById(String uid, Integer pid) {
         UserEntity userEntity = userRepository.findById(uid).get();
         int index = 0;
         ProductEntity productEntity = null;
 
         for (ProductEntity entity : userEntity.getProductList()) {
-            if(entity.getPid() == cid) {
+            if(entity.getPid() == pid) {
                 productEntity = entity;
                 break;
             }

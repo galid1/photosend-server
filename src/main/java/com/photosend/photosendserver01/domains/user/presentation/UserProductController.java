@@ -29,7 +29,7 @@ public class UserProductController {
     }
 
     @DeleteMapping(value = "/{users-id}/product/{product-id}")
-    public void deleteProduct(@PathVariable("users-id") String userId, @PathVariable("product-id") Long productId) {
+    public void deleteProduct(@PathVariable("users-id") String userId, @PathVariable("product-id") Integer productId) {
         userProductService.deleteProductImage(userId, productId);
     }
 

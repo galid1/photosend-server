@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 public class ProductImageUrl {
     @JsonProperty("product-id")
-    private Long pid;
+    private Integer pid;
     @JsonProperty("image-path")
     private String productImageUrl;
 
@@ -21,7 +21,6 @@ public class ProductImageUrl {
         return ProductEntity.builder()
                 .productLocation(productLocation)
                 .productImagePath(this.productImageUrl)
-                .productState(ProductState.UPLOADED)
                 .userEntity(user)
                 .build();
     }
