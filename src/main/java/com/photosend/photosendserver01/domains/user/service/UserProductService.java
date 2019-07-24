@@ -32,10 +32,9 @@ public class UserProductService {
     @Value("${file.upload-path.aws.prefix}")
     private String pathPrefix;
 
-    // product의 정보와 이미지를 반환 (* price 정보가 null로 반환되는 경우 Client에서 아직 Information이 입력되지 않았다고 판단해야됨.
-    //                              Server에서 Exception처리를 하기에는 List형태로 Product를 반환하기 때문에 불가능)
+    // Product의 이미지, 정보, 상태를 반환
     public List<ProductFullInformation> getProductInformation(String userId) {
-        List<ProductEntity> productEntities = userRepository.findById(userId).get().getProductList();
+        List<ProductEntity> productEntities = productRepository.findByUserWechatUidAndProductStateNot(userId, ProductState.ORDERED);
 
         List<ProductFullInformation> productFullInformationList = new ArrayList<>();
 
@@ -49,6 +48,7 @@ public class UserProductService {
                                                                     .price(v.getProductInformation().getPrice())
                                                                     .size(v.getProductInformation().getSize())
                                                                     .build())
+                    .productState(v.getProductState())
                     .build());
         });
 

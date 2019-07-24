@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.domains.user.presentation.request_reponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.photosend.photosendserver01.domains.user.domain.ProductState;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -14,4 +14,5 @@ public class ProductFullInformation {
     private String productImagePath;
     // Optional Field
     private FoundProductInformation foundProductInformation;
+    private ProductState productState;
 }
