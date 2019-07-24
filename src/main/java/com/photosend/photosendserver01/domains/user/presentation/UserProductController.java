@@ -18,18 +18,18 @@ public class UserProductController {
     @Autowired
     private UserProductService userProductService;
 
-    @GetMapping("/{users-id}/product")
-    public List<ProductFullInformation> getProductFullInformation(@PathVariable("users-id")String userId) {
+    @GetMapping("/{usersId}/product")
+    public List<ProductFullInformation> getProductFullInformation(@PathVariable("usersId")String userId) {
         return userProductService.getProductInformation(userId);
     }
 
-    @PostMapping(value = "/{users-id}/product/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public List<ProductImageUrl> uploadProductImages(@PathVariable("users-id") String userId, @RequestParam("location") ProductLocation productLocation, @RequestParam("file") MultipartFile[] productImageFiles) {
+    @PostMapping(value = "/{usersId}/product/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public List<ProductImageUrl> uploadProductImages(@PathVariable("usersId") String userId, @RequestParam("location") ProductLocation productLocation, @RequestParam("file") MultipartFile[] productImageFiles) {
         return userProductService.uploadProductImages(userId, productLocation, productImageFiles);
     }
 
-    @DeleteMapping(value = "/{users-id}/product/{product-id}")
-    public void deleteProduct(@PathVariable("users-id") String userId, @PathVariable("product-id") Long productId) {
+    @DeleteMapping(value = "/{usersId}/product/{productId}")
+    public void deleteProduct(@PathVariable("usersId") String userId, @PathVariable("productId") Long productId) {
         userProductService.deleteProductImage(userId, productId);
     }
 

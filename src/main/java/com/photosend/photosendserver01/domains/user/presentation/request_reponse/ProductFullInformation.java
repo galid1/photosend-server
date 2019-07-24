@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class ProductFullInformation {
     @NotNull
-    @JsonProperty("image-path")
     private String productImagePath;
     // Optional Field
     private FoundProductInformation foundProductInformation;

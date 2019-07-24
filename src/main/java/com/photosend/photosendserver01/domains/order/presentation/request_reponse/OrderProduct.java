@@ -1,6 +1,5 @@
 package com.photosend.photosendserver01.domains.order.presentation.request_reponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.photosend.photosendserver01.domains.user.domain.Size;
 import lombok.*;
 
@@ -10,8 +9,10 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderProduct {
-    @JsonProperty("product-id")
+    @NonNull
     private Long productId;
+    @NonNull
     private Integer quantity;
+    @NonNull
     private Size size;
 }

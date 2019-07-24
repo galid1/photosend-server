@@ -12,9 +12,9 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ProductImageUrl {
-    @JsonProperty("product-id")
+    @JsonProperty("productId")
     private Long pid;
-    @JsonProperty("image-path")
+    @JsonProperty("productImagePath")
     private String productImageUrl;
 
     public ProductEntity toEntity(ProductLocation productLocation, UserEntity user) {

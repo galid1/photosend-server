@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TicketImageUrl {
-    @JsonProperty("image-path")
+    @JsonProperty("ticketImagePath")
     private String ticketImageUrl;
 
     @Builder
