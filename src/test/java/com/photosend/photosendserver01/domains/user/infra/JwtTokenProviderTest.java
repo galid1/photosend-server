@@ -41,7 +41,6 @@ public class JwtTokenProviderTest {
     @Test
     public void verifyToken() {
         UserInformation information = UserInformation.builder()
-                .age(12)
                 .name("jjy")
                 .build();
 

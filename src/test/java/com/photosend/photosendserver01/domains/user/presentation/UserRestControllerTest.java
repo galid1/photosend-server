@@ -36,7 +36,6 @@ public class UserRestControllerTest {
     public void testRegisterUser() throws Exception {
         // given
         UserInformation information = UserInformation.builder()
-                .age(12)
                 .name("asd")
                 .build();
 

@@ -48,7 +48,6 @@ public class UserProductServiceTest {
                 .wechatUid(TEST_WECHAT_ID)
                 .userInformation(UserInformation.builder()
                         .name("jjy")
-                        .age(12)
                         .build())
                 .token(Token.builder()
                         .jwtToken(TEST_JWT_TOKEN)

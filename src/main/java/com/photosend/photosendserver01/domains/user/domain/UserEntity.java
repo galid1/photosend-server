@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
+import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
 import com.photosend.photosendserver01.domains.user.domain.exception.ProductException;
 import com.photosend.photosendserver01.domains.user.domain.exception.ProductUploadCountException;
 import com.photosend.photosendserver01.domains.user.domain.exception.TicketException;
@@ -41,9 +42,35 @@ public class UserEntity {
     @Builder
     public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket) {
         this.wechatUid = wechatUid;
-        this.userInformation = userInformation;
+        setUserInformation(userInformation);
         this.token = token;
         this.ticket = ticket;
+    }
+
+    private void setUserInformation(UserInformation userInformation) {
+        if(userInformation == null) throw new IllegalArgumentException("UserInformation을 입력하세요.");
+        if(userInformation.getPassPortNum() == null) throw new IllegalArgumentException("여권 번호를 입력하세요.");
+        if(userInformation.getDepartureTime() == null) throw new IllegalArgumentException("출국 시간을 입력하세요.");
+        verifyDepartureTime(userInformation.getDepartureTime().toLocalDateTime());
+        this.userInformation = userInformation;
+    }
+
+    // 출국 시간 제한 (출국은 최소 하루전, 10시에서 8시 사이만 가능)
+    @Transient
+    private int registerMinTime = 10;
+    @Transient
+    private int registerMaxTime = 20;
+
+    private void verifyDepartureTime(LocalDateTime departureTime) {
+        LocalDateTime now = LocalDateTime.now();
+        // 가입 시간 제한 최소 출국 하루 전
+        if(Duration.between(now, departureTime).toDays() < 1)
+            throw new DepartureTimeException("원활한 배송을 위해 최소 출국하루전에만 사용이 가능합니다.");
+
+        // 가입 시간 제한 (배송을 위해서 오전10시에서 오후8시 사이에 출국하는 사람에 한해서만 사용가능)
+        int departureHour = departureTime.getHour();
+        if(departureHour < registerMinTime || departureHour > registerMaxTime)
+            throw new DepartureTimeException("원활한 배송을 위해 오전 10시에서 오후 8시 사이에 출국하는 사용자만 이용 가능합니다.");
     }
 
     public void putTicketsImagePath(String ticketImagePath) {
@@ -105,10 +132,25 @@ public class UserEntity {
     public void putProductImagePath(ProductEntity productEntity) {
         verifyProductCountFive();
 
+        verifyUploadProductImageTime(this.userInformation.getDepartureTime().toLocalDateTime());
+
         if(productEntity == null)
             throw new ProductException("ProductEntity Null 입니다.");
 
         this.productList.add(productEntity);
+    }
+
+    private void verifyUploadProductImageTime(LocalDateTime departureTime) {
+        // 업로드 시간 제한 (상품정보를 찾을 시간을 위해서 전날 오후 4시 이전까지만 업로드 가능)
+        int departureYear = departureTime.getYear();
+        int departureMonth = departureTime.getMonthValue();
+        int departureDay = departureTime.getDayOfMonth();
+
+        // 출국 전날 4시
+        LocalDateTime uploadDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay - 1, 16, 0, 0);
+
+        if(LocalDateTime.now().isAfter(uploadDeadLine))
+            throw new UploadTimeException("원활한 배송을 위해 이미지 업로드는 출국 전날 오후 4시이전 까지만 가능합니다.");
     }
 
     // 옷 사진 최대 5개 업로드 가능 제한 로직

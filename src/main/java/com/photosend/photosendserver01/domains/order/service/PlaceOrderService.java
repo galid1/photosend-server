@@ -7,6 +7,7 @@ import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderRequest;
 import com.photosend.photosendserver01.domains.user.domain.ProductEntity;
 import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
+import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +29,12 @@ public class PlaceOrderService {
     @Transactional
     public Long placeOrder(OrderRequest orderRequest) {
         ProductEntity productEntity = productRepository.findById(orderRequest.getOrderProduct().getProductId()).get();
+        UserEntity orderer = userRepository.findById(orderRequest.getOrdererWechatUid()).get();
 
         productEntity.productOrdered(); // 상품 주문처리
 
         OrderEntity orderEntity = OrderEntity.builder()
-                                    .shippingInfo(orderRequest.getShippingInfo())
-                                    .orderer(userRepository.findById(orderRequest.getOrdererWechatUid()).get())
+                                    .orderer(orderer)
                                     .orderLine(OrderLine.builder()
                                             .price(Money.builder().value(productEntity.getProductInformation().getPrice()).build())
                                             .productId(productEntity.getPid())
@@ -41,6 +42,7 @@ public class PlaceOrderService {
                                             .size(orderRequest.getOrderProduct().getSize())
                                             .build()
                                     )
+                                    .departureTime(orderer.getUserInformation().getDepartureTime().toLocalDateTime())
                                     .build();
 
         return orderRepository.save(orderEntity).getOid();

@@ -1,8 +1,10 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.Embeddable;
+import java.sql.Timestamp;
 
 @Embeddable
 @Getter
@@ -14,5 +16,8 @@ public class UserInformation {
     @NonNull
     private String name;
     @NonNull
-    private Integer age;
+    private String passPortNum;
+    @NonNull
+    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm", timezone = "Asia/Seoul")
+    private Timestamp departureTime;
 }

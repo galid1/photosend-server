@@ -43,7 +43,6 @@ public class UserRegisterServiceTest {
     public void setUp() {
         information = UserInformation.builder()
                 .name("jjy")
-                .age(12)
                 .build();
 
         registerRequest = UserRegisterRequest.builder()

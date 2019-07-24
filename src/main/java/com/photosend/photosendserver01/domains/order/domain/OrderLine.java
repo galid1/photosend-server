@@ -4,10 +4,7 @@ import com.photosend.photosendserver01.common.model.Money;
 import com.photosend.photosendserver01.domains.user.domain.Size;
 import lombok.*;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import javax.persistence.*;
 
 @Embeddable
 @Getter
@@ -22,6 +19,7 @@ public class OrderLine {
 
     private Integer quantity;
 
+    @Enumerated(EnumType.STRING)
     private Size size;
 
     @Embedded

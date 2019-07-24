@@ -1,6 +1,5 @@
 package com.photosend.photosendserver01.domains.order.presentation.request_reponse;
 
-import com.photosend.photosendserver01.domains.order.domain.ShippingInfo;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -15,6 +14,4 @@ public class OrderRequest {
     private OrderProduct orderProduct;
     @NotNull
     private String ordererWechatUid;
-    @NotNull
-    private ShippingInfo shippingInfo;
 }
