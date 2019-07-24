@@ -13,7 +13,7 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id")
-    private Integer pid;
+    private Long pid;
 
     // Required Field
     @NonNull

@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 public class ProductImageUrl {
     @JsonProperty("product-id")
-    private Integer pid;
+    private Long pid;
     @JsonProperty("image-path")
     private String productImageUrl;
 

@@ -14,7 +14,7 @@ import javax.persistence.Embedded;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderLine {
     @Column(name = "product_id")
-    private Integer productId;
+    private Long productId;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "product_price"))
@@ -29,7 +29,7 @@ public class OrderLine {
     private Money amounts;
 
     @Builder
-    public OrderLine(Integer productId, Money price, Integer quantity, Size size) {
+    public OrderLine(Long productId, Money price, Integer quantity, Size size) {
         this.productId = productId;
         this.price = price;
         this.quantity = quantity;

@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class FoundProductInformation {
     @JsonProperty("product-id")
-    private Integer pid;
+    private Long pid;
     private String name;
     private Integer price;
     private String brand;

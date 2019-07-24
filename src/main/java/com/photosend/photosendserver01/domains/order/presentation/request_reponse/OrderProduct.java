@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderProduct {
     @JsonProperty("product-id")
-    private Integer productId;
+    private Long productId;
     private Integer quantity;
     private Size size;
 }
