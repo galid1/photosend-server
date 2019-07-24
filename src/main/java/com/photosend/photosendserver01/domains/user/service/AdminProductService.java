@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +17,9 @@ public class AdminProductService {
     private ProductRepository productRepository;
 
     @Transactional
-    public void putFoundProductInformation(String uid, List<FoundProductInformation> foundProductInformationList) {
+    public List<Long> putFoundProductInformation(String uid, List<FoundProductInformation> foundProductInformationList) {
+        List<Long> productIdList = new ArrayList<>();
+
         foundProductInformationList.stream().forEach(product -> {
             ProductInformation newProductInformation = ProductInformation.builder()
                                                             .brand(product.getBrand())
@@ -26,7 +29,9 @@ public class AdminProductService {
                                                             .build();
 
             ProductEntity productEntity = productRepository.findByPidAndUserWechatUid(product.getPid(), uid);
-            productEntity.putProductInformation(newProductInformation);
+            productIdList.add(productEntity.putProductInformation(newProductInformation));
         });
+
+        return productIdList;
     }
 }

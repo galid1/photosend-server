@@ -43,9 +43,11 @@ public class ProductEntity {
         this.user = userEntity;
     }
 
-    public void putProductInformation(ProductInformation productInformation) {
+    public Long putProductInformation(ProductInformation productInformation) {
         this.productInformation = productInformation;
         this.productState = ProductState.POPULATED;
+
+        return this.pid;
     }
 
     // 상품을 주문 처리
