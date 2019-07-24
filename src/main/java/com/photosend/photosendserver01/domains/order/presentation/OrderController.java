@@ -16,8 +16,8 @@ public class OrderController {
     private PlaceOrderService placeOrderService;
 
     @PostMapping("/")
-    public void placeOrder(@RequestBody OrderRequest orderRequest) {
-        placeOrderService.placeOrder(orderRequest);
+    public Long placeOrder(@RequestBody OrderRequest orderRequest) {
+        return placeOrderService.placeOrder(orderRequest);
     }
 
 }
