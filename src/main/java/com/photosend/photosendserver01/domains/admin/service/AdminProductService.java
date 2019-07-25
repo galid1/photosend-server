@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.domains.user.service;
+package com.photosend.photosendserver01.domains.admin.service;
 
 import com.photosend.photosendserver01.domains.user.domain.ProductEntity;
 import com.photosend.photosendserver01.domains.user.domain.ProductInformation;
