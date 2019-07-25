@@ -18,9 +18,14 @@ public class UserProductController {
     @Autowired
     private UserProductService userProductService;
 
+    @GetMapping("/{usersId}/product/{productId}")
+    public ProductFullInformation getProductFullInformation(@PathVariable("usersId")String userWechatUid, @PathVariable("productId") Long productId){
+        return userProductService.getProductInformation(userWechatUid, productId);
+    }
+
     @GetMapping("/{usersId}/product")
-    public List<ProductFullInformation> getProductFullInformation(@PathVariable("usersId")String userId) {
-        return userProductService.getProductInformation(userId);
+    public List<ProductFullInformation> getAllProductFullInformation(@PathVariable("usersId")String userWechatUid) {
+        return userProductService.getAllProductInformation(userWechatUid);
     }
 
     @PostMapping(value = "/{usersId}/product/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
