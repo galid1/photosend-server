@@ -1,8 +1,7 @@
 package com.photosend.photosendserver01.domains.order.presentation.request_reponse;
 
+import com.photosend.photosendserver01.domains.user.domain.Size;
 import lombok.*;
-
-import javax.validation.constraints.NotNull;
 
 @Builder
 @AllArgsConstructor
@@ -10,8 +9,10 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Getter
 public class OrderRequest {
-    @NotNull
-    private OrderProduct orderProduct;
-    @NotNull
-    private String ordererWechatUid;
+    @NonNull
+    private Long productId;
+    @NonNull
+    private Integer quantity;
+    @NonNull
+    private Size size;
 }

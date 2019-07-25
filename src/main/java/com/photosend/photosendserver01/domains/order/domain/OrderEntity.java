@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.domains.order.domain;
 
 import com.photosend.photosendserver01.common.event.MyApplicationEventPublisher;
+import com.photosend.photosendserver01.common.model.Money;
 import com.photosend.photosendserver01.domains.order.domain.event.OrderCanceledEvent;
 import com.photosend.photosendserver01.domains.order.domain.event.StartShippingEvent;
 import com.photosend.photosendserver01.domains.order.domain.exception.NoOrderLineException;
@@ -11,9 +12,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -33,25 +36,43 @@ public class OrderEntity {
     @JoinColumn(name = "orderer_wechat_uid")
     private UserEntity orderer;
 
+    @ElementCollection
+    @CollectionTable(name = "order_lines", joinColumns = @JoinColumn(name = "order_id"))
+    private List<OrderLine> orderLines;
+
     @Embedded
-    private OrderLine orderLine;
+    @AttributeOverride(name = "value", column = @Column(name = "totalAmount"))
+    private Money totalAmount;
 
     @Builder
-    public OrderEntity(OrderLine orderLine, UserEntity orderer, LocalDateTime departureTime) {
+    public OrderEntity(List<OrderLine> orderLines, UserEntity orderer, LocalDateTime departureTime) {
         verifyOrderTime(departureTime);
-        setOrderLines(orderLine);
+        setOrderLines(orderLines);
         this.orderer = orderer;
         this.orderState = OrderState.SHIP_IN_PROGRESS;
     }
 
-    private void setOrderLines(OrderLine orderLine) {
-        verifyOrderLine(orderLine);
-        this.orderLine = orderLine;
+    private void setOrderLines(List<OrderLine> orderLines) {
+        verifyOrderLine(orderLines);
+        this.orderLines = orderLines;
+        calculateTotalAmount();
     }
 
-    private void verifyOrderLine(OrderLine orderLine) {
-        if(orderLine == null)
-            throw new NoOrderLineException("OrderLine이 존재해야 합니다.");
+    @Transient
+    private int shippingFee = 20000;
+
+    private void calculateTotalAmount() {
+        int totalAmountTemp = shippingFee + this.orderLines.stream()
+                                                    .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
+                                                    .sum();
+        this.totalAmount = Money.builder()
+                .value(totalAmountTemp)
+                .build();
+    }
+
+    private void verifyOrderLine(List<OrderLine> orderLines) {
+        if(orderLines == null || orderLines.isEmpty())
+            throw new NoOrderLineException("OrderLine이 null이 아니고 최소 1개 이상 존재해야 합니다.");
     }
 
     private void verifyOrderTime(LocalDateTime departureTime) {

@@ -19,9 +19,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/")
-    public Long placeOrder(@RequestBody OrderRequest orderRequest) {
-        return placeOrderService.placeOrder(orderRequest);
+    @PostMapping("/{usersId}")
+    public Long placeOrder(@RequestBody List<OrderRequest> orderRequests,@PathVariable("usersId")String wechatUid) {
+        return placeOrderService.placeOrder(orderRequests, wechatUid);
     }
 
     @GetMapping("/{usersId}")

@@ -15,7 +15,7 @@ public class OrderLine {
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "product_price"))
-    private Money price;
+    private Money productPrice;
 
     private Integer quantity;
 
@@ -24,18 +24,18 @@ public class OrderLine {
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "total_price"))
-    private Money amounts;
+    private Money totalPrice;
 
     @Builder
-    public OrderLine(Long productId, Money price, Integer quantity, Size size) {
+    public OrderLine(Long productId, Money productPrice, Integer quantity, Size size) {
         this.productId = productId;
-        this.price = price;
+        this.productPrice = productPrice;
         this.quantity = quantity;
         this.size = size;
-        this.amounts = calculateAmounts();
+        this.totalPrice = calculateAmounts();
     }
 
     private Money calculateAmounts() {
-        return this.price.multiply(this.quantity);
+        return this.productPrice.multiply(this.quantity);
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PlaceOrderService {
@@ -27,21 +29,29 @@ public class PlaceOrderService {
     private UserRepository userRepository;
 
     @Transactional
-    public Long placeOrder(OrderRequest orderRequest) {
-        ProductEntity productEntity = productRepository.findById(orderRequest.getOrderProduct().getProductId()).get();
-        UserEntity orderer = userRepository.findById(orderRequest.getOrdererWechatUid()).get();
+    public Long placeOrder(List<OrderRequest> orderRequests, String userWechatUid) {
+        List<OrderLine> orderLines = new ArrayList<>();
 
-        productEntity.productOrdered(); // 상품 주문처리
+        orderRequests.stream().forEach(orderRequest -> {
+            ProductEntity productEntity = productRepository.findById(orderRequest.getProductId()).get();
+
+            productEntity.productOrdered(); // 상품 주문처리
+
+            OrderLine orderLine = OrderLine.builder()
+                    .productPrice(Money.builder().value(productEntity.getProductInformation().getPrice()).build())
+                    .productId(productEntity.getPid())
+                    .quantity(orderRequest.getQuantity())
+                    .size(orderRequest.getSize())
+                    .build();
+
+            orderLines.add(orderLine);
+        });
+
+        UserEntity orderer = userRepository.findById(userWechatUid).get();
 
         OrderEntity orderEntity = OrderEntity.builder()
                                     .orderer(orderer)
-                                    .orderLine(OrderLine.builder()
-                                            .price(Money.builder().value(productEntity.getProductInformation().getPrice()).build())
-                                            .productId(productEntity.getPid())
-                                            .quantity(orderRequest.getOrderProduct().getQuantity())
-                                            .size(orderRequest.getOrderProduct().getSize())
-                                            .build()
-                                    )
+                                    .orderLines(orderLines)
                                     .departureTime(orderer.getUserInformation().getDepartureTime().toLocalDateTime())
                                     .build();
 

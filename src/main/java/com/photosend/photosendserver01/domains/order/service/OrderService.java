@@ -18,18 +18,26 @@ public class OrderService {
     private ProductRepository productRepository;
 
     public List<OrderedProductResponse> getOrderedList(String ordererWechatUid) {
-        List<OrderedProductResponse> orderedProductResponses = new ArrayList<>();
+        // TODO N+1 조회 성능 문제로 JPQL을 사용해야함
+        List<OrderedProductResponse> orderedProductResponseList = new ArrayList<>();
 
         List<OrderEntity> usersOrderEntities = orderRepository.findByOrdererWechatUid(ordererWechatUid);
         usersOrderEntities.stream().forEach(orderEntity -> {
-            String productImagePath = productRepository.findById(orderEntity.getOrderLine().getProductId()).get().getProductImagePath();
-            OrderedProductResponse orderedProductResponse = OrderedProductResponse.builder()
-                                                                .orderId(orderEntity.getOid())
-                                                                .productImagePath(productImagePath)
-                                                                .build();
-            orderedProductResponses.add(orderedProductResponse);
+            List<String> productPaths = new ArrayList<>();
+
+            orderEntity.getOrderLines().stream().forEach(orderLine -> {
+                productPaths.add(productRepository.findByPidAndUserWechatUid(orderLine.getProductId(),
+                                    orderEntity.getOrderer().getWechatUid())
+                                .getProductImagePath());
+            });
+
+            orderedProductResponseList.add(OrderedProductResponse.builder()
+                    .orderId(orderEntity.getOid())
+                    .productImagePaths(productPaths)
+                    .build()
+            );
         });
 
-        return orderedProductResponses;
+        return orderedProductResponseList;
     }
 }
