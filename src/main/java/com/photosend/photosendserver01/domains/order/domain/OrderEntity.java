@@ -41,7 +41,7 @@ public class OrderEntity {
         verifyOrderTime(departureTime);
         setOrderLines(orderLine);
         this.orderer = orderer;
-        this.orderState = OrderState.ORDER_COMPLETE;
+        this.orderState = OrderState.SHIP_IN_PROGRESS;
     }
 
     private void setOrderLines(OrderLine orderLine) {
@@ -69,7 +69,7 @@ public class OrderEntity {
     public void startShipping() {
         verifyShippableState();
         verifyNotCanceld();
-        this.orderState = OrderState.SHIP_ONPROGRESS;
+        this.orderState = OrderState.SHIP_IN_PROGRESS;
         MyApplicationEventPublisher.getPublisher().publishEvent(new StartShippingEvent());
     }
 
@@ -86,10 +86,8 @@ public class OrderEntity {
         MyApplicationEventPublisher.getPublisher().publishEvent(new OrderCanceledEvent());
     }
 
-    // 아직 배송시작을 안했는지 검증하는 메소드
+    // 아직 배송시작을 안했는지(주문취소가 가능한 상태인지) 검증하는 메소드
     private void verifyNotYetStartShipping() {
-        if(this.orderState != OrderState.ORDER_COMPLETE && this.orderState != OrderState.PAYMENT_COMPLETE)
-            throw new ShipStateException("이미 배송중입니다.");
     }
 
     // 주문 취소가 되지 않았는지 검증하는 메소드
