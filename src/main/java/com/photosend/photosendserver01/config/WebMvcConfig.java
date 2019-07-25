@@ -11,7 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(checkTokenInterceptor()).addPathPatterns("/users/{users-id}/**");
+        registry.addInterceptor(checkTokenInterceptor())
+                    .addPathPatterns("/users/{users-id}/**")
+                    .addPathPatterns("/orders/**");
     }
 
     @Override
