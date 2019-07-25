@@ -1,13 +1,13 @@
 package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.domains.user.domain.*;
-import com.photosend.photosendserver01.domains.user.domain.exception.ProductException;
 import com.photosend.photosendserver01.domains.user.domain.exception.FileDeleteException;
+import com.photosend.photosendserver01.domains.user.domain.exception.ProductException;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ProductFullInformation;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ProductImageUrl;
-import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,8 +32,26 @@ public class UserProductService {
     @Value("${file.upload-path.aws.prefix}")
     private String pathPrefix;
 
+    public ProductFullInformation getProductInformation(String userId, Long productId) {
+        ProductEntity findEntity = productRepository.findByPidAndUserWechatUidAndProductStateNot(productId, userId, ProductState.ORDERED);
+        ProductInformation findEntityInformation = findEntity.getProductInformation();
+
+        ProductFullInformation productFullInformation = ProductFullInformation.builder()
+                .productImagePath(findEntity.getProductImagePath())
+                .foundProductInformation(FoundProductInformation.builder()
+                        .pid(findEntity.getPid())
+                        .brand(findEntityInformation.getBrand())
+                        .name(findEntityInformation.getName())
+                        .price(findEntityInformation.getPrice())
+                        .size(findEntityInformation.getSize())
+                        .build())
+                .build();
+
+        return productFullInformation;
+    }
+
     // Product의 이미지, 정보, 상태를 반환
-    public List<ProductFullInformation> getProductInformation(String userId) {
+    public List<ProductFullInformation> getAllProductInformation(String userId) {
         List<ProductEntity> productEntities = productRepository.findByUserWechatUidAndProductStateNot(userId, ProductState.ORDERED);
 
         List<ProductFullInformation> productFullInformationList = new ArrayList<>();
