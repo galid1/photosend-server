@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public class AdminProductServiceTest {
+public class AdminProductInformationServiceTest {
 
     @Mock
     private ProductRepository productRepository;

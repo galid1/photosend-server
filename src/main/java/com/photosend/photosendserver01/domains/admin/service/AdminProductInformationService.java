@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AdminProductService {
+public class AdminProductInformationService {
     @Autowired
     private ProductRepository productRepository;
 
