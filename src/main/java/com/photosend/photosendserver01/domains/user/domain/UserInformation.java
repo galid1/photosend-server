@@ -18,6 +18,6 @@ public class UserInformation {
     @NonNull
     private String passPortNum;
     @NonNull
-    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm", timezone = "Asia/Seoul")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     private Timestamp departureTime;
 }
