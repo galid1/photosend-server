@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.config;
 
+import com.photosend.photosendserver01.config.interceptor.AdminAuthenticationInterceptor;
 import com.photosend.photosendserver01.config.interceptor.CheckTokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(checkTokenInterceptor())
                     .addPathPatterns("/users/{users-id}/**")
                     .addPathPatterns("/orders/**");
+
+        registry.addInterceptor(adminAuthenticationInterceptor())
+                    .addPathPatterns("/admin/**");
     }
 
     @Override
@@ -28,4 +32,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new CheckTokenInterceptor();
     }
 
+
+    @Bean
+    public AdminAuthenticationInterceptor adminAuthenticationInterceptor() {
+        return new AdminAuthenticationInterceptor();
+    }
 }
