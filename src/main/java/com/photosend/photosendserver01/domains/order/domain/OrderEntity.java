@@ -45,7 +45,7 @@ public class OrderEntity {
         verifyOrderTime(departureTime);
         setOrderLines(orderLines);
         this.orderer = orderer;
-        this.orderState = OrderState.SHIP_IN_PROGRESS;
+        this.orderState = OrderState.SHIPPING_IN_PROGRESS;
     }
 
     private void setOrderLines(List<OrderLine> orderLines) {
@@ -86,11 +86,11 @@ public class OrderEntity {
     public void startShipping() {
         verifyShippableState();
         verifyNotCanceld();
-        this.orderState = OrderState.SHIP_IN_PROGRESS;
+        this.orderState = OrderState.SHIPPING_IN_PROGRESS;
     }
 
     private void verifyShippableState() {
-        if(this.orderState != OrderState.PAYMENT_COMPLETE)
+        if(this.orderState != OrderState.PAYMENT_COMPLETED)
             throw new ShipStateException("배송시작 가능한 상태가 아닙니다.");
     }
 
@@ -109,6 +109,20 @@ public class OrderEntity {
     private void verifyNotCanceld() {
         if(this.orderState == OrderState.ORDER_CANCELD)
             throw new ShipStateException("주문이 취소된 상태입니다.");
+    }
+
+    public void shipmentCompleted() {
+        this.orderState = OrderState.SHIPMENT_COMPLETED;
+    }
+
+    public void paymentCompleted() {
+        verifyShipmentCompleted();
+        this.orderState = OrderState.PAYMENT_COMPLETED;
+    }
+
+    private void verifyShipmentCompleted() {
+        if(this.orderState != OrderState.SHIPMENT_COMPLETED)
+            throw new ShipStateException("결제를 하기전에 배송이 완료되어있어야 합니다.");
     }
 }
 
