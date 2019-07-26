@@ -111,13 +111,15 @@ public class OrderEntity {
             throw new ShipStateException("주문이 취소된 상태입니다.");
     }
 
-    public void shipmentCompleted() {
+    public Long shipmentCompleted() {
         this.orderState = OrderState.SHIPMENT_COMPLETED;
+        return this.oid;
     }
 
-    public void paymentCompleted() {
+    public Long paymentCompleted() {
         verifyShipmentCompleted();
         this.orderState = OrderState.PAYMENT_COMPLETED;
+        return this.oid;
     }
 
     private void verifyShipmentCompleted() {

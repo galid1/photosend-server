@@ -13,8 +13,8 @@ public class AdminChangeOrderStateController {
     private AdminChangeOrderStateService adminChangeOrderStateService;
 
     @PutMapping("/orders/{ordersId}")
-    public void changeOrderStateTo(@PathVariable("ordersId") Long ordersId, @RequestBody AdminChangeOrderStateRequest adminChangeOrderStateRequest) {
-        adminChangeOrderStateService.changeOrderStateTo(ordersId, adminChangeOrderStateRequest.getNewOrderState());
+    public String changeOrderStateTo(@PathVariable("ordersId") Long ordersId, @RequestBody AdminChangeOrderStateRequest adminChangeOrderStateRequest) {
+        return adminChangeOrderStateService.changeOrderStateTo(ordersId, adminChangeOrderStateRequest.getNewOrderState());
     }
 
 }
