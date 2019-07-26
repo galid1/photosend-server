@@ -1,9 +1,6 @@
 package com.photosend.photosendserver01.domains.order.domain;
 
-import com.photosend.photosendserver01.common.event.MyApplicationEventPublisher;
 import com.photosend.photosendserver01.common.model.Money;
-import com.photosend.photosendserver01.domains.order.domain.event.OrderCanceledEvent;
-import com.photosend.photosendserver01.domains.order.domain.event.StartShippingEvent;
 import com.photosend.photosendserver01.domains.order.domain.exception.NoOrderLineException;
 import com.photosend.photosendserver01.domains.order.domain.exception.OrderTimeException;
 import com.photosend.photosendserver01.domains.order.domain.exception.ShipStateException;
@@ -12,7 +9,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -91,7 +87,6 @@ public class OrderEntity {
         verifyShippableState();
         verifyNotCanceld();
         this.orderState = OrderState.SHIP_IN_PROGRESS;
-        MyApplicationEventPublisher.getPublisher().publishEvent(new StartShippingEvent());
     }
 
     private void verifyShippableState() {
@@ -104,7 +99,6 @@ public class OrderEntity {
         verifyNotYetStartShipping();
         verifyNotCanceld();
         this.orderState = OrderState.ORDER_CANCELD;
-        MyApplicationEventPublisher.getPublisher().publishEvent(new OrderCanceledEvent());
     }
 
     // 아직 배송시작을 안했는지(주문취소가 가능한 상태인지) 검증하는 메소드
