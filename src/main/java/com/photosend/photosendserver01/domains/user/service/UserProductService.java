@@ -74,15 +74,17 @@ public class UserProductService {
     }
 
     @Transactional
-    public List<ProductImageUrl> uploadProductImages(String userId, ProductLocation productLocation, MultipartFile[] productImageFiles) {
+    public List<ProductImageUrl> uploadProductImages(String userId, ProductLocation[] productLocations, MultipartFile[] productImageFiles) {
+        verifyProductLocationsAndProductImageFilesCount(productLocations.length, productImageFiles.length);
         List<ProductImageUrl> productImageUrls = new ArrayList<>();
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
         // 스토리지에 이미지 업로드
         uploadImageToStorage(userId, productImageFiles, productImageUrls);
 
         // 영속화 (유저 엔티티에 이미지 경로 추가)
-        addProductImageUrlAndLocationToUser(userId, productLocation, productImageUrls);
+        addProductImageUrlAndLocationToUser(userId, productLocations, productImageUrls);
 
         List<ProductImageUrl> returnProductImageUrlList = new ArrayList<>();
         userEntity.getProductList().stream().forEach(v -> {
@@ -94,6 +96,11 @@ public class UserProductService {
         return returnProductImageUrlList;
     }
 
+    private void verifyProductLocationsAndProductImageFilesCount(int productLocationsSize, int productImageFilesSize) {
+        if(productLocationsSize != productImageFilesSize)
+            throw new IllegalArgumentException("Product 위치리스트와 이미지리스트의 개수가 일치하지 않습니다.");
+    }
+
     private void uploadImageToStorage(String userId, MultipartFile[] productImageFiles, List<ProductImageUrl> productImageUrls) {
         for (MultipartFile file : productImageFiles){
             String uploadPath = fileUtil.makeFileUploadPath(userId, file.getOriginalFilename(), ImageType.PRODUCT);
@@ -102,15 +109,15 @@ public class UserProductService {
         }
     }
 
-    private void addProductImageUrlAndLocationToUser(String userId, ProductLocation productLocation, List<ProductImageUrl> productImageUrls) {
+    private void addProductImageUrlAndLocationToUser(String userId, ProductLocation[] productLocations, List<ProductImageUrl> productImageUrls) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다.")); // productImage url들을 추가할 UserEntity 얻어오기
 
-        productImageUrls.stream().forEach(v -> {
-            ProductEntity productEntity = v.toEntity(productLocation, userEntity);
-            productRepository.save(productEntity); // 새로 생성한 productEntity를 UserEntity의 ProductList에 저장하기 위해 우선 영속화시킴
+        for(int i = 0; i < productImageUrls.size(); i++) {
+            ProductEntity productEntity = productImageUrls.get(i).toEntity(productLocations[i], userEntity);
+            productRepository.save(productEntity);
             userEntity.putProductImagePath(productEntity);
-        });
+        }
 
         userRepository.save(userEntity);
     }

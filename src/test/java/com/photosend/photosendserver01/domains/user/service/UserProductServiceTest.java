@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.domains.user.domain.*;
+import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertTrue;
@@ -32,14 +36,15 @@ public class UserProductServiceTest {
     private FileUtil fileUtil;
     private static final String TEST_FILE_NAME = "FILE";
     // TEST 용으로 fileUtil의 makeFileUploadPath의 결과값을 아래 변수로 정함
-    private static int FILE_NAME_INDEX = 0;
-    private static final String TEST_FILE_PATH = System.getProperty("user.home") + "/" + ImageType.PRODUCT + "/" + FILE_NAME_INDEX;
+    private int FILE_NAME_INDEX = 0;
+    private final String TEST_FILE_PATH = System.getProperty("user.home") + "/" + ImageType.PRODUCT + "/" + FILE_NAME_INDEX;
 
     private MockMultipartFile mockFile;
 
     private Optional<UserEntity> userEntity;
-    private static final String TEST_WECHAT_ID = "A";
-    private static final String TEST_JWT_TOKEN = "TOKEN";
+    private final String TEST_WECHAT_ID = "A";
+    private final String TEST_JWT_TOKEN = "TOKEN";
+    private final String TEST_NO_USER_ID = "NO";
 
     //================ 셋업 =================//
     @Before
@@ -48,6 +53,8 @@ public class UserProductServiceTest {
                 .wechatUid(TEST_WECHAT_ID)
                 .userInformation(UserInformation.builder()
                         .name("jjy")
+                        .passPortNum("ASD")
+                        .departureTime(Timestamp.valueOf(LocalDateTime.of(2099,12,11,10,10)))
                         .build())
                 .token(Token.builder()
                         .jwtToken(TEST_JWT_TOKEN)
@@ -74,8 +81,26 @@ public class UserProductServiceTest {
     }
 
     //================ 이미지 업로드 테스트 =================//
-    @Test
+    @Test(expected = IllegalArgumentException.class)
+    public void 업로드위치와_업로드이미지의_개수가_다른경우_Test() {
+        // when
+        userProductService.uploadProductImages(TEST_WECHAT_ID,
+                new ProductLocation[]{
+                        new ProductLocation(11f,2f),
+                        new ProductLocation(21f,1f)
+                },
+                new MultipartFile[]{
+                        mockFile
+                });
+    }
+
+    @Test(expected = UserNotFoundException.class)
     public void uploadProductImageTest() {
+        // when
+        userProductService.uploadProductImages(TEST_NO_USER_ID
+                , new ProductLocation[] {ProductLocation.builder().latitude(1.11f).longitude(1.11f).build()}
+                , new MultipartFile[]{mockFile});
+
 //        // when
 //        userClothesService.uploadProductImages(TEST_WECHAT_ID, new MultipartFile[]{ mockFile });
 //

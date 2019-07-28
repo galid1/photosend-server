@@ -29,8 +29,10 @@ public class UserProductController {
     }
 
     @PostMapping(value = "/{usersId}/product/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public List<ProductImageUrl> uploadProductImages(@PathVariable("usersId") String userId, @RequestParam("location") ProductLocation productLocation, @RequestParam("file") MultipartFile[] productImageFiles) {
-        return userProductService.uploadProductImages(userId, productLocation, productImageFiles);
+    public List<ProductImageUrl> uploadProductImages(@PathVariable("usersId") String userId,
+                                                     @RequestParam("location") ProductLocation[] productLocations,
+                                                     @RequestParam("file") MultipartFile[] productImageFiles) {
+        return userProductService.uploadProductImages(userId, productLocations, productImageFiles);
     }
 
     @DeleteMapping(value = "/{usersId}/product/{productId}")
