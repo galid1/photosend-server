@@ -5,10 +5,7 @@ import com.photosend.photosendserver01.domains.order.domain.exception.NoOrderLin
 import com.photosend.photosendserver01.domains.order.domain.exception.OrderTimeException;
 import com.photosend.photosendserver01.domains.order.domain.exception.ShipStateException;
 import com.photosend.photosendserver01.domains.user.domain.UserEntity;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -55,6 +52,7 @@ public class OrderEntity {
     }
 
     @Transient
+    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     private int shippingFee = 20000;
 
     private void calculateTotalAmount() {
