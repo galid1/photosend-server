@@ -9,7 +9,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ClothesLocation {
+public class ProductLocation {
     private float longitude;
     private float latitude;
 }

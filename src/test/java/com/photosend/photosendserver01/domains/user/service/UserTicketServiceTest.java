@@ -26,7 +26,6 @@ public class UserTicketServiceTest {
     @Before
     public void setUp() {
         UserInformation information = UserInformation.builder()
-                .age(12)
                 .name("jjy")
                 .build();
 

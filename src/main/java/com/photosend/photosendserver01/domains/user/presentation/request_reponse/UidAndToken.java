@@ -3,7 +3,6 @@ package com.photosend.photosendserver01.domains.user.presentation.request_repons
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

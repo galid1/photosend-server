@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleS3Client {
     public AmazonS3 getS3Client(Regions regions) {
-        System.out.println(new EnvironmentVariableCredentialsProvider().getCredentials().getAWSAccessKeyId());
-
         return AmazonS3ClientBuilder
                 .standard()
-                .withCredentials(new EnvironmentVariableCredentialsProvider())
                 .withRegion(regions)
                 .build();
     }

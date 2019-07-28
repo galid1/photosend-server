@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +32,8 @@ public class UserEntityTest {
 
     private static final String USER_WECHAT_ID = "A";
     private static final String JWT_TOKEN = "ASD";
+    private static final String PASSPORT_NUM = "AAAAAAAAA";
+    private static final String DEPARTURE_TIME = "2019-08-10 12:00:11";
     private UserEntity userEntity;
 
     @Mock
@@ -43,14 +44,14 @@ public class UserEntityTest {
     public void setUp() {
         UserInformation information = UserInformation.builder()
                 .name("jjy")
-                .age(12)
+                .passPortNum(PASSPORT_NUM)
+                .departureTime(Timestamp.valueOf(DEPARTURE_TIME))
                 .build();
 
         userEntity = UserEntity.builder()
                 .userInformation(information)
                 .wechatUid(USER_WECHAT_ID)
                 .token(Token.builder().jwtToken(JWT_TOKEN).build())
-
                 .build();
 
         userRepositorySetUp();
@@ -59,7 +60,8 @@ public class UserEntityTest {
     public void userRepositorySetUp() {
         UserInformation information = UserInformation.builder()
                 .name("jjy")
-                .age(12)
+                .passPortNum(PASSPORT_NUM)
+                .departureTime(Timestamp.valueOf(DEPARTURE_TIME))
                 .build();
 
         Ticket ticket = Ticket.builder()
@@ -127,14 +129,14 @@ public class UserEntityTest {
     // ===================== 옷 업로드 테스트 ===================== //
     @Test
     public void putClothesImagePathTest() {
-        String clothesPath = "clothesPath";
-        ClothesEntity clothesEntity = ClothesEntity.builder()
-                .clothesImagePath(clothesPath)
+        String productPath = "path";
+        ProductEntity productEntity = ProductEntity.builder()
+                .productImagePath(productPath)
                 .build();
 
-        userEntity.putClothesImagePath(clothesEntity);
+        userEntity.putProductImagePath(productEntity);
 
-        assertTrue(clothesPath.equals(userEntity.getClothesList().get(0).getClothesImagePath()));
+        assertTrue(productPath.equals(userEntity.getProductList().get(0).getProductImagePath()));
     }
 
     // ===================== 옷 삭제 테스트 ====================== //

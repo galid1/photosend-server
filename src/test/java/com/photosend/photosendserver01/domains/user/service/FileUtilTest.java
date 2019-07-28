@@ -18,44 +18,44 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest
 public class FileUtilTest {
 
-    @Autowired
-    private FileUtil fileUtil;
-
-    String filePath = System.getProperty("user.home") + "/clothes/clothesImage.png";
-
-    @Test
-    public void 파일_업로드_Test() {
-        // given
-        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", "test.png", null, "test txt data...".getBytes());
-
-        // when
-        fileUtil.uploadFile(filePath, mockMultipartFile);
-
-        // then
-        File file = new File(filePath);
-        assertTrue(file.exists());
-    }
-
-    @Test
-    public void 파일_지우기_Test() throws IOException {
-        // given
-        File file = new File(filePath);
-
-        file.createNewFile();
-
-        // when
-        fileUtil.deleteFile(filePath);
-
-        // then
-        assertFalse(file.exists());
-    }
-
-    // 테스트 후 file 정리
-    @After
-    public void afterTest() throws IOException{
-        File file = new File(filePath);
-
-        if(file.exists())
-            file.delete();
-    }
+//    @Autowired
+//    private FileUtil fileUtil;
+//
+//    String filePath = System.getProperty("user.home") + "/clothes/clothesImage.png";
+//
+//    @Test
+//    public void 파일_업로드_Test() {
+//        // given
+//        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", "test.png", null, "test txt data...".getBytes());
+//
+//        // when
+//        fileUtil.uploadFile(filePath, mockMultipartFile);
+//
+//        // then
+//        File file = new File(filePath);
+//        assertTrue(file.exists());
+//    }
+//
+//    @Test
+//    public void 파일_지우기_Test() throws IOException {
+//        // given
+//        File file = new File(filePath);
+//
+//        file.createNewFile();
+//
+//        // when
+//        fileUtil.deleteFile(filePath);
+//
+//        // then
+//        assertFalse(file.exists());
+//    }
+//
+//    // 테스트 후 file 정리
+//    @After
+//    public void afterTest() throws IOException{
+//        File file = new File(filePath);
+//
+//        if(file.exists())
+//            file.delete();
+//    }
 }

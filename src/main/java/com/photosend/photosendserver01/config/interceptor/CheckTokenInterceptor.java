@@ -17,10 +17,10 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("X-JWT");
         Map pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        String wechatUid = (String) pathVariables.get("users-id");
+        String wechatUid = (String) pathVariables.get("usersId");
 
         if(token == null || wechatUid == null)
-            throw new IllegalArgumentException("Token 또는 user-id가 null 입니다.");
+            throw new IllegalArgumentException("Token 또는 userId가 null 입니다.");
 
         if(jwtTokenVerifier == null)
             throw new IllegalArgumentException("token verifier가 존재하지 않습니다.");

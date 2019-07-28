@@ -4,24 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.photosend.photosendserver01.domains.user.domain.Size;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
-@Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Builder
-public class Clothes {
-    // Required Field
-    @JsonProperty("clothes-id")
-    private Long cid;
-    @NotNull
-    @JsonProperty("image-path")
-    private String clothImagePath;
-
-    // Optional Field
+public class FoundProductInformation {
+    @JsonProperty("productId")
+    private Long pid;
     private String name;
     private Integer price;
     private String brand;
-    private Size size;
+    private List<Size> size = new ArrayList<>();
 }

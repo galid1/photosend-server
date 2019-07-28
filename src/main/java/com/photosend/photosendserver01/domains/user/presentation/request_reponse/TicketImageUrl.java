@@ -3,11 +3,10 @@ package com.photosend.photosendserver01.domains.user.presentation.request_repons
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Setter
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TicketImageUrl {
-    @JsonProperty("image-path")
+    @JsonProperty("ticketImagePath")
     private String ticketImageUrl;
 
     @Builder

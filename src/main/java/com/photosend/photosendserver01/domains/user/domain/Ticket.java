@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 public class Ticket {
     // Required Field
     @NonNull
-    @Column(name = "image_path")
+    @Column(name = "ticket_image_path")
     private String ticketImagePath;
     private Timestamp lastTicketImageModifyTime;
     private Integer ticketModifyCountPerThreeMinutes;

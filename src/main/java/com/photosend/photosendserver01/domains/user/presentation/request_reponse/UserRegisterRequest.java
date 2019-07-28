@@ -6,7 +6,6 @@ import com.photosend.photosendserver01.domains.user.domain.UserInformation;
 import lombok.*;
 
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

@@ -20,19 +20,19 @@ public class UserTicketController {
     @Autowired
     private ExceptionMessageUtil exceptionMessageUtil;
 
-    @GetMapping("/{users-id}/tickets")
-    public TicketImageUrl getTicketUrl(@PathVariable("users-id") String userId) {
+    @GetMapping("/{usersId}/tickets")
+    public TicketImageUrl getTicketUrl(@PathVariable("usersId") String userId) {
         return userTicketService.getUserTicketImageUrl(userId);
     }
 
-    @PostMapping(value = "/{users-id}/tickets", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public TicketImageUrl uploadTicketImage(@PathVariable("users-id") String userId, @RequestParam("file") MultipartFile ticketsFile) {
+    @PostMapping(value = "/{usersId}/tickets", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public TicketImageUrl uploadTicketImage(@PathVariable("usersId") String userId, @RequestParam("file") MultipartFile ticketsFile) {
         return userTicketService.uploadTicketImage(userId, ticketsFile);
     }
 
     // 요청을 5분당 3번만 가능하도록 변경하기
-    @PutMapping("/{users-id}/tickets")
-    public TicketImageUrl modifyTicketImage(@PathVariable("users-id") String userId, @RequestParam("file") MultipartFile ticketsFile) {
+    @PutMapping("/{usersId}/tickets")
+    public TicketImageUrl modifyTicketImage(@PathVariable("usersId") String userId, @RequestParam("file") MultipartFile ticketsFile) {
         return userTicketService.modifyTicketImage(userId, ticketsFile);
     }
 

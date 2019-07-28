@@ -38,7 +38,6 @@ public class UserRegisterControllerTest {
         // given
         UserInformation userInformation = UserInformation.builder()
                 .name("jjy")
-                .age(12)
                 .build();
 
         UserEntity entity = UserEntity.builder()
