@@ -12,6 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserTicketServiceTest {
@@ -27,6 +30,8 @@ public class UserTicketServiceTest {
     public void setUp() {
         UserInformation information = UserInformation.builder()
                 .name("jjy")
+                .passPortNum("123")
+                .departureTime(Timestamp.valueOf(LocalDateTime.of(2099,12,12,12,30)))
                 .build();
 
         UserRegisterRequest registerRequest = UserRegisterRequest.builder()
