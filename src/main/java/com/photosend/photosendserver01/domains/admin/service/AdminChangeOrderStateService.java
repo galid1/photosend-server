@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.domain.OrderState;
+import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,8 @@ public class AdminChangeOrderStateService {
             throw new IllegalArgumentException("변경을 원하는 상태가 결제완료 또는 배송완료여야 합니다.");
 
         Long returnOrdersId = null;
-        OrderEntity orderEntity = orderRepository.findById(ordersId).get();
+        OrderEntity orderEntity = orderRepository.findById(ordersId)
+                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
         if(orderState == OrderState.PAYMENT_COMPLETED)
             returnOrdersId = orderEntity.paymentCompleted();

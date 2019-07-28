@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
+import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.TicketImageUrl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,9 @@ public class UserTicketService {
         String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
         // userentity에 tickets imageUrl 추가
-        Optional<UserEntity> userEntity = userRepository.findById(userId);
-        userEntity.get().putTicketsImagePath(imageUrl);
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
+        userEntity.putTicketsImagePath(imageUrl);
 
         // storage에 file upload
         fileUtil.uploadFile(imageUrl, ticketImageFile);
@@ -43,8 +45,8 @@ public class UserTicketService {
     public TicketImageUrl modifyTicketImage(String userId, MultipartFile ticketImageFile) {
         String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
-        Optional<UserEntity> userEntity = userRepository.findById(userId);
-        userEntity.get().modifyTicketsImagePath(imageUrl);
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
+        userEntity.modifyTicketsImagePath(imageUrl);
 
         fileUtil.uploadFile(imageUrl, ticketImageFile);
         return TicketImageUrl.builder().ticketImageUrl(imageUrl).build();

@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.admin.service;
 
+import com.photosend.photosendserver01.domains.order.domain.exception.OrderNotFoundException;
 import com.photosend.photosendserver01.domains.user.domain.ProductEntity;
 import com.photosend.photosendserver01.domains.user.domain.ProductInformation;
 import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminProductInformationService {
@@ -28,7 +30,8 @@ public class AdminProductInformationService {
                                                             .size(product.getSize())
                                                             .build();
 
-            ProductEntity productEntity = productRepository.findByPidAndUserWechatUid(product.getPid(), uid);
+            ProductEntity productEntity = Optional.of(productRepository.findByPidAndUserWechatUid(product.getPid(), uid))
+                    .orElseThrow(() -> new OrderNotFoundException("상품이 존재하지 않습니다."));
             productIdList.add(productEntity.putProductInformation(newProductInformation));
         });
 

@@ -9,6 +9,8 @@ import com.photosend.photosendserver01.domains.user.domain.ProductEntity;
 import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
 import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
+import com.photosend.photosendserver01.domains.user.domain.exception.ProductNotFoundException;
+import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +35,8 @@ public class PlaceOrderService {
         List<OrderLine> orderLines = new ArrayList<>();
 
         orderRequests.stream().forEach(orderRequest -> {
-            ProductEntity productEntity = productRepository.findById(orderRequest.getProductId()).get();
+            ProductEntity productEntity = productRepository.findById(orderRequest.getProductId())
+                    .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
 
             productEntity.productOrdered(); // 상품 주문처리
 
@@ -47,7 +50,8 @@ public class PlaceOrderService {
             orderLines.add(orderLine);
         });
 
-        UserEntity orderer = userRepository.findById(userWechatUid).get();
+        UserEntity orderer = userRepository.findById(userWechatUid)
+                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
         OrderEntity orderEntity = OrderEntity.builder()
                                     .orderer(orderer)

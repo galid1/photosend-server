@@ -76,7 +76,7 @@ public class UserProductService {
     @Transactional
     public List<ProductImageUrl> uploadProductImages(String userId, ProductLocation productLocation, MultipartFile[] productImageFiles) {
         List<ProductImageUrl> productImageUrls = new ArrayList<>();
-        Optional<UserEntity> userEntity = Optional.ofNullable(userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다.")));
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
         // 스토리지에 이미지 업로드
         uploadImageToStorage(userId, productImageFiles, productImageUrls);
@@ -85,8 +85,7 @@ public class UserProductService {
         addProductImageUrlAndLocationToUser(userId, productLocation, productImageUrls);
 
         List<ProductImageUrl> returnProductImageUrlList = new ArrayList<>();
-        userEntity.get()
-                  .getProductList().stream().forEach(v -> {
+        userEntity.getProductList().stream().forEach(v -> {
                         returnProductImageUrlList.add(ProductImageUrl.builder()
                                                                      .pid(v.getPid())
                                                                      .productImageUrl(v.getProductImagePath())
@@ -104,7 +103,8 @@ public class UserProductService {
     }
 
     private void addProductImageUrlAndLocationToUser(String userId, ProductLocation productLocation, List<ProductImageUrl> productImageUrls) {
-        UserEntity userEntity = userRepository.findById(userId).get(); // productImage url들을 추가할 UserEntity 얻어오기
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다.")); // productImage url들을 추가할 UserEntity 얻어오기
 
         productImageUrls.stream().forEach(v -> {
             ProductEntity productEntity = v.toEntity(productLocation, userEntity);
@@ -118,7 +118,8 @@ public class UserProductService {
     // ProductImage Delete Method
     @Transactional
     public void deleteProductImage(String userId, Long productId) {
-        UserEntity userEntity = userRepository.findById(userId).get();
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
         // 스토리지에서 이미지 제거
         String productImagePath = userEntity.getProductList().get(0).getProductImagePath();
@@ -142,7 +143,8 @@ public class UserProductService {
     }
 
     private int findProductIndexById(String uid, Long pid) {
-        UserEntity userEntity = userRepository.findById(uid).get();
+        UserEntity userEntity = userRepository.findById(uid)
+                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
         int index = 0;
         ProductEntity productEntity = null;
 
