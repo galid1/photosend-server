@@ -16,6 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -33,11 +36,15 @@ public class UserRegisterControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    private Timestamp TEST_NORMAL_DEPARTURE_TIME = Timestamp.valueOf(LocalDateTime.of(2099,12,12,12,30));
+
     @Test
     public void userRegisterTest() throws Exception {
         // given
         UserInformation userInformation = UserInformation.builder()
                 .name("jjy")
+                .passPortNum("123")
+                .departureTime(TEST_NORMAL_DEPARTURE_TIME)
                 .build();
 
         UserEntity entity = UserEntity.builder()

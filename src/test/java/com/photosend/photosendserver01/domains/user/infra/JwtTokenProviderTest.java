@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 import static org.junit.Assert.assertTrue;
 
 @SpringBootTest
@@ -42,6 +45,8 @@ public class JwtTokenProviderTest {
     public void verifyToken() {
         UserInformation information = UserInformation.builder()
                 .name("jjy")
+                .passPortNum("123")
+                .departureTime(Timestamp.valueOf(LocalDateTime.of(2099,12,12,12,30)))
                 .build();
 
         UserRegisterRequest registerRequest = UserRegisterRequest.builder()

@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertTrue;
@@ -23,10 +25,13 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class UserRegisterServiceTest {
 
-    private static final String TEST_WECHAT_ID = "A";
-    private static final String TEST_JWT_TOKEN = "A";
-
     private UserInformation information;
+    private final String TEST_WECHAT_ID = "A";
+    private final String TEST_JWT_TOKEN = "A";
+    private final Timestamp TEST_NORMAL_DEPARTURE_TIME = Timestamp.valueOf(LocalDateTime.of(2099, 12,12, 12,30));
+    private final Timestamp TEST_ANORMALY_DEPARTURE_TIME = Timestamp.valueOf(LocalDateTime.of(2099, 12,12, 9,00));
+    private final Timestamp TEST_ANORMALY_DEPARTURE_DAY = Timestamp.valueOf(LocalDateTime.now());
+
     private UserRegisterRequest registerRequest;
     private Optional<UserEntity> userEntity;
 
@@ -43,6 +48,8 @@ public class UserRegisterServiceTest {
     public void setUp() {
         information = UserInformation.builder()
                 .name("jjy")
+                .passPortNum("123")
+                .departureTime(TEST_NORMAL_DEPARTURE_TIME)
                 .build();
 
         registerRequest = UserRegisterRequest.builder()
