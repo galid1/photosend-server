@@ -2,9 +2,9 @@ package com.photosend.photosendserver01.domains.order.domain;
 
 import com.photosend.photosendserver01.common.model.Money;
 import com.photosend.photosendserver01.domains.order.domain.exception.NoOrderLineException;
-import com.photosend.photosendserver01.domains.order.domain.exception.OrderTimeException;
 import com.photosend.photosendserver01.domains.order.domain.exception.ShipStateException;
 import com.photosend.photosendserver01.domains.user.domain.UserEntity;
+import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,8 +38,8 @@ public class OrderEntity {
     private Money totalAmount;
 
     @Builder
-    public OrderEntity(List<OrderLine> orderLines, UserEntity orderer, LocalDateTime departureTime) {
-        verifyOrderTime(departureTime);
+    public OrderEntity(List<OrderLine> orderLines, UserEntity orderer) {
+        verifyDepartureTime(orderer.getUserInformation().getDepartureTime().toLocalDateTime());
         setOrderLines(orderLines);
         this.orderer = orderer;
         this.orderState = OrderState.SHIPPING_IN_PROGRESS;
@@ -69,7 +69,7 @@ public class OrderEntity {
             throw new NoOrderLineException("OrderLine이 null이 아니고 최소 1개 이상 존재해야 합니다.");
     }
 
-    private void verifyOrderTime(LocalDateTime departureTime) {
+    private void verifyDepartureTime(LocalDateTime departureTime) {
         int departureYear = departureTime.getYear();
         int departureMonth = departureTime.getMonthValue();
         int departureDay = departureTime.getDayOfMonth();
@@ -77,7 +77,7 @@ public class OrderEntity {
         LocalDateTime orderDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay - 1, 19, 0, 0);
 
         if(LocalDateTime.now().isAfter(orderDeadLine))
-            throw new OrderTimeException("원활한 배송을 위해 주문은 전날 오후 7시이전까지만 가능합니다.");
+            throw new DepartureTimeException("원활한 배송을 위해 주문은 전날 오후 7시이전까지만 가능합니다.");
     }
 
     // 배송 시작 (결제가 완료 되었으며, 취소된 상태가 아니어야 함)

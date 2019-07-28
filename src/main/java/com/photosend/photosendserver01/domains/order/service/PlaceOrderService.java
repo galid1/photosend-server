@@ -56,7 +56,6 @@ public class PlaceOrderService {
         OrderEntity orderEntity = OrderEntity.builder()
                                     .orderer(orderer)
                                     .orderLines(orderLines)
-                                    .departureTime(orderer.getUserInformation().getDepartureTime().toLocalDateTime())
                                     .build();
 
         return orderRepository.save(orderEntity).getOid();
