@@ -54,8 +54,10 @@ public class UserEntity {
 
     // 출국 시간 제한 (출국은 최소 하루전, 10시에서 8시 사이만 가능)
     @Transient
+    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     private int registerMinTime = 10;
     @Transient
+    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     private int registerMaxTime = 20;
 
     private void verifyDepartureTime(LocalDateTime departureTime) {
