@@ -2,7 +2,7 @@ package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.domains.user.domain.*;
 import com.photosend.photosendserver01.domains.user.domain.exception.FileDeleteException;
-import com.photosend.photosendserver01.domains.user.domain.exception.ProductException;
+import com.photosend.photosendserver01.domains.user.domain.exception.ProductNotFoundException;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
@@ -127,7 +127,7 @@ public class UserProductService {
         // UserEntity가 가지는 productEntity 리스트에서 제거
         int productIndex = findProductIndexById(userId, productId);
         if(productIndex == -1)
-            throw new ProductException("해당 id의 ProductEntity가 존재하지 않습니다.");
+            throw new ProductNotFoundException("해당 id의 ProductEntity가 존재하지 않습니다.");
         userEntity.deleteProduct(productIndex);
         userRepository.save(userEntity);
     }

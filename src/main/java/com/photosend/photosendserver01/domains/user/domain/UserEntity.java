@@ -1,9 +1,6 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
-import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
-import com.photosend.photosendserver01.domains.user.domain.exception.ProductException;
-import com.photosend.photosendserver01.domains.user.domain.exception.ProductUploadCountException;
-import com.photosend.photosendserver01.domains.user.domain.exception.TicketException;
+import com.photosend.photosendserver01.domains.user.domain.exception.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -135,7 +132,7 @@ public class UserEntity {
         verifyUploadProductImageTime(this.userInformation.getDepartureTime().toLocalDateTime());
 
         if(productEntity == null)
-            throw new ProductException("ProductEntity Null 입니다.");
+            throw new ProductNotFoundException("ProductEntity Null 입니다.");
 
         this.productList.add(productEntity);
     }
