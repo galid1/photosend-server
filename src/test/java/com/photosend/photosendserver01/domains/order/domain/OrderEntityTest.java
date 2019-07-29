@@ -16,7 +16,7 @@ public class OrderEntityTest {
     @Test
     public void 총금액은_OrderLine의_금액의합_테스트() {
         List<OrderLine> orderLines = new ArrayList<>();
-
+        //
     }
 
 }
