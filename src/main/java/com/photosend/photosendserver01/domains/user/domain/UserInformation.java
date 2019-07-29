@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
 @Embeddable
@@ -14,8 +16,10 @@ import java.sql.Timestamp;
 public class UserInformation {
     // Required Field
     @NonNull
+    @Min(value = 1, message = "")
     private String name;
-    @NonNull
+//    @NonNull
+    @Pattern(regexp = "", message = "")
     private String passPortNum;
     @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
