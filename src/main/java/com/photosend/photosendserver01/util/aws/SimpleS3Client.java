@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.domains.user.infra.file;
+package com.photosend.photosendserver01.util.aws;
 
 import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.regions.Regions;
