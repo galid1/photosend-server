@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.user.service;
 
+import com.photosend.photosendserver01.common.model.Money;
 import com.photosend.photosendserver01.domains.user.domain.*;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
@@ -17,7 +18,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
