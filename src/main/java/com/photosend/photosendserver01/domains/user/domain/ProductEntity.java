@@ -59,7 +59,7 @@ public class ProductEntity {
     // 상품 정보가 입력되었는지 검증
     private void verifyExistInformation() {
         if(this.productState != ProductState.POPULATED)
-            throw new NotExistProductInformationException("주문하기전 우선 Product 정보가 입력되어야 합니다.");
+            throw new NotExistProductInformationException("아직 상품정보가 입력되지 않아 주문이 불가능합니다.");
     }
 
 }

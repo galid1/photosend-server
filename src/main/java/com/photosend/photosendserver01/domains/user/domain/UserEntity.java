@@ -130,12 +130,7 @@ public class UserEntity {
     // 상품 사진의 이미지 경로 추가 메소드
     public void putProductImagePath(ProductEntity productEntity) {
         verifyProductCountFive();
-
         verifyUploadProductImageTime(this.userInformation.getDepartureTime().toLocalDateTime());
-
-        if(productEntity == null)
-            throw new ProductNotFoundException("ProductEntity Null 입니다.");
-
         this.productList.add(productEntity);
     }
 

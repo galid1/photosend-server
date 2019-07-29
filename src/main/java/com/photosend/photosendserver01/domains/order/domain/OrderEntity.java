@@ -66,7 +66,7 @@ public class OrderEntity {
 
     private void verifyOrderLine(List<OrderLine> orderLines) {
         if(orderLines == null || orderLines.isEmpty())
-            throw new NoOrderLineException("OrderLine이 null이 아니고 최소 1개 이상 존재해야 합니다.");
+            throw new NoOrderLineException("최소한 하나 이상의 상품을 주문해야 합니다.");
     }
 
     private void verifyDepartureTime(LocalDateTime departureTime) {
@@ -89,7 +89,7 @@ public class OrderEntity {
 
     private void verifyShippableState() {
         if(this.orderState != OrderState.PAYMENT_COMPLETED)
-            throw new ShipStateException("배송시작 가능한 상태가 아닙니다.");
+            throw new ShipStateException("배송완료 처리가 가능한 상태가 아닙니다.");
     }
 
     // 배송 취소 (배송 시작 전과 주문 취소 전에만 가능)
