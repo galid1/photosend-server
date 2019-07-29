@@ -34,4 +34,8 @@ dependencies {
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-bom', version: '1.11.592', ext: 'pom'
     // aws-java-sdk-s3
     implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.592'
+
+    // mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
+
 }

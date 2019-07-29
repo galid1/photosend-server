@@ -1,21 +1,24 @@
 package com.photosend.photosendserver01.config.interceptor;
 
+import com.photosend.photosendserver01.util.file.KeyValueFileLoader;
 import org.apache.http.HttpHeaders;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class AdminAuthenticationInterceptor implements HandlerInterceptor {
-    private String adminCredentailFilePath = System.getProperty("user.home") + "/.photosend/adminCredential.txt";
+    @Autowired
+    private KeyValueFileLoader keyValueFileLoader;
+
+    @Value("${file-path.admin.credential}")
+    private String adminCredentailFilePath;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String adminPassword = readAdminCredentialFilePassword();
+        String adminPassword = keyValueFileLoader.getValueFromFile(adminCredentailFilePath, "photosend_admin_password");
         String authorizationInHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if(!adminPassword.equals(authorizationInHeader))
@@ -23,11 +26,4 @@ public class AdminAuthenticationInterceptor implements HandlerInterceptor {
 
         return true;
     }
-
-    private String readAdminCredentialFilePassword() throws IOException {
-        File adminCredentailFile = new File(adminCredentailFilePath);
-        BufferedReader br = new BufferedReader(new FileReader(adminCredentailFile));
-        return br.readLine().split("=")[1];
-    }
-
 }
