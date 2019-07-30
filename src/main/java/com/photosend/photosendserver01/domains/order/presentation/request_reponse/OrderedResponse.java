@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.order.presentation.request_reponse;
 
+import com.photosend.photosendserver01.domains.order.domain.OrderState;
 import lombok.*;
 
 import java.util.List;
@@ -9,7 +10,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OrderedProductResponse {
+public class OrderedResponse {
     private Long orderId;
-    private List<String> productImagePaths;
+    private OrderState orderState;
+    private List<OrderedLineResponse> orderedLineResponses;
 }

@@ -2,7 +2,9 @@ package com.photosend.photosendserver01.domains.order.service;
 
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
-import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedProductResponse;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedLineResponse;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedResponse;
+import com.photosend.photosendserver01.domains.user.domain.ProductInformation;
 import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,27 +19,31 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<OrderedProductResponse> getOrderedList(String ordererWechatUid) {
+    public List<OrderedResponse> getOrderedList(String ordererWechatUid) {
         // TODO N+1 조회 성능 문제로 JPQL을 사용해야함
-        List<OrderedProductResponse> orderedProductResponseList = new ArrayList<>();
+        // 사용자 주문 리스트
+        List<OrderedResponse> orderedResponseList = new ArrayList<>();
 
         List<OrderEntity> usersOrderEntities = orderRepository.findByOrdererWechatUid(ordererWechatUid);
+
         usersOrderEntities.stream().forEach(orderEntity -> {
-            List<String> productPaths = new ArrayList<>();
+            List<OrderedLineResponse> orderedLineResponseList = new ArrayList<>();
 
             orderEntity.getOrderLines().stream().forEach(orderLine -> {
-                productPaths.add(productRepository.findByPidAndUserWechatUid(orderLine.getProductId(),
-                                    orderEntity.getOrderer().getWechatUid())
-                                .getProductImagePath());
+                orderedLineResponseList.add(OrderedLineResponse.builder()
+                        .productImagePath(productRepository.findByPidAndUserWechatUid(orderLine.getProductId(), ordererWechatUid).getProductImagePath())
+                        .orderLine(orderLine)
+                        .build());
             });
 
-            orderedProductResponseList.add(OrderedProductResponse.builder()
+            orderedResponseList.add(OrderedResponse.builder()
                     .orderId(orderEntity.getOid())
-                    .productImagePaths(productPaths)
+                    .orderState(orderEntity.getOrderState())
+                    .orderedLineResponses(orderedLineResponseList)
                     .build()
             );
         });
 
-        return orderedProductResponseList;
+        return orderedResponseList;
     }
 }

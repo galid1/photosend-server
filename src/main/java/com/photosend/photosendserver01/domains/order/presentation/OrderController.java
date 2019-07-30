@@ -1,7 +1,7 @@
 package com.photosend.photosendserver01.domains.order.presentation;
 
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderRequest;
-import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedProductResponse;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedResponse;
 import com.photosend.photosendserver01.domains.order.service.OrderService;
 import com.photosend.photosendserver01.domains.order.service.PlaceOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class OrderController {
     }
 
     @GetMapping("/{usersId}")
-    public List<OrderedProductResponse> getOrderedList(@PathVariable("usersId") String ordererWechatUid) {
+    public List<OrderedResponse> getOrderedList(@PathVariable("usersId") String ordererWechatUid) {
         return orderService.getOrderedList(ordererWechatUid);
     }
 
