@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     List<OrderEntity> findByOrdererWechatUid(String ordererWechatUid);
+    OrderEntity findByOrdererWechatUidAndOid(String ordererWechatUid, Long ordersId);
 }
