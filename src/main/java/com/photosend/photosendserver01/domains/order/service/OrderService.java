@@ -4,7 +4,6 @@ import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedLineResponse;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedResponse;
-import com.photosend.photosendserver01.domains.user.domain.ProductInformation;
 import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +48,7 @@ public class OrderService {
     }
 
     public OrderedResponse getAnOrdered(String ordererWechatUid, Long ordersId) {
-        OrderEntity orderEntity = orderRepository.findByIdAndOrdererWechatUid(ordersId, ordererWechatUid);
+        OrderEntity orderEntity = orderRepository.findByOrdererWechatUidAndOid(ordererWechatUid, ordersId);
         Optional.of(orderEntity).orElseThrow(() -> new IllegalArgumentException("주문내역이 존재하지 않습니다."));
 
         List<OrderedLineResponse> orderedLineResponseList = new ArrayList<>();
