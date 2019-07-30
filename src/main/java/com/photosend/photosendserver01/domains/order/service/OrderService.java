@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderService {
@@ -45,5 +46,26 @@ public class OrderService {
         });
 
         return orderedResponseList;
+    }
+
+    public OrderedResponse getAnOrdered(String ordererWechatUid, Long ordersId) {
+        OrderEntity orderEntity = orderRepository.findByIdAndOrdererWechatUid(ordersId, ordererWechatUid);
+        Optional.of(orderEntity).orElseThrow(() -> new IllegalArgumentException("주문내역이 존재하지 않습니다."));
+
+        List<OrderedLineResponse> orderedLineResponseList = new ArrayList<>();
+        orderEntity.getOrderLines().stream().forEach(orderLine -> {
+            orderedLineResponseList.add(OrderedLineResponse.builder()
+                    .productImagePath(productRepository.findByPidAndUserWechatUid(orderLine.getProductId(), ordererWechatUid).getProductImagePath())
+                    .orderLine(orderLine)
+                    .build());
+        });
+
+        OrderedResponse orderedResponse = OrderedResponse.builder()
+                    .orderId(ordersId)
+                    .orderState(orderEntity.getOrderState())
+                    .orderedLineResponses(orderedLineResponseList)
+                    .build();
+
+        return orderedResponse;
     }
 }
