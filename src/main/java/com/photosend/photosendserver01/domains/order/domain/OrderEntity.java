@@ -53,7 +53,7 @@ public class OrderEntity {
 
     @Transient
     @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
-    private int shippingFee = 20000;
+    private int shippingFee = 120;
 
     private void calculateTotalAmount() {
         int totalAmountTemp = shippingFee + this.orderLines.stream()
