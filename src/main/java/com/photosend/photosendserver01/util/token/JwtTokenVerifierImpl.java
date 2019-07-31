@@ -16,7 +16,7 @@ public class JwtTokenVerifierImpl implements JwtTokenVerifier {
     @Autowired
     private UserRepository userRepository;
 
-    @Value("${jwt.secretkey}")
+    @Value("${photosend.jwt.secretkey}")
     private String secretKey;
 
     @Override

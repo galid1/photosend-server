@@ -11,10 +11,10 @@ import java.util.Map;
 
 @Component
 public class JwtTokenProviderImpl implements JwtTokenProvider {
-    @Value("${jwt.secretkey}")
+    @Value("${photosend.jwt.secretkey}")
     private String secretKey;
 
-    @Value("${jwt.expiredtime}")
+    @Value("${photosend.jwt.expiredtime}")
     private Long expiredTime;
 
     @Override

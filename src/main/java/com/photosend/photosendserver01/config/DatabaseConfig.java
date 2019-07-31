@@ -19,7 +19,7 @@ public class DatabaseConfig {
     @Value("${spring.datasource.driver-class-name}")
     private String driverClass;
 
-    @Value("${file-path.datasource.account}")
+    @Value("${photosend.credential.datasource.file-path}")
     private String dataBaseAccountFilePath;
 
     @Bean

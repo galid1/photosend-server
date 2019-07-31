@@ -24,7 +24,7 @@ public class UploadToS3FileUtilImpl implements FileUtil {
     @Autowired
     private SimpleS3Client simpleS3Client;
 
-    @Value("${aws.s3.bucket-name}")
+    @Value("${photosend.aws.s3.bucket-name}")
     private String bucketName;
 
     // aws path는 목적 파일 명까지 지정 해주어야 함

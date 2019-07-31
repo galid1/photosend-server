@@ -13,7 +13,7 @@ public class AdminAuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
     private KeyValueFileLoader keyValueFileLoader;
 
-    @Value("${file-path.admin.credential}")
+    @Value("${photosend.credential.admin.file-path}")
     private String adminCredentailFilePath;
 
     @Override

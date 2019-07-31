@@ -1,0 +1,57 @@
+server:
+  port: 8443
+
+### ssl ###
+  ssl:
+    key-store: classpath:keystore/baeldung.p12
+    key-alias: baeldung
+    key-store-type: PKCS12
+    key-password: crew1207
+
+### JPA ###
+spring:
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
+    show-sql: true
+
+  main:
+    allow-bean-definition-overriding: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+  datasource:
+      url: jdbc:mysql://photosend-mysql-rds.cq2lmghf0zft.ap-northeast-2.rds.amazonaws.com:3306/photosend
+      driver-class-name: com.mysql.jdbc.Driver
+
+#  h2:
+#    console:
+#      path: /h2-console
+#      enabled: true
+
+### photo send application setting ###
+photosend:
+    credential:
+      admin:
+        file-path: .photosend/adminCredential.txt
+      datasource:
+          file-path: .photosend/databaseAccount.txt
+
+    jwt:
+      secretkey: peoplus
+      expiredtime: 999999999999999999
+
+    aws:
+      s3:
+        bucket-name: photosend-server
+        upload-path:
+          prefix: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+
+    file:
+      upload-path:
+
+### 테스트 환경 DB ###
+#spring.h2.console.path=/h2-console
+#spring.h2.console.enabled=true

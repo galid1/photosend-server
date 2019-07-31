@@ -29,7 +29,7 @@ public class UserProductService {
     @Autowired
     private FileUtil fileUtil;
 
-    @Value("${file.upload-path.aws.prefix}")
+    @Value("${photosend.aws.s3.upload-path.prefix}")
     private String pathPrefix;
 
     public ProductFullInformation getProductInformation(String userId, Long productId) {
