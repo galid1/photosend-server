@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
     @Id
+    @NonNull
     @Column(name = "user_id")
     private String wechatUid;
 
