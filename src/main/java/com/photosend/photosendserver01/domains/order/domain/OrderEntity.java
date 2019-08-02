@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.order.domain;
 
+import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
 import com.photosend.photosendserver01.common.model.Money;
 import com.photosend.photosendserver01.domains.order.domain.exception.NoOrderLineException;
 import com.photosend.photosendserver01.domains.order.domain.exception.ShipStateException;
@@ -15,7 +16,7 @@ import java.util.List;
 @Table(name = "orders")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class OrderEntity {
+public class OrderEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id")

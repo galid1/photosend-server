@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
+import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
 import com.photosend.photosendserver01.domains.user.domain.exception.*;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserEntity {
+public class UserEntity extends BaseTimeEntity {
     @Id
     @NonNull
     @Column(name = "user_id")
