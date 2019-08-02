@@ -48,7 +48,8 @@ public class UserEntity extends BaseTimeEntity {
 
     private void setUserInformation(UserInformation userInformation) {
         if(userInformation == null) throw new IllegalArgumentException("UserInformation을 입력하세요.");
-        if(userInformation.getPassPortNum() == null) throw new IllegalArgumentException("여권 번호를 입력하세요.");
+        if(userInformation.getPassPortNum() == null) throw new IllegalArgumentException("请至少输入一个字以上。(请输入护照号码。)");
+//        if(userInformation.getPassPortNum() == null) throw new IllegalArgumentException("여권 번호를 입력하세요.");
         if(userInformation.getDepartureTime() == null) throw new IllegalArgumentException("출국 시간을 입력하세요.");
         verifyDepartureTime(userInformation.getDepartureTime().toLocalDateTime());
         this.userInformation = userInformation;
@@ -66,12 +67,14 @@ public class UserEntity extends BaseTimeEntity {
         LocalDateTime now = LocalDateTime.now();
         // 가입 시간 제한 최소 출국 하루 전
         if(Duration.between(now, departureTime).toDays() < 1)
-            throw new DepartureTimeException("원활한 배송을 위해 최소 출국하루전에만 사용이 가능합니다.");
+            throw new DepartureTimeException("为了方便配送,至少在出境前一天可以加入.");
+//            throw new DepartureTimeException("원활한 배송을 위해 최소 출국하루전에만 사용이 가능합니다.");
 
         // 가입 시간 제한 (배송을 위해서 오전10시에서 오후8시 사이에 출국하는 사람에 한해서만 사용가능)
         int departureHour = departureTime.getHour();
         if(departureHour < registerMinTime || departureHour > registerMaxTime)
-            throw new DepartureTimeException("원활한 배송을 위해 오전 10시에서 오후 8시 사이에 출국하는 사용자만 이용 가능합니다.");
+            throw new DepartureTimeException("为了确保顺畅地配送,仅允许上午10点至下午8点出境的用户使用.");
+//            throw new DepartureTimeException("원활한 배송을 위해 오전 10시에서 오후 8시 사이에 출국하는 사용자만 이용 가능합니다.");
     }
 
     public void putTicketsImagePath(String ticketImagePath) {
@@ -146,13 +149,14 @@ public class UserEntity extends BaseTimeEntity {
         LocalDateTime uploadDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay - 1, 16, 0, 0);
 
         if(LocalDateTime.now().isAfter(uploadDeadLine))
-            throw new UploadTimeException("원활한 배송을 위해 이미지 업로드는 출국 전날 오후 4시이전 까지만 가능합니다.");
+            throw new UploadTimeException("为了确保配送顺畅,图片仅在出境前一天的下午4点之前上传.");
     }
 
     // 옷 사진 최대 5개 업로드 가능 제한 로직
     private void verifyProductCountFive() {
         if (this.productList.size() >= 5)
-            throw new ProductUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
+        throw new ProductUploadCountException("商品图片最多可以上传5分.");
+//            throw new ProductUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
     }
 
     // 옷 사진 제거 메소드 (로깅의 이유로 사진 삭제 X)

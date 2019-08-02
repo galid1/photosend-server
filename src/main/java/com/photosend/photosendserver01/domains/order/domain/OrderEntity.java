@@ -67,7 +67,8 @@ public class OrderEntity extends BaseTimeEntity {
 
     private void verifyOrderLine(List<OrderLine> orderLines) {
         if(orderLines == null || orderLines.isEmpty())
-            throw new NoOrderLineException("최소한 하나 이상의 상품을 주문해야 합니다.");
+            throw new NoOrderLineException("至少要订购一个以上的商品.");
+//            throw new NoOrderLineException("최소한 하나 이상의 상품을 주문해야 합니다.");
     }
 
     private void verifyDepartureTime(LocalDateTime departureTime) {
@@ -78,7 +79,8 @@ public class OrderEntity extends BaseTimeEntity {
         LocalDateTime orderDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay - 1, 19, 0, 0);
 
         if(LocalDateTime.now().isAfter(orderDeadLine))
-            throw new DepartureTimeException("원활한 배송을 위해 주문은 전날 오후 7시이전까지만 가능합니다.");
+            throw new DepartureTimeException("为了确保顺畅得配送,只能在出境前一天晚上7点之前订购。");
+//            throw new DepartureTimeException("원활한 배송을 위해 주문은 전날 오후 7시이전까지만 가능합니다.");
     }
 
     // 배송 시작 (결제가 완료 되었으며, 취소된 상태가 아니어야 함)

@@ -32,7 +32,8 @@ public class UserRegisterService {
 
     private void verifyDuplicatedUser(String wechatUid) {
         if(userRepository.findById(wechatUid).isPresent())
-            throw new UserDuplicatedException("사용자가 이미 존재합니다.");
+            throw new UserDuplicatedException("ID已存在.");
+//            throw new UserDuplicatedException("사용자가 이미 존재합니다.");
     }
 
 }

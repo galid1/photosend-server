@@ -16,12 +16,8 @@ public class UserRegisterController {
     @Autowired
     private UserRegisterService userRegisterService;
 
-    @Autowired
-    private WechatSignUpRequester signUpRequester;
-
     @PostMapping("/")
     public UidAndToken registerUser(@RequestBody UserRegisterRequest request) {
-        signUpRequester.requestSignUp(request.getWechatUid());
         UidAndToken uidAndToken = userRegisterService.registerUser(request);
 
         return uidAndToken;
