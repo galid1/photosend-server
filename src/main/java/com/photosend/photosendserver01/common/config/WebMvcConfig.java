@@ -13,8 +13,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(checkTokenInterceptor())
-                    .addPathPatterns("/users/{users-id}/**")
-                    .addPathPatterns("/orders/**");
+                    .addPathPatterns("/users/{usersId}/**")
+                    .addPathPatterns("/orders/**")
+                    .excludePathPatterns("/orders/{usersId}/{ordersId}");
 
         registry.addInterceptor(adminAuthenticationInterceptor())
                     .addPathPatterns("/admin/**");
