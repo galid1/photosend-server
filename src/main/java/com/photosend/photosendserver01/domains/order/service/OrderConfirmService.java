@@ -11,20 +11,11 @@ import java.net.UnknownHostException;
 public class OrderConfirmService {
     @Value("${server.port}")
     private String serverPort;
+    @Value("${server.domain}")
+    private String serverDomain;
 
     public OrderConfirmUrl makeOrderConfirmUrl(String usersId, Long ordersId) {
-        String orderConfirmUrl = "";
-        try {
-            orderConfirmUrl = "http://"
-                    + InetAddress.getLocalHost().getHostAddress()
-                    + serverPort
-                    + "/orders/"
-                    + usersId
-                    + "/confirm/"
-                    + ordersId;
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        String orderConfirmUrl = "https://" + serverDomain + ":" + serverPort + "/orders/" + usersId + "/" + ordersId;
 
         return OrderConfirmUrl.builder()
                 .orderConfirmUrl(orderConfirmUrl)
