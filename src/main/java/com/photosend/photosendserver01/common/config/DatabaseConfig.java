@@ -1,6 +1,6 @@
-package com.photosend.photosendserver01.config;
+package com.photosend.photosendserver01.common.config;
 
-import com.photosend.photosendserver01.util.file.KeyValueFileLoader;
+import com.photosend.photosendserver01.common.util.file.KeyValueFileLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;

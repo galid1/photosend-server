@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.util.token;
+package com.photosend.photosendserver01.common.util.token;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

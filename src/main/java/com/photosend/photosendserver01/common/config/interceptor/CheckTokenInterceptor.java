@@ -1,6 +1,6 @@
-package com.photosend.photosendserver01.config.interceptor;
+package com.photosend.photosendserver01.common.config.interceptor;
 
-import com.photosend.photosendserver01.util.token.JwtTokenVerifier;
+import com.photosend.photosendserver01.common.util.token.JwtTokenVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;

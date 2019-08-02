@@ -1,6 +1,5 @@
-package com.photosend.photosendserver01.util.aws;
+package com.photosend.photosendserver01.common.util.aws;
 
-import com.amazonaws.auth.EnvironmentVariableCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;

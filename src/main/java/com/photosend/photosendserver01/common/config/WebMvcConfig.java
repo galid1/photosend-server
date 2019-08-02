@@ -1,10 +1,9 @@
-package com.photosend.photosendserver01.config;
+package com.photosend.photosendserver01.common.config;
 
-import com.photosend.photosendserver01.config.interceptor.AdminAuthenticationInterceptor;
-import com.photosend.photosendserver01.config.interceptor.CheckTokenInterceptor;
+import com.photosend.photosendserver01.common.config.interceptor.AdminAuthenticationInterceptor;
+import com.photosend.photosendserver01.common.config.interceptor.CheckTokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

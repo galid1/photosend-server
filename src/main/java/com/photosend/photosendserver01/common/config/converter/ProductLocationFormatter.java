@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.config.converter;
+package com.photosend.photosendserver01.common.config.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photosend.photosendserver01.domains.user.domain.ProductLocation;
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 @Component

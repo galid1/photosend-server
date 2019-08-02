@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.photosend.photosendserver01.domains.user.service.FileUtil;
-import com.photosend.photosendserver01.util.aws.SimpleS3Client;
+import com.photosend.photosendserver01.common.util.aws.SimpleS3Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;

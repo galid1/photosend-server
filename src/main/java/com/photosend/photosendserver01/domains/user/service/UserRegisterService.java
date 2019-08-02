@@ -4,7 +4,7 @@ import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserDuplicatedException;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UidAndToken;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
-import com.photosend.photosendserver01.util.token.JwtTokenProvider;
+import com.photosend.photosendserver01.common.util.token.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

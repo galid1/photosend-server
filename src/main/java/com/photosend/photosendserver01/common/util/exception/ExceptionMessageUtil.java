@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.util.exception;
+package com.photosend.photosendserver01.common.util.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+// Controller의 ExceptionHandler에서 사용할 기능
 @Component
 public class ExceptionMessageUtil {
     @Autowired

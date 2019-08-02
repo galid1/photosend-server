@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.util.file;
+package com.photosend.photosendserver01.common.util.file;
 
 import org.springframework.stereotype.Component;
 
