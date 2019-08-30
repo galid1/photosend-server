@@ -146,7 +146,7 @@ public class UserEntity extends BaseTimeEntity {
         int departureDay = departureTime.getDayOfMonth();
 
         // 출국 전날 4시
-        LocalDateTime uploadDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay - 1, 16, 0, 0);
+        LocalDateTime uploadDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay, 16, 0, 0);
 
         if(LocalDateTime.now().isAfter(uploadDeadLine))
             throw new UploadTimeException("为了确保配送顺畅,图片仅在出境前一天的下午4点之前上传.");
