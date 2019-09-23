@@ -15,7 +15,7 @@ public class OrderConfirmController {
     private OrderConfirmService orderConfirmService;
 
     @GetMapping("/{usersId}/confirm/{ordersId}")
-    public OrderConfirmUrl confirmOrder(@PathVariable("usersId") String usersId, @PathVariable("ordersId") Long ordersId) {
+    public OrderConfirmUrl confirmOrder(@PathVariable("usersId") Long usersId, @PathVariable("ordersId") Long ordersId) {
         return orderConfirmService.makeOrderConfirmUrl(usersId, ordersId);
     }
 }

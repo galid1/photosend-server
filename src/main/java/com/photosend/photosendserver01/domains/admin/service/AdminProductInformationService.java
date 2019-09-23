@@ -19,7 +19,7 @@ public class AdminProductInformationService {
     private ProductRepository productRepository;
 
     @Transactional
-    public List<Long> putFoundProductInformation(String uid, List<FoundProductInformation> foundProductInformationList) {
+    public List<Long> putFoundProductInformation(Long ordererId, List<FoundProductInformation> foundProductInformationList) {
         List<Long> productIdList = new ArrayList<>();
 
         foundProductInformationList.stream().forEach(product -> {
@@ -30,7 +30,7 @@ public class AdminProductInformationService {
                                                             .size(product.getSize())
                                                             .build();
 
-            ProductEntity productEntity = Optional.of(productRepository.findByPidAndUserWechatUid(product.getPid(), uid))
+            ProductEntity productEntity = Optional.of(productRepository.findByPidAndUserUserId(product.getPid(), ordererId))
                     .orElseThrow(() -> new OrderNotFoundException("상품이 존재하지 않습니다."));
             productIdList.add(productEntity.putProductInformation(newProductInformation));
         });

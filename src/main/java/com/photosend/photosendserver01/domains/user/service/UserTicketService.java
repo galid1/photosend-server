@@ -20,13 +20,13 @@ public class UserTicketService {
     @Autowired
     private FileUtil fileUtil;
 
-    public TicketImageUrl getUserTicketImageUrl(String userId) {
+    public TicketImageUrl getUserTicketImageUrl(Long userId) {
         Optional<UserEntity> userEntity = userRepository.findById(userId);
         return new TicketImageUrl(userEntity.get().getTicket().getTicketImagePath());
     }
 
     @Transactional
-    public TicketImageUrl uploadTicketImage(String userId, MultipartFile ticketImageFile) {
+    public TicketImageUrl uploadTicketImage(Long userId, MultipartFile ticketImageFile) {
         // uploadPath 얻어오기
         String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
@@ -42,7 +42,7 @@ public class UserTicketService {
     }
 
     @Transactional
-    public TicketImageUrl modifyTicketImage(String userId, MultipartFile ticketImageFile) {
+    public TicketImageUrl modifyTicketImage(Long userId, MultipartFile ticketImageFile) {
         String imageUrl = fileUtil.makeFileUploadPath(userId, ticketImageFile.getOriginalFilename(), ImageType.TICKET);
 
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));

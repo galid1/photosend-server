@@ -2,7 +2,7 @@ package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserDuplicatedException;
-import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UidAndToken;
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterResponse;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import com.photosend.photosendserver01.common.util.token.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,23 @@ public class UserRegisterService {
     private JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public UidAndToken registerUser(UserRegisterRequest userRegisterRequest) {
-        verifyDuplicatedUser(userRegisterRequest.getWechatUid());
+    public UserRegisterResponse registerUser(UserRegisterRequest userRegisterRequest) {
+        //TODO wechatOpenID 가져오기
+        String weChatOpenId = null;
 
-        String jwtToken = jwtTokenProvider.createToken(userRegisterRequest.getWechatUid());
-        String uid = userRepository.save(userRegisterRequest.toEntity(jwtToken)).getWechatUid();
+        verifyDuplicatedUser(weChatOpenId);
 
-        return UidAndToken.builder()
-                .uid(uid)
+        String jwtToken = jwtTokenProvider.createToken(userRegisterRequest.getWeChatOpenId());
+        Long savedUserId = userRepository.save(userRegisterRequest.toEntity(jwtToken)).getUserId();
+
+        return UserRegisterResponse.builder()
+                .userId(savedUserId)
                 .jwtToken(jwtToken)
                 .build();
     }
 
-    private void verifyDuplicatedUser(String wechatUid) {
-        if(userRepository.findById(wechatUid).isPresent())
+    private void verifyDuplicatedUser(String weChatOpenId) {
+        if(userRepository.findByWeChatOpenId(weChatOpenId).isPresent())
             throw new UserDuplicatedException("ID已存在.");
 //            throw new UserDuplicatedException("사용자가 이미 존재합니다.");
     }

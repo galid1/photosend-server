@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserProductService {
@@ -32,8 +31,8 @@ public class UserProductService {
     @Value("${photosend.aws.s3.upload-path.prefix}")
     private String pathPrefix;
 
-    public ProductFullInformation getProductInformation(String userId, Long productId) {
-        ProductEntity findEntity = productRepository.findByPidAndUserWechatUidAndProductStateNot(productId, userId, ProductState.ORDERED);
+    public ProductFullInformation getProductInformation(Long userId, Long productId) {
+        ProductEntity findEntity = productRepository.findByPidAndUserUserIdAndProductStateNot(productId, userId, ProductState.ORDERED);
         ProductInformation findEntityInformation = findEntity.getProductInformation();
 
         ProductFullInformation productFullInformation = ProductFullInformation.builder()
@@ -51,8 +50,8 @@ public class UserProductService {
     }
 
     // Product의 이미지, 정보, 상태를 반환
-    public List<ProductFullInformation> getAllProductInformation(String userId) {
-        List<ProductEntity> productEntities = productRepository.findByUserWechatUidAndProductStateNot(userId, ProductState.ORDERED);
+    public List<ProductFullInformation> getAllProductInformation(Long userId) {
+        List<ProductEntity> productEntities = productRepository.findByUserUserIdAndProductStateNot(userId, ProductState.ORDERED);
 
         List<ProductFullInformation> productFullInformationList = new ArrayList<>();
 
@@ -74,7 +73,7 @@ public class UserProductService {
     }
 
     @Transactional
-    public List<ProductImageUrl> uploadProductImages(String userId, ProductLocation[] productLocations, MultipartFile[] productImageFiles) {
+    public List<ProductImageUrl> uploadProductImages(long userId, ProductLocation[] productLocations, MultipartFile[] productImageFiles) {
         verifyProductLocationsAndProductImageFilesCount(productLocations.length, productImageFiles.length);
         List<ProductImageUrl> productImageUrls = new ArrayList<>();
         UserEntity userEntity = userRepository.findById(userId)
@@ -101,7 +100,7 @@ public class UserProductService {
             throw new IllegalArgumentException("Product 위치리스트와 이미지리스트의 개수가 일치하지 않습니다.");
     }
 
-    private void uploadImageToStorage(String userId, MultipartFile[] productImageFiles, List<ProductImageUrl> productImageUrls) {
+    private void uploadImageToStorage(long userId, MultipartFile[] productImageFiles, List<ProductImageUrl> productImageUrls) {
         for (MultipartFile file : productImageFiles){
             String uploadPath = fileUtil.makeFileUploadPath(userId, file.getOriginalFilename(), ImageType.PRODUCT);
             fileUtil.uploadFile(uploadPath, file);
@@ -109,7 +108,7 @@ public class UserProductService {
         }
     }
 
-    private void addProductImageUrlAndLocationToUser(String userId, ProductLocation[] productLocations, List<ProductImageUrl> productImageUrls) {
+    private void addProductImageUrlAndLocationToUser(long userId, ProductLocation[] productLocations, List<ProductImageUrl> productImageUrls) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다.")); // productImage url들을 추가할 UserEntity 얻어오기
 
@@ -124,7 +123,7 @@ public class UserProductService {
 
     // ProductImage Delete Method
     @Transactional
-    public void deleteProductImage(String userId, Long productId) {
+    public void deleteProductImage(Long userId, Long productId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
@@ -149,7 +148,7 @@ public class UserProductService {
         file.delete();
     }
 
-    private int findProductIndexById(String uid, Long pid) {
+    private int findProductIndexById(Long uid, Long pid) {
         UserEntity userEntity = userRepository.findById(uid)
                 .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
         int index = 0;

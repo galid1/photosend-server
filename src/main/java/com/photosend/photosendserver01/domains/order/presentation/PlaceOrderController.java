@@ -14,7 +14,7 @@ public class PlaceOrderController {
     private PlaceOrderService placeOrderService;
 
     @PostMapping("/{usersId}")
-    public Long placeOrder(@RequestBody List<OrderRequest> orderRequests, @PathVariable("usersId")String wechatUid) {
-        return placeOrderService.placeOrder(orderRequests, wechatUid);
+    public Long placeOrder(@RequestBody List<OrderRequest> orderRequests, @PathVariable("usersId")Long ordererId) {
+        return placeOrderService.placeOrder(orderRequests, ordererId);
     }
 }

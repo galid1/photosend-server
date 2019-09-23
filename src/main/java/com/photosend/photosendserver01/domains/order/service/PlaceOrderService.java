@@ -31,7 +31,7 @@ public class PlaceOrderService {
     private UserRepository userRepository;
 
     @Transactional
-    public Long placeOrder(List<OrderRequest> orderRequests, String userWechatUid) {
+    public Long placeOrder(List<OrderRequest> orderRequests, Long ordererId) {
         List<OrderLine> orderLines = new ArrayList<>();
 
         orderRequests.stream().forEach(orderRequest -> {
@@ -50,7 +50,7 @@ public class PlaceOrderService {
             orderLines.add(orderLine);
         });
 
-        UserEntity orderer = userRepository.findById(userWechatUid)
+        UserEntity orderer = userRepository.findById(ordererId)
                 .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
         OrderEntity orderEntity = OrderEntity.builder()

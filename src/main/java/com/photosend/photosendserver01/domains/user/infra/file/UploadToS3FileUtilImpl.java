@@ -29,7 +29,7 @@ public class UploadToS3FileUtilImpl implements FileUtil {
 
     // aws path는 목적 파일 명까지 지정 해주어야 함
     @Override
-    public String makeFileUploadPath(String userId, String fileName, ImageType imageType) {
+    public String makeFileUploadPath(Long userId, String fileName, ImageType imageType) {
         return LocalDate.now() + "/" + userId + "/" + imageType.getValue() + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")) + ".png";
     }
 

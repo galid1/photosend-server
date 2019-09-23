@@ -19,24 +19,24 @@ public class UserProductController {
     private UserProductService userProductService;
 
     @GetMapping("/{usersId}/product/{productId}")
-    public ProductFullInformation getProductFullInformation(@PathVariable("usersId")String userWechatUid, @PathVariable("productId") Long productId){
-        return userProductService.getProductInformation(userWechatUid, productId);
+    public ProductFullInformation getProductFullInformation(@PathVariable("usersId")Long userId, @PathVariable("productId") Long productId){
+        return userProductService.getProductInformation(userId, productId);
     }
 
     @GetMapping("/{usersId}/product")
-    public List<ProductFullInformation> getAllProductFullInformation(@PathVariable("usersId")String userWechatUid) {
-        return userProductService.getAllProductInformation(userWechatUid);
+    public List<ProductFullInformation> getAllProductFullInformation(@PathVariable("usersId")Long userId) {
+        return userProductService.getAllProductInformation(userId);
     }
 
     @PostMapping(value = "/{usersId}/product/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public List<ProductImageUrl> uploadProductImages(@PathVariable("usersId") String userId,
+    public List<ProductImageUrl> uploadProductImages(@PathVariable("usersId") long userId,
                                                      @RequestParam("location") ProductLocation[] productLocations,
                                                      @RequestParam("file") MultipartFile[] productImageFiles) {
         return userProductService.uploadProductImages(userId, productLocations, productImageFiles);
     }
 
     @DeleteMapping(value = "/{usersId}/product/{productId}")
-    public void deleteProduct(@PathVariable("usersId") String userId, @PathVariable("productId") Long productId) {
+    public void deleteProduct(@PathVariable("usersId") Long userId, @PathVariable("productId") Long productId) {
         userProductService.deleteProductImage(userId, productId);
     }
 

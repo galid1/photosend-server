@@ -29,7 +29,7 @@ spring:
     url: jdbc:mysql://photosend-mysql-rds.cq2lmghf0zft.ap-northeast-2.rds.amazonaws.com:3306/photosend
     driver-class-name: com.mysql.jdbc.Driver
 
-## DB for test ###
+# DB for test ###
 #  h2:
 #    console:
 #      path: /h2-console

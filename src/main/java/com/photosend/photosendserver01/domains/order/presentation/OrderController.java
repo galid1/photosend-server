@@ -17,13 +17,13 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping("/{usersId}")
-    public List<OrderedResponse> getOrderedList(@PathVariable("usersId") String ordererWechatUid) {
-        return orderService.getOrderedList(ordererWechatUid);
+    public List<OrderedResponse> getOrderedList(@PathVariable("usersId") Long userId) {
+        return orderService.getOrderedList(userId);
     }
 
     //TODO 토큰검증 다시 하도록 CheckTokenInterceptor에서 설정하기
     @GetMapping("/{usersId}/{ordersId}")
-    public OrderedResponse getAnOrdered(@PathVariable("usersId") String ordererWechatUid, @PathVariable("ordersId") Long ordersId) {
-        return orderService.getAnOrdered(ordererWechatUid, ordersId);
+    public OrderedResponse getAnOrdered(@PathVariable("usersId") Long ordererId, @PathVariable("ordersId") Long ordersId) {
+        return orderService.getAnOrdered(ordererId, ordersId);
     }
 }

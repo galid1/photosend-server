@@ -17,9 +17,13 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity extends BaseTimeEntity {
     @Id
-    @NonNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private String wechatUid;
+    private Long userId;
+
+    @NonNull
+    @Column(name = "wechat_openid")
+    private String weChatOpenId;
 
     // Required Field
     @Embedded
@@ -39,8 +43,8 @@ public class UserEntity extends BaseTimeEntity {
     private List<ProductEntity> productList = new ArrayList<>();
 
     @Builder
-    public UserEntity(@NonNull String wechatUid, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket) {
-        this.wechatUid = wechatUid;
+    public UserEntity(@NonNull String weChatOpenId, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket) {
+        this.weChatOpenId = weChatOpenId;
         setUserInformation(userInformation);
         this.token = token;
         this.ticket = ticket;

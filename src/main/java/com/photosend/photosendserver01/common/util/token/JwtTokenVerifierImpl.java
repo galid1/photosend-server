@@ -20,14 +20,14 @@ public class JwtTokenVerifierImpl implements JwtTokenVerifier {
     private String secretKey;
 
     @Override
-    public void verifyToken(String uid, String jwtTokenRequest) {
+    public void verifyToken(Long userId, String jwtTokenRequest) {
         Claims claims = Jwts.parser()
                 .setSigningKey(secretKey.getBytes())
                 .parseClaimsJws(jwtTokenRequest)
                 .getBody();
 
         verifyExpired((Long) claims.get("exp"));
-        verifyAudience(uid, jwtTokenRequest);
+        verifyAudience(userId, jwtTokenRequest);
     }
 
     private void verifyExpired(Long expiredDate) {
@@ -38,8 +38,8 @@ public class JwtTokenVerifierImpl implements JwtTokenVerifier {
             throw new TokenExpiredException("토큰이 만료되었습니다.");
     }
 
-    private void verifyAudience(String uid, String jwtTokenRequest) {
-        String userToken = userRepository.findById(uid).get().getToken().getJwtToken();
+    private void verifyAudience(Long userId, String jwtTokenRequest) {
+        String userToken = userRepository.findById(userId).get().getToken().getJwtToken();
 
         if(!userToken.equals(jwtTokenRequest))
             throw new TokenWrongAudienceException("토큰이 일치하지 않습니다.");

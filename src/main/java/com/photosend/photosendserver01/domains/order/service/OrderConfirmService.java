@@ -14,7 +14,7 @@ public class OrderConfirmService {
     @Value("${server.domain}")
     private String serverDomain;
 
-    public OrderConfirmUrl makeOrderConfirmUrl(String usersId, Long ordersId) {
+    public OrderConfirmUrl makeOrderConfirmUrl(Long usersId, Long ordersId) {
         String orderConfirmUrl = "https://" + serverDomain + ":" + serverPort + "/orders/" + usersId + "/" + ordersId;
 
         return OrderConfirmUrl.builder()

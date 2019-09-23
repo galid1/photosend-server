@@ -19,19 +19,19 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<OrderedResponse> getOrderedList(String ordererWechatUid) {
+    public List<OrderedResponse> getOrderedList(Long ordererId) {
         // TODO N+1 조회 성능 문제로 JPQL을 사용해야함
         // 사용자 주문 리스트
         List<OrderedResponse> orderedResponseList = new ArrayList<>();
 
-        List<OrderEntity> usersOrderEntities = orderRepository.findByOrdererWechatUid(ordererWechatUid);
+        List<OrderEntity> usersOrderEntities = orderRepository.findByOrdererUserId(ordererId);
 
         usersOrderEntities.stream().forEach(orderEntity -> {
             List<OrderedLineResponse> orderedLineResponseList = new ArrayList<>();
 
             orderEntity.getOrderLines().stream().forEach(orderLine -> {
                 orderedLineResponseList.add(OrderedLineResponse.builder()
-                        .productImagePath(productRepository.findByPidAndUserWechatUid(orderLine.getProductId(), ordererWechatUid).getProductImagePath())
+                        .productImagePath(productRepository.findByPidAndUserUserId(orderLine.getProductId(), ordererId).getProductImagePath())
                         .orderLine(orderLine)
                         .build());
             });
@@ -47,14 +47,14 @@ public class OrderService {
         return orderedResponseList;
     }
 
-    public OrderedResponse getAnOrdered(String ordererWechatUid, Long ordersId) {
-        OrderEntity orderEntity = orderRepository.findByOrdererWechatUidAndOid(ordererWechatUid, ordersId);
+    public OrderedResponse getAnOrdered(Long ordererId, Long ordersId) {
+        OrderEntity orderEntity = orderRepository.findByOrdererUserIdAndOid(ordererId, ordersId);
         Optional.of(orderEntity).orElseThrow(() -> new IllegalArgumentException("주문내역이 존재하지 않습니다."));
 
         List<OrderedLineResponse> orderedLineResponseList = new ArrayList<>();
         orderEntity.getOrderLines().stream().forEach(orderLine -> {
             orderedLineResponseList.add(OrderedLineResponse.builder()
-                    .productImagePath(productRepository.findByPidAndUserWechatUid(orderLine.getProductId(), ordererWechatUid).getProductImagePath())
+                    .productImagePath(productRepository.findByPidAndUserUserId(orderLine.getProductId(), ordererId).getProductImagePath())
                     .orderLine(orderLine)
                     .build());
         });

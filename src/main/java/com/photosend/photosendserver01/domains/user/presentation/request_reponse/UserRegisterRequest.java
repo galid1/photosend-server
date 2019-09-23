@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegisterRequest {
-    private String wechatUid;
+    private String weChatOpenId;
     private UserInformation userInformation;
 
     public UserEntity toEntity(String jwtToken) {
@@ -20,7 +20,7 @@ public class UserRegisterRequest {
 
         return UserEntity.builder()
                 .token(token)
-                .wechatUid(wechatUid)
+                .weChatOpenId(weChatOpenId)
                 .userInformation(userInformation)
                 .build();
     }

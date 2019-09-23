@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UidAndToken {
-    private String uid;
+public class UserRegisterResponse {
+    private Long userId;
     private String jwtToken;
 }

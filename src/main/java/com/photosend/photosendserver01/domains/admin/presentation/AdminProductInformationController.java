@@ -14,7 +14,7 @@ public class AdminProductInformationController {
     private AdminProductInformationService adminProductInformationService;
 
     @PostMapping("/{usersId}/product/information")
-    public List<Long> putFoundClothesInformation(@PathVariable("usersId")String uid, @RequestBody List<FoundProductInformation> foundProductInformationList) {
-        return adminProductInformationService.putFoundProductInformation(uid, foundProductInformationList);
+    public List<Long> putFoundClothesInformation(@PathVariable("usersId")Long ordererId, @RequestBody List<FoundProductInformation> foundProductInformationList) {
+        return adminProductInformationService.putFoundProductInformation(ordererId, foundProductInformationList);
     }
 }
