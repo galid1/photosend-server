@@ -25,6 +25,7 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("exp", makeExpiredTime());
+        claims.put("uid", uid);
 
         return Jwts.builder()
                         .setHeader(headers)
