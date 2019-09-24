@@ -26,7 +26,7 @@ public class UserEntityTest {
 
         UserEntity userEntity
                 = UserEntity.builder()
-                .wechatUid("A")
+                .weChatOpenId("A")
                 .userInformation(information)
                 .token(Token.builder().jwtToken("ASD").build())
                 .build();

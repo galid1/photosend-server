@@ -1,5 +1,9 @@
 package com.photosend.photosendserver01.domains.user.service;
 
+import com.photosend.photosendserver01.common.util.retrofit.wechat.WeChatOpenIdRequestClient;
+import com.photosend.photosendserver01.common.util.retrofit.wechat.WeChatRetrofitClient;
+import com.photosend.photosendserver01.domains.user.domain.Token;
+import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserDuplicatedException;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterResponse;
@@ -19,17 +23,15 @@ public class UserRegisterService {
 
     @Transactional
     public UserRegisterResponse registerUser(UserRegisterRequest userRegisterRequest) {
-        //TODO wechatOpenID 가져오기
-        String weChatOpenId = null;
-
+        String weChatOpenId = requestGetWeChatOpenId(userRegisterRequest.getWeChatTempCode());
         verifyDuplicatedUser(weChatOpenId);
 
-        String jwtToken = jwtTokenProvider.createToken(userRegisterRequest.getWeChatOpenId());
-        Long savedUserId = userRepository.save(userRegisterRequest.toEntity(jwtToken)).getUserId();
+        UserEntity newUserEntity = createUserEntity(weChatOpenId, userRegisterRequest);
+        Long savedUserId = userRepository.save(newUserEntity).getUserId();
 
         return UserRegisterResponse.builder()
                 .userId(savedUserId)
-                .jwtToken(jwtToken)
+                .jwtToken(newUserEntity.getToken().getJwtToken())
                 .build();
     }
 
@@ -37,6 +39,20 @@ public class UserRegisterService {
         if(userRepository.findByWeChatOpenId(weChatOpenId).isPresent())
             throw new UserDuplicatedException("ID已存在.");
 //            throw new UserDuplicatedException("사용자가 이미 존재합니다.");
+    }
+
+    private UserEntity createUserEntity(String weChatOpenId, UserRegisterRequest registerRequest) {
+        jwtTokenProvider.createToken(registerRequest.getWeChatTempCode());
+
+        return UserEntity.builder()
+                .weChatOpenId(weChatOpenId)
+                .token(Token.builder().jwtToken(jwtTokenProvider.createToken(weChatOpenId)).build())
+                .userInformation(registerRequest.getUserInformation())
+                .build();
+    }
+
+    private String requestGetWeChatOpenId(String weChatTempCode) {
+        return WeChatRetrofitClient.getWeChatOpenId(weChatTempCode);
     }
 
 }
