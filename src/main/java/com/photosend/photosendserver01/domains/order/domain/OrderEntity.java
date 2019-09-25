@@ -76,7 +76,7 @@ public class OrderEntity extends BaseTimeEntity {
         int departureMonth = departureTime.getMonthValue();
         int departureDay = departureTime.getDayOfMonth();
 
-        LocalDateTime orderDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay - 1, 19, 0, 0);
+        LocalDateTime orderDeadLine = LocalDateTime.of(departureYear, departureMonth, departureDay, 19, 0, 0);
 
         if(LocalDateTime.now().isAfter(orderDeadLine))
             throw new DepartureTimeException("为了确保顺畅得配送,只能在出境前一天晚上7点之前订购。");
