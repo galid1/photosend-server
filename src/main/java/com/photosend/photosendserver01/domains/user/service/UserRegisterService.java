@@ -7,6 +7,7 @@ import com.photosend.photosendserver01.domains.user.domain.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserDuplicatedException;
+import com.photosend.photosendserver01.domains.user.presentation.request_reponse.LoginType;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class UserRegisterService {
@@ -37,7 +39,10 @@ public class UserRegisterService {
 
     private UserEntity createUserEntity(UserRegisterRequest registerRequest) {
         verifyDepartureTime(registerRequest.getUserInformation().getDepartureTime().toLocalDateTime());
-        String weChatOpenId = verifyUserCreationRequest(registerRequest);
+
+        String weChatOpenId = makeWeChatOpenIdByLoginType(registerRequest);
+
+        verifyDuplicatedUser(weChatOpenId);
 
         return UserEntity.builder()
                 .weChatOpenId(weChatOpenId)
@@ -46,9 +51,15 @@ public class UserRegisterService {
                 .build();
     }
 
-    private String verifyUserCreationRequest(UserRegisterRequest registerRequest) {
-        String weChatOpenId = requestGetWeChatOpenId(registerRequest.getWeChatTempCode());
-        verifyDuplicatedUser(weChatOpenId);
+    private String makeWeChatOpenIdByLoginType(UserRegisterRequest registerRequest) {
+        String weChatOpenId = "";
+
+        if(registerRequest.getLoginType() == LoginType.WECHAT) {
+            weChatOpenId = requestGetWeChatOpenId(registerRequest.getWeChatTempCode());
+        }
+        if(registerRequest.getLoginType() == LoginType.GUEST) {
+            weChatOpenId = UUID.randomUUID().toString();
+        }
 
         return weChatOpenId;
     }

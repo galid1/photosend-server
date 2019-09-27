@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRegisterRequest {
     private String weChatTempCode;
+    private LoginType loginType;
     private UserInformation userInformation;
 }

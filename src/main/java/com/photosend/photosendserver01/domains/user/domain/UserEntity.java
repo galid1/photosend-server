@@ -21,7 +21,6 @@ public class UserEntity extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @NonNull
     @Column(name = "wechat_openid")
     private String weChatOpenId;
 
