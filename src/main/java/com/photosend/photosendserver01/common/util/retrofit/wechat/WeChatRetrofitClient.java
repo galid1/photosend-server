@@ -16,12 +16,16 @@ public class WeChatRetrofitClient {
     public static String getWeChatOpenId(String weChatTempCode) {
         WeChatAuthResponse authResponse = null;
         try {
-                 authResponse = getInstance()
+            Response<WeChatAuthResponse> execute = getInstance()
                     .create(WeChatService.class)
                     .requestGetWeChatOpenId(makeRequestParameters(weChatTempCode))
-                    .execute()
-                    .body();
+                    .execute();
 
+            if (execute.isSuccessful()) {
+                authResponse = execute.body();
+            } else {
+                System.out.println("WECHAT ERROR : " + execute.errorBody());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
