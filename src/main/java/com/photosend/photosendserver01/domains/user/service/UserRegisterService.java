@@ -46,7 +46,7 @@ public class UserRegisterService {
 
         return UserEntity.builder()
                 .weChatOpenId(weChatOpenId)
-                .token(Token.builder().jwtToken(jwtTokenProvider.createToken(weChatOpenId)).build())
+                .token(Token.builder().jwtToken(jwtTokenProvider.createToken()).build())
                 .userInformation(registerRequest.getUserInformation())
                 .build();
     }
@@ -66,10 +66,10 @@ public class UserRegisterService {
 
     private void verifyDuplicatedUser(String weChatOpenId) {
         if(userRepository.findByWeChatOpenId(weChatOpenId).isPresent())
-            throw new UserDuplicatedException("ID已存在.");
-//            throw new UserDuplicatedException("사용자가 이미 존재합니다.");
+            throw new UserDuplicatedException("ID已存在."); // ID 중복
     }
 
+    //TODO 위챗 오픈아이디를 불러오는 로직때문에 도메인 로직이지만 임시적으로 이 위치에서 검증
     private int registerMaxTime = 20;
     private int registerMinTime = 10;
 
