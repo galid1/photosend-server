@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.user.domain;
 
+import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
 import com.photosend.photosendserver01.domains.user.domain.exception.NotExistProductInformationException;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "product")
-public class ProductEntity {
+public class ProductEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "product_id")
