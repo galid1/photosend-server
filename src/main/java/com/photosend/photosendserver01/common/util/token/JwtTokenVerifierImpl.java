@@ -26,6 +26,7 @@ public class JwtTokenVerifierImpl implements JwtTokenVerifier {
                 .parseClaimsJws(jwtTokenRequest)
                 .getBody();
 
+        System.out.println("verifyToken : " + jwtTokenRequest);
         verifyExpired((Long) claims.get("exp"));
         verifyAudience(userId, jwtTokenRequest);
     }

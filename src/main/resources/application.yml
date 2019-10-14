@@ -13,7 +13,8 @@ spring:
   jpa:
     hibernate:
       use-new-id-generator-mappings: false
-    show-sql: true
+#      ddl-auto: update
+#    show-sql: true
 #    properties:
 #      hibernate:
 #        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -26,7 +27,6 @@ spring:
 
 ## datasource ###
   datasource:
-    url: jdbc:mysql://photosend-mysql-rds.cq2lmghf0zft.ap-northeast-2.rds.amazonaws.com:3306/photosend
     driver-class-name: com.mysql.jdbc.Driver
 
 # DB for test ###

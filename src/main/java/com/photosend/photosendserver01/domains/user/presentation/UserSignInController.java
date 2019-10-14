@@ -19,7 +19,6 @@ public class UserSignInController {
 
     @PutMapping("/users/")
     public UserSignInResponse signIn(@RequestBody UserSignInRequest userSignInRequest) {
-        System.out.println(userSignInRequest.getWeChatTempCode());
         return userSignInService.signIn(userSignInRequest);
     }
 

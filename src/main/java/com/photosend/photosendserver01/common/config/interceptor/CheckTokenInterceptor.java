@@ -15,6 +15,8 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("PREHANDLE @@@@");
+
         String token = request.getHeader("X-JWT");
         Map pathVariables = (Map) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         String temp = (String) pathVariables.get("usersId");

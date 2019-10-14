@@ -33,6 +33,8 @@ public class UserSignInService {
         if(signInRequest.getLoginType() == LoginType.WECHAT)
             userEntity = signInByWeChat(signInRequest.getWeChatTempCode());
 
+        System.out.println("WECHAT ID로 가져온 jWT : " + userEntity.getToken().getJwtToken());
+
         return UserSignInResponse.builder()
                 .jwtToken(userEntity.getToken().getJwtToken())
                 .userId(userEntity.getUserId())
