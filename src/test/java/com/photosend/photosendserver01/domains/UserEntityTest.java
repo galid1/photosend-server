@@ -20,7 +20,7 @@ public class UserEntityTest {
         UserInformation information =
                 UserInformation.builder()
                         .departureTime(Timestamp.valueOf(LocalDateTime.now()))
-                        .passPortNum("123")
+                        .phoneNum("123")
                         .name("jjy")
                         .build();
 

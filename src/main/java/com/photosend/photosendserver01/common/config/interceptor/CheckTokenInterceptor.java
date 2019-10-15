@@ -28,7 +28,12 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
         if(jwtTokenVerifier == null)
             throw new IllegalArgumentException("token verifier가 존재하지 않습니다.");
 
+        System.out.println("TOKEN TOKEN : " + token);
         jwtTokenVerifier.verifyToken(userId, token);
         return true;
     }
 }
+
+
+
+

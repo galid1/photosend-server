@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
 public class UserRegisterController {
 
     @Autowired
     private UserRegisterService userRegisterService;
 
-    @PostMapping("/")
+    @PostMapping("/users/")
     public UserRegisterResponse registerUser(@RequestBody UserRegisterRequest request) {
         UserRegisterResponse userRegisterResponse = userRegisterService.registerUser(request);
 

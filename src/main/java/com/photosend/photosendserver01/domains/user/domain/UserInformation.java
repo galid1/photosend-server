@@ -20,7 +20,7 @@ public class UserInformation {
     private String name;
 //    @NonNull
     @Pattern(regexp = "", message = "")
-    private String passPortNum;
+    private String phoneNum;
     @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     private Timestamp departureTime;
