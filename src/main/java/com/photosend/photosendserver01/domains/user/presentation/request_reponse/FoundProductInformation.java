@@ -12,10 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class FoundProductInformation {
-    @JsonProperty("productId")
     private Long pid;
     private String name;
     private Integer price;
     private String brand;
-    private List<Size> size = new ArrayList<>();
+    private String size;
+//    private List<Size> size = new ArrayList<>();
 }

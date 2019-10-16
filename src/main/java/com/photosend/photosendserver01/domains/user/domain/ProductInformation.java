@@ -19,8 +19,9 @@ public class ProductInformation {
 
     private String brand;
 
-    @Enumerated(EnumType.STRING)
-    @ElementCollection
-    @CollectionTable(name = "retention_stock_size", joinColumns = @JoinColumn(name = "product_id"))
-    private List<Size> size = new ArrayList<>();
+    private String size;
+//    @Enumerated(EnumType.STRING)
+//    @ElementCollection
+//    @CollectionTable(name = "retention_stock_size", joinColumns = @JoinColumn(name = "product_id"))
+//    private List<Size> size = new ArrayList<>();
 }

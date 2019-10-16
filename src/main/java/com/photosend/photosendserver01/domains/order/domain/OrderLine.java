@@ -19,15 +19,16 @@ public class OrderLine {
 
     private Integer quantity;
 
-    @Enumerated(EnumType.STRING)
-    private Size size;
+//    @Enumerated(EnumType.STRING)
+//    private Size size;
+    private String size;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "total_price"))
     private Money totalPrice;
 
     @Builder
-    public OrderLine(Long productId, Money productPrice, Integer quantity, Size size) {
+    public OrderLine(Long productId, Money productPrice, Integer quantity, String size) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.quantity = quantity;
