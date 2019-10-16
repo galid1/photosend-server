@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ProductFullInformation {
+    private Long productId;
     @NotNull
     private String productImagePath;
     // Optional Field

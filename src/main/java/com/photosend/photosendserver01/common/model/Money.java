@@ -11,7 +11,6 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Money {
-    @NonNull
     private int value;
 
     public Money multiply(int multiply){

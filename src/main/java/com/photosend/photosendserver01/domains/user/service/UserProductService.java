@@ -36,9 +36,9 @@ public class UserProductService {
         ProductInformation findEntityInformation = findEntity.getProductInformation();
 
         ProductFullInformation productFullInformation = ProductFullInformation.builder()
+                .productId(findEntity.getPid())
                 .productImagePath(findEntity.getProductImagePath())
                 .foundProductInformation(FoundProductInformation.builder()
-                        .pid(findEntity.getPid())
                         .brand(findEntityInformation.getBrand())
                         .name(findEntityInformation.getName())
                         .price(findEntityInformation.getPrice())
@@ -52,21 +52,24 @@ public class UserProductService {
     // Product의 이미지, 정보, 상태를 반환
     public List<ProductFullInformation> getAllProductInformation(Long userId) {
         List<ProductEntity> productEntities = productRepository.findByUserUserIdAndProductStateNot(userId, ProductState.ORDERED);
-
         List<ProductFullInformation> productFullInformationList = new ArrayList<>();
 
         productEntities.stream().forEach(v -> {
-            productFullInformationList.add(ProductFullInformation.builder()
+            ProductFullInformation.ProductFullInformationBuilder productFullInformationBuilder = ProductFullInformation.builder()
+                    .productId(v.getPid())
                     .productImagePath(v.getProductImagePath())
-                    .foundProductInformation(FoundProductInformation.builder()
-                                                                    .pid(v.getPid())
-                                                                    .brand(v.getProductInformation().getBrand())
-                                                                    .name(v.getProductInformation().getName())
-                                                                    .price(v.getProductInformation().getPrice())
-                                                                    .size(v.getProductInformation().getSize())
-                                                                    .build())
-                    .productState(v.getProductState())
-                    .build());
+                    .productState(v.getProductState());
+
+            if(v.getProductInformation() != null) {
+                productFullInformationBuilder.foundProductInformation(FoundProductInformation.builder()
+                        .brand(v.getProductInformation().getBrand())
+                        .name(v.getProductInformation().getName())
+                        .price(v.getProductInformation().getPrice())
+                        .size(v.getProductInformation().getSize())
+                        .build());
+            }
+
+            productFullInformationList.add(productFullInformationBuilder.build());
         });
 
         return productFullInformationList;
