@@ -25,7 +25,6 @@ public class UserProductController {
 
     @GetMapping("/{usersId}/product")
     public List<ProductFullInformation> getAllProductFullInformation(@PathVariable("usersId")Long userId) {
-        System.out.println("프로덕트 리스트 요청받음");
         return userProductService.getAllProductInformation(userId);
     }
 

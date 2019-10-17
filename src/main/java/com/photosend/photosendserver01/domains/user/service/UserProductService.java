@@ -51,7 +51,6 @@ public class UserProductService {
 
     // Product의 이미지, 정보, 상태를 반환
     public List<ProductFullInformation> getAllProductInformation(Long userId) {
-        System.out.println("All 프로덕트 요청 서비스 실행");
         List<ProductEntity> productEntities = productRepository.findByUserUserIdAndProductStateNot(userId, ProductState.ORDERED);
         List<ProductFullInformation> productFullInformationList = new ArrayList<>();
 
