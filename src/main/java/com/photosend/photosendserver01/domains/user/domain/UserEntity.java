@@ -7,7 +7,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,15 +75,19 @@ public class UserEntity extends BaseTimeEntity {
     private int registerMaxTime = 20;
 
     private void verifyDepartureTime(LocalDateTime departureTime) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDate now = LocalDate.now();
+        LocalDate departure = LocalDate.of(departureTime.getYear(), departureTime.getMonth(), departureTime.getDayOfMonth());
+
         // 가입 시간 제한 최소 출국 하루 전
-        if(Duration.between(now, departureTime).toDays() < 1)
+        if(Duration.between(now.atStartOfDay(), departure.atStartOfDay()).toDays() < 1) {
             throw new DepartureTimeException("为了方便配送,至少在出境前一天可以加入."); // "원활한 배송을 위해 최소 출국하루전에만 사용이 가능합니다"
+        }
 
         // 가입 시간 제한 (배송을 위해서 오전10시에서 오후8시 사이에 출국하는 사람에 한해서만 사용가능)
         int departureHour = departureTime.getHour();
         if(departureHour < registerMinTime || departureHour > registerMaxTime)
             throw new DepartureTimeException("为了确保顺畅地配送,仅允许上午10点至下午8点出境的用户使用."); // "원활한 배송을 위해 오전 10시에서 오후 8시 사이에 출국하는 사용자만 이용 가능합니다."
+
     }
 
     public void putTicketsImagePath(String ticketImagePath) {

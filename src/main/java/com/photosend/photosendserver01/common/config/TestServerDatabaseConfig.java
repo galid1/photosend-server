@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 
-//@Configuration
+@Configuration
 public class TestServerDatabaseConfig {
     private String jdbcUrl = "jdbc:mysql://ec2-13-124-205-33.ap-northeast-2.compute.amazonaws.com:3306/testdb";
     @Value("${spring.datasource.driver-class-name}")
