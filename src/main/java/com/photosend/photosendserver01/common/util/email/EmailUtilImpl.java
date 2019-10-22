@@ -32,7 +32,7 @@ public class EmailUtilImpl implements EmailUtil{
     private final String MAIL_PW_KEY = "mail_pw";
 
     @Override
-    public void sendEmailWithImages(String userName, MultipartFile[] multipartFiles) {
+    public void sendEmailWithImage(String userName, byte[] imageFileBytes) {
         Properties prop = System.getProperties();
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -58,7 +58,7 @@ public class EmailUtilImpl implements EmailUtil{
 
             MimeMultipart multipart = new MimeMultipart("related");
             BodyPart messageBodyPart = new MimeBodyPart();
-            DataSource fds = new ByteArrayDataSource(multipartFiles[0].getInputStream(), "image/png");
+            DataSource fds = new ByteArrayDataSource(imageFileBytes, "image/png");
             messageBodyPart.setDataHandler(new DataHandler(fds));
             messageBodyPart.setHeader("Content-ID", "<image>");
             multipart.addBodyPart(messageBodyPart);
@@ -70,10 +70,5 @@ public class EmailUtilImpl implements EmailUtil{
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void sendEmailWithImage(String userName, MultipartFile multipartFile) {
-        throw new UnsupportedOperationException("UNSUPPORTED !!");
     }
 }

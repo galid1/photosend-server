@@ -91,7 +91,7 @@ public class UserProductService {
         uploadImageToStorage(userId, productImageFiles, productImageUrls);
 
         // 이메일 전송 이벤트 발생
-        publishEmailEvent(Long.toString(userId), productImageFiles);
+        publishEmailEvent(Long.toString(userId), productImageFiles[0]);
 
         // 영속화 (유저 엔티티에 이미지 경로 추가)
         addProductImageUrlAndLocationToUser(userId, productLocations, productImageUrls);
@@ -132,8 +132,8 @@ public class UserProductService {
         userRepository.save(userEntity);
     }
 
-    private void publishEmailEvent(String userName, MultipartFile[] multipartFiles) {
-        eventPublisher.publishEvent(new EmailEvent(userName, multipartFiles));
+    private void publishEmailEvent(String userName, MultipartFile multipartFile) {
+        eventPublisher.publishEvent(new EmailEvent(userName, multipartFile));
     }
 
     // ProductImage Delete Method

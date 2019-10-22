@@ -14,6 +14,6 @@ public class EmailEventHandler {
     @Async
     @EventListener
     public void sendEmailBecauseImageUploaded(EmailEvent emailEvent) {
-        emailUtil.sendEmailWithImages(emailEvent.getUserName(), emailEvent.getMultipartFiles());
+        emailUtil.sendEmailWithImage(emailEvent.getUserName(), emailEvent.getBuffer());
     }
 }
