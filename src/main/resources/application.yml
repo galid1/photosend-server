@@ -1,12 +1,12 @@
 server:
-  port: 443
+  port: 8080
   domain: rest.hellouni.co.kr
 
 ### ssl ###
-  ssl:
-    key-store: classpath:keystore/keystore.p12
-    key-store-type: PKCS12
-    key-store-password: crew1207
+#  ssl:
+#    key-store: classpath:keystore/keystore.p12
+#    key-store-type: PKCS12
+#    key-store-password: crew1207
 
 ### jpa ###
 spring:
@@ -42,6 +42,8 @@ photosend:
       file-path: .photosend/adminCredential.txt
     datasource:
       file-path: .photosend/databaseAccount.txt
+    mail:
+      file-path: .photosend/mailCredential.txt
 
   jwt:
     secretkey: peoplus
