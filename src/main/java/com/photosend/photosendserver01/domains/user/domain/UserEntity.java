@@ -146,7 +146,7 @@ public class UserEntity extends BaseTimeEntity {
     }
 
     // 상품 사진의 이미지 경로 추가 메소드
-    public void putProductImagePath(ProductEntity productEntity) {
+    public void addProduct(ProductEntity productEntity) {
         verifyProductCountFive();
         verifyUploadProductImageTime(this.userInformation.getDepartureTime().toLocalDateTime());
         this.productList.add(productEntity);

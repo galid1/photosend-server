@@ -94,7 +94,7 @@ public class UserProductService {
         publishEmailEvent(Long.toString(userId), productImageFiles[0]);
 
         // 영속화 (유저 엔티티에 이미지 경로 추가)
-        addProductImageUrlAndLocationToUser(userId, productLocations, productImageUrls);
+        addProduct(userId, productLocations, productImageUrls);
 
         List<ProductImageUrl> returnProductImageUrlList = new ArrayList<>();
         userEntity.getProductList().stream().forEach(v -> {
@@ -119,14 +119,18 @@ public class UserProductService {
         }
     }
 
-    private void addProductImageUrlAndLocationToUser(long userId, ProductLocation[] productLocations, List<ProductImageUrl> productImageUrls) {
+    private void addProduct(long userId, ProductLocation[] productLocations, List<ProductImageUrl> productImageUrls) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다.")); // productImage url들을 추가할 UserEntity 얻어오기
 
         for(int i = 0; i < productImageUrls.size(); i++) {
-            ProductEntity productEntity = productImageUrls.get(i).toEntity(productLocations[i], userEntity);
+            ProductEntity productEntity = ProductEntity.builder()
+                    .productImagePath(productImageUrls.get(i).getProductImageUrl())
+                    .productLocation(productLocations[i])
+                    .userEntity(userEntity)
+                    .build();
             productRepository.save(productEntity);
-            userEntity.putProductImagePath(productEntity);
+            userEntity.addProduct(productEntity);
         }
 
         userRepository.save(userEntity);

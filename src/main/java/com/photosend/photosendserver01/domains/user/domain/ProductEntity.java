@@ -36,10 +36,13 @@ public class ProductEntity extends BaseTimeEntity {
     private UserEntity user;
 
     @Builder
-    public ProductEntity(@NonNull String productImagePath, ProductLocation productLocation, ProductInformation productInformation, UserEntity userEntity) {
+    public ProductEntity(@NonNull String productImagePath, ProductLocation productLocation, UserEntity userEntity) {
+        if(productImagePath == null || productLocation == null || userEntity == null) {
+            throw new IllegalArgumentException("put All Information for create ProductEntity.");
+        }
+
         this.productImagePath = productImagePath;
         this.productLocation = productLocation;
-        this.productInformation = productInformation;
         this.productState = ProductState.UPLOADED;
         this.user = userEntity;
     }

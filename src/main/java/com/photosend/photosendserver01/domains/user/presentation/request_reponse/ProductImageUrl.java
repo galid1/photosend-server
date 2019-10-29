@@ -16,12 +16,4 @@ public class ProductImageUrl {
     private Long pid;
     @JsonProperty("productImagePath")
     private String productImageUrl;
-
-    public ProductEntity toEntity(ProductLocation productLocation, UserEntity user) {
-        return ProductEntity.builder()
-                .productLocation(productLocation)
-                .productImagePath(this.productImageUrl)
-                .userEntity(user)
-                .build();
-    }
 }

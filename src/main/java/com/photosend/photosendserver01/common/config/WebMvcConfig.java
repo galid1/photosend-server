@@ -14,16 +14,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(checkTokenInterceptor())
-//                    .addPathPatterns("/users/{usersId}/**")
-//                    .addPathPatterns("/orders/**")
-//                    .excludePathPatterns("/users/", "/orders/{usersId}/{ordersId}");
 //
 //        registry.addInterceptor(adminAuthenticationInterceptor())
 //                    .addPathPatterns("/admin/**");
         registry.addInterceptor(checkTokenInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/users/", "/users/{usersId}/**", "/orders/{usersId}/{ordersId}");
+                .excludePathPatterns("/users/");
 
     }
 
