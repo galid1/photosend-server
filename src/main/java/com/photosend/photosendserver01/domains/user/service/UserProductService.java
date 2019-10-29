@@ -140,48 +140,22 @@ public class UserProductService {
         eventPublisher.publishEvent(new EmailEvent(userName, multipartFile));
     }
 
-    // ProductImage Delete Method
     @Transactional
-    public void deleteProductImage(Long userId, Long productId) {
+    public void addProductFromCatalog(long userId, long productId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
 
-        // 스토리지에서 이미지 제거
-        String productImagePath = userEntity.getProductList().get(0).getProductImagePath();
-        deleteImageFromStorage(productImagePath);
+        ProductEntity productFoundFromCatalog = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
 
-        // UserEntity가 가지는 productEntity 리스트에서 제거
-        int productIndex = findProductIndexById(userId, productId);
-        if(productIndex == -1)
-            throw new ProductNotFoundException("해당 id의 ProductEntity가 존재하지 않습니다.");
-        userEntity.deleteProduct(productIndex);
-        userRepository.save(userEntity);
-    }
+        ProductEntity productEntity = ProductEntity.builder()
+                                        .productImagePath(productFoundFromCatalog.getProductImagePath())
+                                        .userEntity(productFoundFromCatalog.getUser())
+                                        .build();
+        productEntity.putProductInformation(productFoundFromCatalog.getProductInformation());
+        productRepository.save(productEntity);
 
-    // TODO archive 로 변경하기 (나중에 이미지를 사용할 것)
-    private void deleteImageFromStorage(String productImagePath) {
-        // local file delete
-        File file = new File(productImagePath);
-        if(!file.exists())
-            throw new FileDeleteException("경로에 파일이 존재하지 않습니다.");
-        file.delete();
-    }
-
-    private int findProductIndexById(Long uid, Long pid) {
-        UserEntity userEntity = userRepository.findById(uid)
-                .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다."));
-        int index = 0;
-        ProductEntity productEntity = null;
-
-        for (ProductEntity entity : userEntity.getProductList()) {
-            if(entity.getPid() == pid) {
-                productEntity = entity;
-                break;
-            }
-            index ++;
-        }
-
-        return productEntity != null ? index : -1;
+        userEntity.addProduct(productEntity);
     }
 
 }

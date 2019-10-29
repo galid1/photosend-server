@@ -36,9 +36,9 @@ public class UserProductController {
         return userProductService.uploadProductImages(userId, productLocations, productImageFiles);
     }
 
-    @DeleteMapping(value = "/{usersId}/product/{productId}")
-    public void deleteProduct(@PathVariable("usersId") Long userId, @PathVariable("productId") Long productId) {
-        userProductService.deleteProductImage(userId, productId);
+    @PostMapping("/{usersId}/product")
+    public void addProductFromCatalog(@PathVariable("usersId") long userId,
+                                      @PathVariable("productId") long productId) {
+        userProductService.addProductFromCatalog(userId, productId);
     }
-
 }

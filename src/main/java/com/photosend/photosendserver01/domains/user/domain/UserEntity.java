@@ -35,29 +35,21 @@ public class UserEntity extends BaseTimeEntity {
     @NonNull
     private Token token;
 
-    // Optional Field
-    @Embedded
-    private Ticket ticket;
-
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "user_id")
     private List<ProductEntity> productList = new ArrayList<>();
 
     @Builder
-    public UserEntity(@NonNull String weChatOpenId, @NonNull UserInformation userInformation, @NonNull Token token, Ticket ticket) {
+    public UserEntity(@NonNull String weChatOpenId, @NonNull UserInformation userInformation, @NonNull Token token) {
         this.weChatOpenId = weChatOpenId;
         setUserInformation(userInformation);
         this.token = token;
-        this.ticket = ticket;
     }
 
     private void setUserInformation(UserInformation userInformation) {
         if(userInformation == null) {
             throw new IllegalArgumentException("UserInformation을 입력하세요.");
         }
-//        if(userInformation.getPassPortNum() == null) {
-//            throw new IllegalArgumentException("请至少输入一个字以上。(请输入护照号码。)"); //여권 번호를 입력하세요
-//        }
         if(userInformation.getDepartureTime() == null) {
             throw new IllegalArgumentException("출국 시간을 입력하세요.");
         }
@@ -90,61 +82,6 @@ public class UserEntity extends BaseTimeEntity {
 
     }
 
-    public void putTicketsImagePath(String ticketImagePath) {
-        if(verifyTicketExist())
-            throw new TicketException("이미 티켓이 존재합니다. 티켓은 하나만 업로드 가능합니다.");
-
-        this.ticket = Ticket.builder()
-                    .ticketImagePath(ticketImagePath)
-                    .build();
-    }
-
-    // 티켓 이미지 변경 메소드 (변경시에는 티켓이 존재하지 않을 때 에러)
-    public void modifyTicketsImagePath(String imagePath) {
-        if(!verifyTicketExist())
-            throw new TicketException("업로드된 티켓이 존재하지 않습니다.");
-
-        verifyRequestModifyTicketImageInLimit();
-
-        int modifyCount = 1;
-        if(this.ticket.getTicketModifyCountPerThreeMinutes() != null)
-            modifyCount = this.ticket.getTicketModifyCountPerThreeMinutes() + 1;
-
-        this.ticket = Ticket.builder()
-                    .ticketImagePath(imagePath)
-                    .lastTicketImageModifyTime(Timestamp.valueOf(LocalDateTime.now()))
-                    .ticketModifyCountPerThreeMinutes(modifyCount)
-                    .build();
-    }
-
-    // 티켓 존재시 true , 아닐 시 false return
-    private boolean verifyTicketExist() {
-        return ticket != null ? true : false;
-    }
-
-    // 해당 유저가 3분 이내에 5번 초과의 요청을 했는지 검사
-    private void verifyRequestModifyTicketImageInLimit() {
-        if (this.ticket.getLastTicketImageModifyTime() != null && this.ticket.getTicketModifyCountPerThreeMinutes() != null) {
-            resetTicketModifyCountPerThreeMinutes();
-
-            if (this.ticket.getTicketModifyCountPerThreeMinutes() >= 5)
-                throw new TicketException("3분마다 최대 5번까지만 요청이 가능합니다.");
-        }
-    }
-
-    // 마지막 변경 요청 후 3분이 지나면 count 초기화
-    private void resetTicketModifyCountPerThreeMinutes() {
-        LocalDateTime lastModifyTime = this.ticket.getLastTicketImageModifyTime().toLocalDateTime();
-        Duration duration = Duration.between(lastModifyTime, LocalDateTime.now());
-
-        if (duration.toMinutes() > 3)
-            this.ticket = Ticket.builder()
-                    .ticketImagePath(this.ticket.getTicketImagePath())
-                    .lastTicketImageModifyTime(Timestamp.valueOf(LocalDateTime.now()))
-                    .ticketModifyCountPerThreeMinutes(0)
-                    .build();
-    }
-
     // 상품 사진의 이미지 경로 추가 메소드
     public void addProduct(ProductEntity productEntity) {
         verifyProductCountFive();
@@ -172,14 +109,4 @@ public class UserEntity extends BaseTimeEntity {
 //            throw new ProductUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
     }
 
-    // 옷 사진 제거 메소드 (로깅의 이유로 사진 삭제 X)
-    public void deleteProduct(int productIndex) {
-        verifyValidProductIndex(productIndex);
-        productList.remove(productIndex);
-    }
-
-    private void verifyValidProductIndex(Integer productIndex) {
-        if(productList.size() - 1 < productIndex)
-            throw new IllegalArgumentException("리스트의 크기보다 Index가 더 큽니다.");
-    }
 }
