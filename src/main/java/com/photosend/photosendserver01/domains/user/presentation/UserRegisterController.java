@@ -1,7 +1,7 @@
 package com.photosend.photosendserver01.domains.user.presentation;
 
-import com.photosend.photosendserver01.domains.user.domain.exception.TokenExpiredException;
-import com.photosend.photosendserver01.domains.user.domain.exception.TokenWrongAudienceException;
+import com.photosend.photosendserver01.domains.user.exception.TokenExpiredException;
+import com.photosend.photosendserver01.domains.user.exception.TokenWrongAudienceException;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterResponse;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import com.photosend.photosendserver01.domains.user.service.UserRegisterService;

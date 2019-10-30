@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.domain.OrderState;
-import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
+import com.photosend.photosendserver01.domains.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

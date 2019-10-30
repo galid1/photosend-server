@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.domains.admin.service;
 
-import com.photosend.photosendserver01.domains.order.domain.exception.OrderNotFoundException;
+import com.photosend.photosendserver01.domains.order.exception.OrderNotFoundException;
 import com.photosend.photosendserver01.domains.user.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.user.domain.product.ProductInformation;
 import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;

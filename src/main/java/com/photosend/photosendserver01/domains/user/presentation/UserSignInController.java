@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.domains.user.presentation;
 
-import com.photosend.photosendserver01.domains.user.domain.exception.UserSignInFailBecauseNotExistException;
+import com.photosend.photosendserver01.domains.user.exception.UserSignInFailBecauseNotExistException;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserSignInFailBecauseNotExistResponse;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserSignInRequest;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserSignInResponse;

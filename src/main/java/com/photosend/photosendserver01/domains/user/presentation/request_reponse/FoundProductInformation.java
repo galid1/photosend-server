@@ -2,6 +2,8 @@ package com.photosend.photosendserver01.domains.user.presentation.request_repons
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -11,6 +13,6 @@ public class FoundProductInformation {
     private String name;
     private Integer price;
     private String brand;
-    private String size;
+    private List<String> size;
 //    private List<Size> size = new ArrayList<>();
 }

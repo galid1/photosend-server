@@ -1,8 +1,8 @@
 package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.common.event.EmailEvent;
-import com.photosend.photosendserver01.domains.user.domain.exception.ProductNotFoundException;
-import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
+import com.photosend.photosendserver01.domains.user.exception.ProductNotFoundException;
+import com.photosend.photosendserver01.domains.user.exception.UserNotFoundException;
 import com.photosend.photosendserver01.domains.user.domain.product.*;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;

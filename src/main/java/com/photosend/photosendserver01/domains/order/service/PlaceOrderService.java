@@ -9,8 +9,8 @@ import com.photosend.photosendserver01.domains.user.domain.product.ProductEntity
 import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
-import com.photosend.photosendserver01.domains.user.domain.exception.ProductNotFoundException;
-import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
+import com.photosend.photosendserver01.domains.user.exception.ProductNotFoundException;
+import com.photosend.photosendserver01.domains.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

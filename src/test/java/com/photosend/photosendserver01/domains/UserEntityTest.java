@@ -3,7 +3,7 @@ package com.photosend.photosendserver01.domains;
 import com.photosend.photosendserver01.domains.user.domain.user.Token;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserInformation;
-import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
+import com.photosend.photosendserver01.domains.user.exception.DepartureTimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
