@@ -107,5 +107,4 @@ public class UserEntity extends BaseTimeEntity {
         throw new ProductUploadCountException("商品图片最多可以上传5分.");
 //            throw new ProductUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
     }
-
 }

@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.domains.user.presentation.request_reponse;
 
+import com.photosend.photosendserver01.domains.user.domain.product.ProductInformation;
 import lombok.*;
 
 import java.util.List;
@@ -15,4 +16,13 @@ public class FoundProductInformation {
     private String brand;
     private List<String> size;
 //    private List<Size> size = new ArrayList<>();
+
+    public ProductInformation toProductInformation() {
+        return ProductInformation.builder()
+                .name(name)
+                .price(price)
+                .brand(brand)
+                .size(size)
+                .build();
+    }
 }
