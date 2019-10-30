@@ -1,8 +1,8 @@
 package com.photosend.photosendserver01.domains;
 
-import com.photosend.photosendserver01.domains.user.domain.Token;
-import com.photosend.photosendserver01.domains.user.domain.UserEntity;
-import com.photosend.photosendserver01.domains.user.domain.UserInformation;
+import com.photosend.photosendserver01.domains.user.domain.user.Token;
+import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
+import com.photosend.photosendserver01.domains.user.domain.user.UserInformation;
 import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
 import org.junit.Test;
 import org.junit.runner.RunWith;

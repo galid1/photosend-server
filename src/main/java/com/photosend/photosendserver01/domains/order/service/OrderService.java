@@ -4,7 +4,7 @@ import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedLineResponse;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedResponse;
-import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
+import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

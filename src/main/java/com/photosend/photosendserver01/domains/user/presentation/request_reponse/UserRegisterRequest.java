@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.domains.user.presentation.request_reponse;
 
-import com.photosend.photosendserver01.domains.user.domain.UserInformation;
+import com.photosend.photosendserver01.domains.user.domain.user.UserInformation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

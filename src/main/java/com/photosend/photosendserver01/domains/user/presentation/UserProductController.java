@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.domains.user.presentation;
 
-import com.photosend.photosendserver01.domains.user.domain.ProductLocation;
+import com.photosend.photosendserver01.domains.user.domain.product.ProductLocation;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ProductFullInformation;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ProductImageUrl;
 import com.photosend.photosendserver01.domains.user.service.UserProductService;
@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController

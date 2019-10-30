@@ -1,6 +1,7 @@
-package com.photosend.photosendserver01.domains.user.domain;
+package com.photosend.photosendserver01.domains.user.domain.product;
 
 import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
+import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.exception.NotExistProductInformationException;
 import lombok.*;
 

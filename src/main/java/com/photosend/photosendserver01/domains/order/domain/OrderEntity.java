@@ -4,7 +4,7 @@ import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
 import com.photosend.photosendserver01.common.model.Money;
 import com.photosend.photosendserver01.domains.order.domain.exception.NoOrderLineException;
 import com.photosend.photosendserver01.domains.order.domain.exception.ShipStateException;
-import com.photosend.photosendserver01.domains.user.domain.UserEntity;
+import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
 import lombok.*;
 

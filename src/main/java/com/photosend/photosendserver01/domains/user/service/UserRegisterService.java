@@ -1,9 +1,9 @@
 package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.common.util.token.JwtTokenProvider;
-import com.photosend.photosendserver01.domains.user.domain.Token;
-import com.photosend.photosendserver01.domains.user.domain.UserEntity;
-import com.photosend.photosendserver01.domains.user.domain.UserRepository;
+import com.photosend.photosendserver01.domains.user.domain.user.Token;
+import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
+import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserDuplicatedException;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterResponse;

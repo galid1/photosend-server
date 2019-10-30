@@ -1,6 +1,6 @@
 package com.photosend.photosendserver01.common.util.token;
 
-import com.photosend.photosendserver01.domains.user.domain.UserRepository;
+import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import com.photosend.photosendserver01.domains.user.domain.exception.TokenExpiredException;
 import com.photosend.photosendserver01.domains.user.domain.exception.TokenWrongAudienceException;
 import io.jsonwebtoken.Claims;

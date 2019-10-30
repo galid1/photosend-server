@@ -1,10 +1,11 @@
 package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.common.event.EmailEvent;
-import com.photosend.photosendserver01.domains.user.domain.*;
-import com.photosend.photosendserver01.domains.user.domain.exception.FileDeleteException;
 import com.photosend.photosendserver01.domains.user.domain.exception.ProductNotFoundException;
 import com.photosend.photosendserver01.domains.user.domain.exception.UserNotFoundException;
+import com.photosend.photosendserver01.domains.user.domain.product.*;
+import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
+import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.ProductFullInformation;
@@ -16,8 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

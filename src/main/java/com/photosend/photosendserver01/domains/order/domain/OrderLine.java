@@ -1,7 +1,6 @@
 package com.photosend.photosendserver01.domains.order.domain;
 
 import com.photosend.photosendserver01.common.model.Money;
-import com.photosend.photosendserver01.domains.user.domain.Size;
 import lombok.*;
 
 import javax.persistence.*;

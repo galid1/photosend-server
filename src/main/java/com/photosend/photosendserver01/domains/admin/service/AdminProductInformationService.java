@@ -1,9 +1,9 @@
 package com.photosend.photosendserver01.domains.admin.service;
 
 import com.photosend.photosendserver01.domains.order.domain.exception.OrderNotFoundException;
-import com.photosend.photosendserver01.domains.user.domain.ProductEntity;
-import com.photosend.photosendserver01.domains.user.domain.ProductInformation;
-import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
+import com.photosend.photosendserver01.domains.user.domain.product.ProductEntity;
+import com.photosend.photosendserver01.domains.user.domain.product.ProductInformation;
+import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
