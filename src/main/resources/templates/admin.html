@@ -69,6 +69,10 @@
       <input type="text" class="brand"> <br>
       <br>
 
+      상품종류 : <br>
+      <input type="text" class="type"> <br>
+      <br>
+
       <div style="display: flex; flex-direction: column; ">
         <button class="add_size_btn" style="width: 50vw; height: auto;">사이즈 추가</button>
 
@@ -161,6 +165,7 @@
         let name = productInformations[0].value;
         let price = productInformations[1].value;
         let brand = productInformations[2].value;
+        let type = productInformations[3].value;
         let size = Array.from(checkedProduct.getElementsByClassName("size_input"))
           .map((sizeInput) => {
             return sizeInput.value;
@@ -171,6 +176,7 @@
           "name": name,
           "price": price,
           "brand": brand,
+          "type": type,
           "size": size
         })
       });
