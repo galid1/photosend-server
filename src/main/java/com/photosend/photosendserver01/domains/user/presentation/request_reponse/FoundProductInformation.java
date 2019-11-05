@@ -14,6 +14,7 @@ public class FoundProductInformation {
     private String name;
     private Integer price;
     private String brand;
+    private String type;
     private List<String> size;
 //    private List<Size> size = new ArrayList<>();
 
@@ -22,6 +23,7 @@ public class FoundProductInformation {
                 .name(name)
                 .price(price)
                 .brand(brand)
+                .type(type)
                 .size(size)
                 .build();
     }

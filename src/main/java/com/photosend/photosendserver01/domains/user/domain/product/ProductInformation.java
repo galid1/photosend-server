@@ -22,6 +22,8 @@ public class ProductInformation {
 
     private String brand;
 
+    private String type;
+
     @ElementCollection
     @CollectionTable(name = "retention_stock_size", joinColumns = @JoinColumn(name = "product_id"))
     private List<String> size = new ArrayList<>();
