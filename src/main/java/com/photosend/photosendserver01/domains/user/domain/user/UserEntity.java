@@ -1,8 +1,11 @@
 package com.photosend.photosendserver01.domains.user.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
-import com.photosend.photosendserver01.domains.user.exception.*;
 import com.photosend.photosendserver01.domains.user.domain.product.ProductEntity;
+import com.photosend.photosendserver01.domains.user.exception.DepartureTimeException;
+import com.photosend.photosendserver01.domains.user.exception.ProductUploadCountException;
+import com.photosend.photosendserver01.domains.user.exception.UploadTimeException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +19,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@JsonIgnoreProperties({"productList"})
 public class UserEntity extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
