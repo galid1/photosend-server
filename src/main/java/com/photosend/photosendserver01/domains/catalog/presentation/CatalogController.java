@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.domains.catalog.presentation;
 
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.CheckIsMostRecentPopulatedProduct;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.GetRecentlyPopulatedProductRequest;
 import com.photosend.photosendserver01.domains.catalog.service.CatalogService;
 import com.photosend.photosendserver01.domains.catalog.service.ProductSummary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class CatalogController {
     private CatalogService catalogService;
 
     @GetMapping("/products")
-    public List<ProductSummary> getRecentlyPopulatedProductListAfter(@PathVariable("offset") int offset) {
-        return catalogService.getRecentlyPopulatedProductListAfter(offset);
+    public List<ProductSummary> getRecentlyPopulatedProductListAfter(@RequestBody GetRecentlyPopulatedProductRequest getRecentlyPopulatedProductRequest) {
+        return catalogService.getRecentlyPopulatedProductListAfter(getRecentlyPopulatedProductRequest);
     }
 
     @PostMapping("/{productId}")

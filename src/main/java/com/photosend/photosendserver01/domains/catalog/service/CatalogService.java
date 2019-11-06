@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.domains.catalog.service;
 
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.CheckIsMostRecentPopulatedProduct;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.GetRecentlyPopulatedProductRequest;
 import com.photosend.photosendserver01.domains.user.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.user.domain.product.ProductInformation;
 import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;
@@ -22,9 +23,10 @@ public class CatalogService {
                 .build();
     }
 
-    public List<ProductSummary> getRecentlyPopulatedProductListAfter(int offset) {
+    public List<ProductSummary> getRecentlyPopulatedProductListAfter(GetRecentlyPopulatedProductRequest getRecentlyPopulatedProductRequest) {
         return productRepository
-                .findRecentlyPopulatedProductListAfter(offset)
+                .findRecentlyPopulatedProductListAfter(getRecentlyPopulatedProductRequest.getOffset()
+                                                        , getRecentlyPopulatedProductRequest.getCount())
                 .stream()
                 .map((productEntity) -> {
                     return toSummary(productEntity);

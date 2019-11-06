@@ -15,8 +15,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByUserUserIdAndProductState(Long userId, ProductState productState);
 
     // for catalog
-    @Query(value = "SELECT * FROM product WHERE product_state = 'populated' ORDER BY created_date DESC LIMIT ?1, 2", nativeQuery = true)
-    List<ProductEntity> findRecentlyPopulatedProductListAfter(int offset);
+    @Query(value = "SELECT * FROM product WHERE product_state = 'populated' ORDER BY created_date DESC LIMIT ?1, ?2", nativeQuery = true)
+    List<ProductEntity> findRecentlyPopulatedProductListAfter(int offset, int count);
 
     @Query(value = "SELECT * FROM product WHERE product_state = 'populated' ORDER BY created_date DESC LIMIT 1", nativeQuery = true)
     ProductEntity findAMostRecentProduct();

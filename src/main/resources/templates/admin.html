@@ -107,6 +107,7 @@
 
       let userId = document.getElementById("user_id").innerText;
       let productInformationListJson = makeProductInformationListToJson(checkedProductList);
+      console.log(JSON.stringify(productInformationListJson));
 
       $.ajax({
         url: `/admin/${userId}/products/information`,
