@@ -16,7 +16,7 @@ public class CatalogController {
     @Autowired
     private CatalogService catalogService;
 
-    @GetMapping("/products")
+    @PostMapping("/products")
     public List<ProductSummary> getRecentlyPopulatedProductListAfter(@RequestBody GetRecentlyPopulatedProductRequest getRecentlyPopulatedProductRequest) {
         return catalogService.getRecentlyPopulatedProductListAfter(getRecentlyPopulatedProductRequest);
     }
