@@ -1,7 +1,7 @@
-package com.photosend.photosendserver01.domains.user.domain.product;
+package com.photosend.photosendserver01.domains.catalog.domain.product;
+
 
 import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
-import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.exception.NotExistProductInformationException;
 import lombok.*;
 
@@ -32,20 +32,15 @@ public class ProductEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ProductState productState;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
     @Builder
-    public ProductEntity(@NonNull String productImagePath, ProductLocation productLocation, UserEntity userEntity) {
-        if(productImagePath == null || productLocation == null || userEntity == null) {
+    public ProductEntity(@NonNull String productImagePath, ProductLocation productLocation) {
+        if(productImagePath == null || productLocation == null) {
             throw new IllegalArgumentException("put All Information for create ProductEntity.");
         }
 
         this.productImagePath = productImagePath;
         this.productLocation = productLocation;
         this.productState = ProductState.UPLOADED;
-        this.user = userEntity;
     }
 
     public Long putProductInformation(ProductInformation productInformation) {
@@ -53,12 +48,6 @@ public class ProductEntity extends BaseTimeEntity {
         this.productState = ProductState.POPULATED;
 
         return this.pid;
-    }
-
-    // 상품을 주문 처리
-    public void productOrdered() {
-        verifyExistInformation();
-        this.productState = ProductState.ORDERED;
     }
 
     // 상품 정보가 입력되었는지 검증

@@ -2,17 +2,17 @@ package com.photosend.photosendserver01.domains.user.infra.file;
 
 import com.photosend.photosendserver01.domains.user.service.FileUtil;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
 
 @Component
 public class UploadToLocalFileUtilImpl implements FileUtil {
     @Override
-    public String makeFileUploadPath(Long userId, String fileName, ImageType fileType) {
-        return System.getProperty("user.home") + "/" + fileType.getValue() + "/" + String.valueOf(userId) + "_" + makeRandomFileName(fileName);
+    public String makeFileUploadPath(String originalFileName, ImageType fileType) {
+        return System.getProperty("user.home") + "/" + fileType.getValue() + "/" + makeRandomFileName(originalFileName);
     }
 
     private String makeRandomFileName(String originFileName) {
@@ -20,12 +20,13 @@ public class UploadToLocalFileUtilImpl implements FileUtil {
     }
 
     @Override
-    public void uploadFile(String uploadPath, MultipartFile file) {
+    public void uploadFile(String uploadPath, byte[] fileByteArray) {
         File destinationFile = new File(uploadPath);
         if (!destinationFile.getParentFile().exists())
             destinationFile.getParentFile().mkdir();
         try {
-            file.transferTo(destinationFile);
+            FileOutputStream fileOutputStream = new FileOutputStream(uploadPath);
+            fileOutputStream.write(fileByteArray);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -2,9 +2,12 @@ package com.photosend.photosendserver01.domains.catalog.service;
 
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.CheckIsMostRecentPopulatedProduct;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.GetRecentlyPopulatedProductRequest;
-import com.photosend.photosendserver01.domains.user.domain.product.ProductEntity;
-import com.photosend.photosendserver01.domains.user.domain.product.ProductInformation;
-import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductInformation;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.ProductSummary;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.FoundProductInformation;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.ProductFullInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +47,27 @@ public class CatalogService {
                 .productImagePath(productEntity.getProductImagePath())
                 .uploadedTime(productEntity.getCreatedDate())
                 .build();
+    }
+
+    public List<ProductFullInformation> getProductList() {
+        return productRepository.findAll()
+                .stream()
+                .map(productEntity -> {
+                    ProductInformation information = productEntity.getProductInformation();
+                    return ProductFullInformation.builder()
+                            .productId(productEntity.getPid())
+                            .productState(productEntity.getProductState())
+                            .productImagePath(productEntity.getProductImagePath())
+                            .foundProductInformation(FoundProductInformation.builder()
+                                    .pid(productEntity.getPid())
+                                    .type(information.getType())
+                                    .size(information.getSize())
+                                    .price(information.getPrice())
+                                    .name(information.getName())
+                                    .brand(information.getBrand())
+                                    .build())
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 }

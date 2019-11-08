@@ -1,6 +1,6 @@
-package com.photosend.photosendserver01.domains.user.presentation.request_reponse;
+package com.photosend.photosendserver01.domains.catalog.presentation.request_response;
 
-import com.photosend.photosendserver01.domains.user.domain.product.ProductState;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductState;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;

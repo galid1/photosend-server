@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegisterRequest {
-    private String weChatOpenId;
     private LoginType loginType;
     private UserInformation userInformation;
 }

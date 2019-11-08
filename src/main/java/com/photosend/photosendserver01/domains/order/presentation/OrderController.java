@@ -21,9 +21,4 @@ public class OrderController {
         return orderService.getOrderedList(userId);
     }
 
-    //TODO 토큰검증 다시 하도록 CheckTokenInterceptor에서 설정하기
-    @GetMapping("/{usersId}/{ordersId}")
-    public OrderedResponse getAnOrdered(@PathVariable("usersId") Long ordererId, @PathVariable("ordersId") Long ordersId) {
-        return orderService.getAnOrdered(ordererId, ordersId);
-    }
 }

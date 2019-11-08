@@ -40,7 +40,6 @@ public class OrderEntity extends BaseTimeEntity {
 
     @Builder
     public OrderEntity(List<OrderLine> orderLines, UserEntity orderer) {
-        verifyDepartureTime(orderer.getUserInformation().getDepartureTime().toLocalDateTime());
         setOrderLines(orderLines);
         this.orderer = orderer;
         this.orderState = OrderState.SHIPPING_IN_PROGRESS;

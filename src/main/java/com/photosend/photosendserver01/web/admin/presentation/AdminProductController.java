@@ -15,7 +15,7 @@ public class AdminProductController {
     @GetMapping("/admin/{usersId}/products")
     public String inputProductInformation(@PathVariable("usersId") long userId, Model model) {
         model.addAttribute("userId", userId);
-        model.addAttribute("uploadedProductList", adminProductService.getUploadedProductList(userId));
+        model.addAttribute("uploadedProductList", adminProductService.getUploadedProductList());
         return "admin";
     }
 }

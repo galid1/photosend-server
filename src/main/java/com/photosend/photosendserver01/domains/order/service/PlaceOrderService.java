@@ -5,8 +5,8 @@ import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderRequest;
-import com.photosend.photosendserver01.domains.user.domain.product.ProductEntity;
-import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import com.photosend.photosendserver01.domains.user.exception.ProductNotFoundException;
@@ -37,8 +37,6 @@ public class PlaceOrderService {
         orderRequests.stream().forEach(orderRequest -> {
             ProductEntity productEntity = productRepository.findById(orderRequest.getProductId())
                     .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
-
-            productEntity.productOrdered(); // 상품 주문처리
 
             OrderLine orderLine = OrderLine.builder()
                     .productPrice(Money.builder().value(productEntity.getProductInformation().getPrice()).build())

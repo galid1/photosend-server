@@ -4,7 +4,6 @@ import com.photosend.photosendserver01.common.util.token.JwtTokenProvider;
 import com.photosend.photosendserver01.domains.user.domain.user.Token;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
-import com.photosend.photosendserver01.domains.user.exception.UserDuplicatedException;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,19 +30,13 @@ public class UserRegisterService {
     }
 
     private UserEntity createUserEntity(UserRegisterRequest registerRequest) {
-        verifyDuplicatedUser(registerRequest.getWeChatOpenId());
+        // 중복 검사
+//        verifyDuplicatedUser(registerRequest.getUserId());
 
         return UserEntity.builder()
-                .weChatOpenId(registerRequest.getWeChatOpenId())
                 .token(Token.builder().jwtToken(jwtTokenProvider.createToken()).build())
                 .userInformation(registerRequest.getUserInformation())
                 .build();
-    }
-
-
-    private void verifyDuplicatedUser(String weChatOpenId) {
-        if(userRepository.findByWeChatOpenId(weChatOpenId).isPresent())
-            throw new UserDuplicatedException("ID已存在."); // ID 중복
     }
 
 }

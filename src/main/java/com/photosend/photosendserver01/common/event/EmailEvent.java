@@ -4,24 +4,16 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmailEvent {
-    private String userName;
-    private byte[] buffer;
+    private List<byte[]> bufferList;
 
     @Builder
-    public EmailEvent(String userName, MultipartFile multipartFile) {
-        this.userName = userName;
-
-        try {
-            this.buffer = multipartFile.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public EmailEvent(List<byte[]> fileByteArray) {
+        this.bufferList = fileByteArray;
     }
 }

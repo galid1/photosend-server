@@ -1,7 +1,7 @@
 package com.photosend.photosendserver01.domains.admin.service;
 
-import com.photosend.photosendserver01.domains.user.domain.product.ProductRepository;
-import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.FoundProductInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,9 +14,10 @@ public class AdminProductInformationService {
     private ProductRepository productRepository;
 
     @Transactional
-    public void inputProductInformation(long userId, List<FoundProductInformation> foundProductInformationList) {
+    public void inputProductInformation(List<FoundProductInformation> foundProductInformationList) {
         foundProductInformationList.forEach((foundProductInformation) -> {
-            productRepository.findByPidAndUserUserId(foundProductInformation.getPid(), userId)
+            productRepository.findById(foundProductInformation.getPid())
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."))
                     .putProductInformation(foundProductInformation.toProductInformation());
         });
     }

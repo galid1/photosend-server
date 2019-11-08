@@ -1,4 +1,4 @@
-package com.photosend.photosendserver01.domains.user.domain.product;
+package com.photosend.photosendserver01.domains.catalog.domain.product;
 
 import lombok.*;
 

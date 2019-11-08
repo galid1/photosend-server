@@ -1,11 +1,11 @@
 package com.photosend.photosendserver01.domains.user.domain.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Min;
-import java.sql.Timestamp;
 
 @Embeddable
 @Getter
@@ -13,14 +13,12 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 public class UserInformation {
-    // Required Field
     @NonNull
     @Min(value = 1, message = "")
     private String name;
-//    @NonNull
-//    @Pattern(regexp = "", message = "")
-//    private String phoneNum;
-    @NonNull
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
-    private Timestamp departureTime;
+
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    private int age;
 }
