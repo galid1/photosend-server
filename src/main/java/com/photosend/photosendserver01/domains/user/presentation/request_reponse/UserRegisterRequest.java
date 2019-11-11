@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRegisterRequest {
-    private LoginType loginType;
+//    private LoginType loginType;
+    private String deviceId;
     private UserInformation userInformation;
 }

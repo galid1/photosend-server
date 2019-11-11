@@ -20,23 +20,27 @@ public class UserRegisterService {
 
     @Transactional
     public UserRegisterResponse registerUser(UserRegisterRequest userRegisterRequest) {
-        UserEntity newUserEntity = createUserEntity(userRegisterRequest);
-        Long savedUserId = userRepository.save(newUserEntity).getUserId();
+        verifyExistUser(userRegisterRequest.getDeviceId());
+
+        UserEntity newUserEntity = createAndSaveUserEntity(userRegisterRequest);
 
         return UserRegisterResponse.builder()
-                .userId(savedUserId)
+                .userId(newUserEntity.getUserId())
                 .jwtToken(newUserEntity.getToken().getJwtToken())
                 .build();
     }
 
-    private UserEntity createUserEntity(UserRegisterRequest registerRequest) {
-        // 중복 검사
-//        verifyDuplicatedUser(registerRequest.getUserId());
-
-        return UserEntity.builder()
+    private UserEntity createAndSaveUserEntity(UserRegisterRequest registerRequest) {
+        return userRepository.save(UserEntity.builder()
+                .deviceId(registerRequest.getDeviceId())
                 .token(Token.builder().jwtToken(jwtTokenProvider.createToken()).build())
                 .userInformation(registerRequest.getUserInformation())
-                .build();
+                .build());
     }
 
+    private void verifyExistUser(String userUniqueId) {
+        if(userRepository.findByDeviceId(userUniqueId).isPresent()) {
+            throw new IllegalArgumentException("이미 회원가입이 된 유저입니다.");
+        }
+    }
 }
