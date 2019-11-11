@@ -41,8 +41,9 @@ public class UserEntity extends BaseTimeEntity {
     private List<Long> productList = new ArrayList<>();
 
     @Builder
-    public UserEntity(@NonNull UserInformation userInformation, @NonNull Token token) {
+    public UserEntity( UserInformation userInformation, String deviceId, @NonNull Token token) {
         setUserInformation(userInformation);
+        setDeviceId(deviceId);
         this.token = token;
     }
 
@@ -56,6 +57,13 @@ public class UserEntity extends BaseTimeEntity {
         }
 
         this.userInformation = userInformation;
+    }
+
+    private void setDeviceId(String deviceId) {
+        if(deviceId == null || deviceId.length() < 1)
+            throw new IllegalArgumentException("올바른 Device Id 값이 아닙니다.");
+
+        this.deviceId = deviceId;
     }
 
     // 상품 사진의 이미지 경로 추가 메소드
