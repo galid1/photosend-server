@@ -3,7 +3,10 @@ package com.photosend.photosendserver01.domains.catalog.domain.product;
 
 import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
 import com.photosend.photosendserver01.domains.user.exception.NotExistProductInformationException;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -17,13 +20,9 @@ public class ProductEntity extends BaseTimeEntity {
     @Column(name = "product_id")
     private Long pid;
 
-    // Required Field
-    @NonNull
-    @Column(name = "image_path")
-    private String productImagePath;
 
     @Embedded
-    private ProductLocation productLocation;
+    private ProductImageInformation productImageInformation;
 
     // Optional Field
     @Embedded
@@ -33,21 +32,22 @@ public class ProductEntity extends BaseTimeEntity {
     private ProductState productState;
 
     @Builder
-    public ProductEntity(@NonNull String productImagePath, ProductLocation productLocation) {
-        if(productImagePath == null || productLocation == null) {
-            throw new IllegalArgumentException("put All Information for create ProductEntity.");
-        }
-
-        this.productImagePath = productImagePath;
-        this.productLocation = productLocation;
+    public ProductEntity(ProductImageInformation productImageInformation) {
+        this.setProductImageInformation(productImageInformation);
         this.productState = ProductState.UPLOADED;
     }
 
-    public Long putProductInformation(ProductInformation productInformation) {
+    private void setProductImageInformation(ProductImageInformation productImageInformation) {
+        if(productImageInformation.getProductImagePath() == null
+                || productImageInformation.getProductLocation() == null) {
+            throw new IllegalArgumentException("put All Information for create ProductEntity.");
+        }
+        this.productImageInformation = productImageInformation;
+    }
+
+    public void putProductInformation(ProductInformation productInformation) {
         this.productInformation = productInformation;
         this.productState = ProductState.POPULATED;
-
-        return this.pid;
     }
 
     // 상품 정보가 입력되었는지 검증

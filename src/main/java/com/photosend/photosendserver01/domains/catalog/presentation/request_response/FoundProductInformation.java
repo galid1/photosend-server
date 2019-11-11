@@ -4,6 +4,7 @@ import com.photosend.photosendserver01.domains.catalog.domain.product.ProductInf
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,8 +15,8 @@ public class FoundProductInformation {
     private String name;
     private Integer price;
     private String brand;
-    private String type;
-    private List<String> size;
+    private Set<Long> categoryIdList;
+    private List<String> sizeList;
 //    private List<Size> size = new ArrayList<>();
 
     public ProductInformation toProductInformation() {
@@ -23,8 +24,8 @@ public class FoundProductInformation {
                 .name(name)
                 .price(price)
                 .brand(brand)
-                .type(type)
-                .size(size)
+                .category(categoryIdList)
+                .size(sizeList)
                 .build();
     }
 }

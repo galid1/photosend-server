@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.domains.catalog.service;
 
 import com.photosend.photosendserver01.common.event.EmailEvent;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductImageInformation;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.ProductUploadResponse;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.UploadedProduct;
@@ -67,8 +68,10 @@ public class CatalogProductUploadService {
                 .map(uploadedProduct -> {
                     long uploadedProductId = productRepository.save(ProductEntity
                             .builder()
-                            .productLocation(uploadedProduct.getProductLocation())
-                            .productImagePath(uploadedProduct.getUploadedImageFilePath())
+                            .productImageInformation(ProductImageInformation.builder()
+                                    .productImagePath(uploadedProduct.getUploadedImageFilePath())
+                                    .productLocation(uploadedProduct.getProductLocation())
+                                    .build())
                             .build()
                     ).getPid();
 

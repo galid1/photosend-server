@@ -44,7 +44,9 @@ public class CatalogService {
                 .pid(productEntity.getPid())
                 .name(information.getName())
                 .price(information.getPrice())
-                .productImagePath(productEntity.getProductImagePath())
+                .productImagePath(productEntity
+                        .getProductImageInformation()
+                        .getProductImagePath())
                 .uploadedTime(productEntity.getCreatedDate())
                 .build();
     }
@@ -57,11 +59,13 @@ public class CatalogService {
                     return ProductFullInformation.builder()
                             .productId(productEntity.getPid())
                             .productState(productEntity.getProductState())
-                            .productImagePath(productEntity.getProductImagePath())
+                            .productImagePath(productEntity
+                                    .getProductImageInformation()
+                                    .getProductImagePath())
                             .foundProductInformation(FoundProductInformation.builder()
                                     .pid(productEntity.getPid())
-                                    .type(information.getType())
-                                    .size(information.getSize())
+                                    .categoryIdList(information.getCategory())
+                                    .sizeList(information.getSize())
                                     .price(information.getPrice())
                                     .name(information.getName())
                                     .brand(information.getBrand())

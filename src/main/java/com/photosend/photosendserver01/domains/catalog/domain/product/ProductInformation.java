@@ -2,12 +2,11 @@ package com.photosend.photosendserver01.domains.catalog.domain.product;
 
 import lombok.*;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Embeddable
 @NoArgsConstructor
@@ -22,7 +21,9 @@ public class ProductInformation {
 
     private String brand;
 
-    private String type;
+    @ElementCollection
+    @CollectionTable(name = "product_category_list", joinColumns = @JoinColumn(name = "product_id"))
+    private Set<Long> category = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "retention_stock_size", joinColumns = @JoinColumn(name = "product_id"))
