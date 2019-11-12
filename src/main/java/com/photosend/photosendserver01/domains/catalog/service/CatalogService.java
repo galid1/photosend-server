@@ -1,14 +1,12 @@
 package com.photosend.photosendserver01.domains.catalog.service;
 
-import com.photosend.photosendserver01.domains.catalog.presentation.request_response.CheckIsMostRecentPopulatedProduct;
-import com.photosend.photosendserver01.domains.catalog.presentation.request_response.GetRecentlyPopulatedProductRequest;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductInformation;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
-import com.photosend.photosendserver01.domains.catalog.presentation.request_response.ProductSummary;
-import com.photosend.photosendserver01.domains.catalog.presentation.request_response.FoundProductInformation;
-import com.photosend.photosendserver01.domains.catalog.presentation.request_response.ProductFullInformation;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductState;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,16 +18,30 @@ public class CatalogService {
     private ProductRepository productRepository;
 
     public CheckIsMostRecentPopulatedProduct isMostRecentPopulatedProduct(long productId) {
-        ProductEntity mostRecentPopulatedProduct = productRepository.findAMostRecentProduct();
+        ProductEntity mostRecentPopulatedProduct = productRepository
+                .findFirst1ByProductStateOrderByCreatedDateDesc(ProductState.POPULATED);
+
         return CheckIsMostRecentPopulatedProduct.builder()
                 .isMostRecentPopulatedProduct(mostRecentPopulatedProduct.getPid() == productId)
                 .build();
     }
 
+//    public List<ProductSummary> getRecentlyPopulatedProductListAfter(GetRecentlyPopulatedProductRequest getRecentlyPopulatedProductRequest) {
+//        return productRepository
+//                .findRecentlyPopulatedProductListAfter(getRecentlyPopulatedProductRequest.getOffset()
+//                                                        , getRecentlyPopulatedProductRequest.getCount())
+//                .stream()
+//                .map((productEntity) -> {
+//                    return toSummary(productEntity);
+//                })
+//                .collect(Collectors.toList());
+//    }
+
     public List<ProductSummary> getRecentlyPopulatedProductListAfter(GetRecentlyPopulatedProductRequest getRecentlyPopulatedProductRequest) {
         return productRepository
-                .findRecentlyPopulatedProductListAfter(getRecentlyPopulatedProductRequest.getOffset()
-                                                        , getRecentlyPopulatedProductRequest.getCount())
+                .findByProductStateOrderByCreatedDateDesc(ProductState.POPULATED
+                        , PageRequest.of(getRecentlyPopulatedProductRequest.getPage()
+                                , getRecentlyPopulatedProductRequest.getCount()))
                 .stream()
                 .map((productEntity) -> {
                     return toSummary(productEntity);

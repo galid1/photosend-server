@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class GetRecentlyPopulatedProductRequest {
-    private int offset;
+    private int page;
     private int count;
 }

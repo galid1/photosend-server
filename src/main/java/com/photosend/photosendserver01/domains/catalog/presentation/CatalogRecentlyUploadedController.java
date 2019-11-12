@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/catalog")
-public class CatalogController {
+public class CatalogRecentlyUploadedController {
 
     @Autowired
     private CatalogService catalogService;
