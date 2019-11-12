@@ -27,7 +27,7 @@ public class OrderEntity extends BaseTimeEntity {
 
     @Embedded
     @ManyToOne
-    @JoinColumn(name = "orderer_wechat_uid")
+    @JoinColumn(name = "orderer_id")
     private UserEntity orderer;
 
     @ElementCollection
@@ -51,16 +51,18 @@ public class OrderEntity extends BaseTimeEntity {
         calculateTotalAmount();
     }
 
-    @Transient
-    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
-    private int shippingFee = 120;
+//    @Transient
+//    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
+//    private int shippingFee = 120;
 
     private void calculateTotalAmount() {
-        int totalAmountTemp = shippingFee + this.orderLines.stream()
-                                                    .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
-                                                    .sum();
+//        shippingFee + this.orderLines.stream()
+//                                                    .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
+//                                                    .sum();
         this.totalAmount = Money.builder()
-                .value(totalAmountTemp)
+                .value(this.orderLines.stream()
+                        .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
+                        .sum())
                 .build();
     }
 
