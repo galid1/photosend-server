@@ -1,11 +1,11 @@
 package com.photosend.photosendserver01.domains.catalog.presentation;
 
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductLocation;
+import com.photosend.photosendserver01.domains.catalog.infra.ImageType;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.ProductUploadResponse;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.UploadedProduct;
 import com.photosend.photosendserver01.domains.catalog.service.CatalogProductUploadService;
-import com.photosend.photosendserver01.domains.user.infra.file.ImageType;
-import com.photosend.photosendserver01.domains.user.service.FileUtil;
+import com.photosend.photosendserver01.domains.catalog.service.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +60,7 @@ public class CatalogProductUploadController {
     }
 
     private String makeFilePath(String originalFileName) {
-        return fileUtil.makeFileUploadPath(originalFileName, ImageType.PRODUCT);
+        return fileUtil.getFileUploadPathForProductEntity(originalFileName, ImageType.PRODUCT);
     }
 
 }

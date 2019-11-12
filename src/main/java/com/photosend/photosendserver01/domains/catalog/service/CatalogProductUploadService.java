@@ -8,7 +8,6 @@ import com.photosend.photosendserver01.domains.catalog.presentation.request_resp
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.UploadedProduct;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
-import com.photosend.photosendserver01.domains.user.service.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
