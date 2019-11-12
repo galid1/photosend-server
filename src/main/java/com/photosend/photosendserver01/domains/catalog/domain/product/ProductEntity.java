@@ -20,7 +20,6 @@ public class ProductEntity extends BaseTimeEntity {
     @Column(name = "product_id")
     private Long pid;
 
-
     @Embedded
     private ProductImageInformation productImageInformation;
 

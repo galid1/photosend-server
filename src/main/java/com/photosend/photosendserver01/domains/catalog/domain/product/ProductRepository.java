@@ -12,4 +12,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findByProductStateOrderByCreatedDateDesc(ProductState productState, Pageable pageable);
 
     ProductEntity findFirst1ByProductStateOrderByCreatedDateDesc(ProductState productState);
+
 }

@@ -74,8 +74,17 @@ public class UserEntity extends BaseTimeEntity {
 
     // 옷 사진 최대 5개 업로드 가능 제한 로직
     private void verifyProductCountFive() {
+        if(verifyIsAdmin())
+            return;
+
         if (this.productList.size() >= 5)
         throw new ProductUploadCountException("商品图片最多可以上传5分.");
 //            throw new ProductUploadCountException("옷 이미지는 최대 5장 업로드 가능합니다.");
+    }
+
+    private boolean verifyIsAdmin() {
+        if (this.userId == 1l)
+            return true;
+        return false;
     }
 }
