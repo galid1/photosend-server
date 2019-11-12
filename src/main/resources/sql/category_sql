@@ -1,0 +1,5 @@
+insert into category(name) values('top');
+insert into category(name) values('bottom');
+insert into category(name) values('cosmetic');
+insert into category(name) values('souvenir');
+insert into category(name) values('etc');
