@@ -1,7 +1,0 @@
-package com.photosend.photosendserver01.domains.user.domain.exception;
-
-public class UserNotFoundException extends RuntimeException{
-    public UserNotFoundException(String message) {
-        super(message);
-    }
-}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <title>ADMIN</title>
+  <link rel="stylesheet" href="/admin.css">
+  <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous">
+  </script>
+</head>
+<body>
+
+<div class="title_container" style="height: 10vh; display: flex; align-items: center">
+  <h2> 상품정보 입력 페이지 </h2>
+</div>
+
+
+<div claass="userinfo_container"
+     style="height: 20vh; display: flex; flex-direction: column; justify-content: space-evenly">
+  <h3>사용자 정보</h3>
+  사용자 번호 : <div id="user_id" th:text="${userId}"></div>
+</div>
+
+
+<div class="upload_btn_container"
+     style="height: 25vh; display: flex; flex-direction: column; justify-content: space-evenly">
+  <button class="upload_btn" style="width: 50vw; height: 10vh;">상품정보 업로드</button>
+  <span style="color: cornflowerblue;">
+        상품정보 입력을 완료한뒤, <br>
+        정보 업로드를 원하는 상품에 체크하고, <br>
+        <b>위 버튼</b>을 누르세요.
+    </span>
+</div>
+
+
+<div>
+  <h3> 상품정보 입력란 </h3>
+</div>
+<div th:each="product : ${uploadedProductList}">
+  <div class="product_information_container">
+    <div class="checkbox_container" style="display: flex; align-items: center; justify-content: center;">
+      <input class="checkbox" type="checkbox">
+    </div>
+
+    <div class="image_container">
+      <div></div>
+      <div style="display: flex; justify-content: center;">
+        <img th:src="@{${product.getProductImagePath()}}" alt="" style="width: 15vw; height: auto;">
+      </div>
+      <div></div>
+    </div>
+
+    <div class="product_information">
+      <div class="product_id" th:text="${product.getPid()}">
+      </div>
+
+      상품이름 : <br>
+      <input type="text" class="name"> <br>
+      <br>
+
+      가격 : <br>
+      <input type="number" class="price"> <br>
+      <br>
+
+      브랜드 : <br>
+      <input type="text" class="brand"> <br>
+      <br>
+
+      상품종류 : <br>
+      <input type="text" class="type"> <br>
+      <br>
+
+      <div style="display: flex; flex-direction: column; ">
+        <button class="add_size_btn" style="width: 50vw; height: auto;">사이즈 추가</button>
+
+        <div class="size_input_list_container">
+          <div class="size_container">
+            사이즈 :<input type="text" class="size_input">
+            <button class="remove_size_btn" style="width: 5vw; border-radius: 100%; "> - </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+
+<script>
+  $(function() {
+    $(".upload_btn").on("click", function() {
+      let checkedProductList = getCheckedProductList();
+
+      if(checkedProductList.length < 1) {
+         alert("하나 이상의 상품을 체크하세요.");
+         return;
+      }
+
+      if(confirmPopulatedInformation(checkedProductList)) {
+        alert("체크한 상품의 모든 정보를 기입하세요.");
+        return;
+      }
+
+      let userId = document.getElementById("user_id").innerText;
+      let productInformationListJson = makeProductInformationListToJson(checkedProductList);
+      console.log(JSON.stringify(productInformationListJson));
+
+      $.ajax({
+        url: `/admin/${userId}/products/information`,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(productInformationListJson),
+        success : function() {
+          alert("업로드 성공!");
+          location.reload();
+        },
+        error : function(jqXHR, textStatus, error) {
+          alert(textState + " : " +  error);
+        }
+      });
+
+    });
+
+    function getCheckedProductList() {
+        let checkedProductList = $(".checkbox").map((i, checkbox) => {
+          if (checkbox.checked) {
+            return checkbox.parentElement.parentElement.children[2];
+          }
+        });
+
+        return checkedProductList;
+    }
+
+    function confirmPopulatedInformation(checkedProductList) {
+      let wrong = false;
+
+      checkedProductList.map((i, product) => {
+        let inputList = product.getElementsByTagName("input");
+
+        if(wrong) {
+          return wrong;
+        }
+
+        for(let i = 0; i < inputList.length; i++) {
+          if(inputList[i].value.length < 1) {
+            wrong = true;
+            break;
+          }
+        }
+      });
+
+      return wrong;
+    }
+
+    function makeProductInformationListToJson(checkedProductList) {
+      let productInformationListJson = [];
+
+      checkedProductList.map((i, checkedProduct) => {
+        let productInformations = checkedProduct.getElementsByTagName("input");
+
+        let pid = checkedProduct.getElementsByClassName("product_id")[0].innerText;
+        let name = productInformations[0].value;
+        let price = productInformations[1].value;
+        let brand = productInformations[2].value;
+        let type = productInformations[3].value;
+        let size = Array.from(checkedProduct.getElementsByClassName("size_input"))
+          .map((sizeInput) => {
+            return sizeInput.value;
+          });
+
+        productInformationListJson.push({
+          "pid": pid,
+          "name": name,
+          "price": price,
+          "brand": brand,
+          "type": type,
+          "size": size
+        })
+      });
+
+      return productInformationListJson;
+    }
+
+    $(".add_size_btn").on("click", function() {
+        let parentElement = this.parentNode;
+        let sizeContainer = createSizeNode();
+
+        parentElement.children[1].appendChild(sizeContainer);
+    });
+
+
+    $(".remove_size_btn").on("click", removeSizeContainerEvent);
+
+    function createSizeNode() {
+        let sizeContainer = document.createElement("div");
+        sizeContainer.className = "size_container";
+        sizeContainer.innerText = "사이즈 : ";
+
+        let sizeInput = document.createElement("input");
+        sizeInput.className = "size_input";
+
+        let removeSizeBtn = document.createElement("button");
+        removeSizeBtn.innerText = " - ";
+        removeSizeBtn.className = "remove_size_btn";
+        removeSizeBtn.addEventListener("click", removeSizeContainerEvent);
+
+        sizeContainer.appendChild(sizeInput);
+        sizeContainer.appendChild(removeSizeBtn);
+
+        return sizeContainer;
+    }
+
+    function removeSizeContainerEvent() {
+      let removeTarget = this.parentNode;
+      let sizeInputCount = this.parentNode.parentNode.getElementsByClassName("size_container").length;
+
+      if(sizeInputCount <= 1) {
+          alert("최소 한개 이상의 사이즈를 입력해야합니다.");
+          return;
+      }
+
+      removeTarget.remove();
+    }
+
+  });
+</script>
+</html>

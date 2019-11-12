@@ -1,40 +1,39 @@
 package com.photosend.photosendserver01.domains.admin.service;
 
-import com.photosend.photosendserver01.domains.order.domain.exception.OrderNotFoundException;
-import com.photosend.photosendserver01.domains.user.domain.ProductEntity;
-import com.photosend.photosendserver01.domains.user.domain.ProductInformation;
-import com.photosend.photosendserver01.domains.user.domain.ProductRepository;
-import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
+import com.photosend.photosendserver01.domains.catalog.domain.category.CategoryRepository;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.FoundProductInformation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AdminProductInformationService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Transactional
-    public List<Long> putFoundProductInformation(Long ordererId, List<FoundProductInformation> foundProductInformationList) {
-        List<Long> productIdList = new ArrayList<>();
+    public void inputProductInformation(List<FoundProductInformation> foundProductInformationList) {
+        foundProductInformationList.forEach((foundProductInformation) -> {
+            verifyExistCategories(foundProductInformation.getCategoryIdList());
 
-        foundProductInformationList.stream().forEach(product -> {
-            ProductInformation newProductInformation = ProductInformation.builder()
-                                                            .brand(product.getBrand())
-                                                            .name(product.getName())
-                                                            .price(product.getPrice())
-                                                            .size(product.getSize())
-                                                            .build();
-
-            ProductEntity productEntity = Optional.of(productRepository.findByPidAndUserUserId(product.getPid(), ordererId))
-                    .orElseThrow(() -> new OrderNotFoundException("상품이 존재하지 않습니다."));
-            productIdList.add(productEntity.putProductInformation(newProductInformation));
+            productRepository.findById(foundProductInformation.getPid())
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."))
+                    .putProductInformation(foundProductInformation.toProductInformation());
         });
+    }
 
-        return productIdList;
+    private void verifyExistCategories(Set<Long> categoryIdList) {
+        categoryIdList
+                .stream()
+                .forEach(categoryId -> {
+                    if(! categoryRepository.findById(categoryId).isPresent())
+                        throw new IllegalArgumentException("존재하지 않는 카테고리입니다.");
+                });
     }
 }

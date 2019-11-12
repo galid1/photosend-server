@@ -1,20 +1,21 @@
 package com.photosend.photosendserver01.domains.admin.presentation;
 
-import com.photosend.photosendserver01.domains.user.presentation.request_reponse.FoundProductInformation;
 import com.photosend.photosendserver01.domains.admin.service.AdminProductInformationService;
+import com.photosend.photosendserver01.domains.catalog.presentation.request_response.FoundProductInformation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
 public class AdminProductInformationController {
     @Autowired
     private AdminProductInformationService adminProductInformationService;
 
-    @PostMapping("/{usersId}/product/information")
-    public List<Long> putFoundClothesInformation(@PathVariable("usersId")Long ordererId, @RequestBody List<FoundProductInformation> foundProductInformationList) {
-        return adminProductInformationService.putFoundProductInformation(ordererId, foundProductInformationList);
+    @PostMapping("/admin/products/information")
+    public void uploadProductListInformation(@RequestBody List<FoundProductInformation> foundProductInformationList) {
+        adminProductInformationService.inputProductInformation(foundProductInformationList);
     }
 }

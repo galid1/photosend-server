@@ -1,7 +1,7 @@
 package com.photosend.photosendserver01.common.config.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.photosend.photosendserver01.domains.user.domain.ProductLocation;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;

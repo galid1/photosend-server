@@ -2,10 +2,10 @@ package com.photosend.photosendserver01.domains.order.domain;
 
 import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
 import com.photosend.photosendserver01.common.model.Money;
-import com.photosend.photosendserver01.domains.order.domain.exception.NoOrderLineException;
-import com.photosend.photosendserver01.domains.order.domain.exception.ShipStateException;
-import com.photosend.photosendserver01.domains.user.domain.UserEntity;
-import com.photosend.photosendserver01.domains.user.domain.exception.DepartureTimeException;
+import com.photosend.photosendserver01.domains.order.exception.NoOrderLineException;
+import com.photosend.photosendserver01.domains.order.exception.ShipStateException;
+import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
+import com.photosend.photosendserver01.domains.user.exception.DepartureTimeException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,7 +27,7 @@ public class OrderEntity extends BaseTimeEntity {
 
     @Embedded
     @ManyToOne
-    @JoinColumn(name = "orderer_wechat_uid")
+    @JoinColumn(name = "orderer_id")
     private UserEntity orderer;
 
     @ElementCollection
@@ -40,7 +40,6 @@ public class OrderEntity extends BaseTimeEntity {
 
     @Builder
     public OrderEntity(List<OrderLine> orderLines, UserEntity orderer) {
-        verifyDepartureTime(orderer.getUserInformation().getDepartureTime().toLocalDateTime());
         setOrderLines(orderLines);
         this.orderer = orderer;
         this.orderState = OrderState.SHIPPING_IN_PROGRESS;
@@ -52,16 +51,18 @@ public class OrderEntity extends BaseTimeEntity {
         calculateTotalAmount();
     }
 
-    @Transient
-    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
-    private int shippingFee = 120;
+//    @Transient
+//    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
+//    private int shippingFee = 120;
 
     private void calculateTotalAmount() {
-        int totalAmountTemp = shippingFee + this.orderLines.stream()
-                                                    .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
-                                                    .sum();
+//        shippingFee + this.orderLines.stream()
+//                                                    .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
+//                                                    .sum();
         this.totalAmount = Money.builder()
-                .value(totalAmountTemp)
+                .value(this.orderLines.stream()
+                        .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
+                        .sum())
                 .build();
     }
 

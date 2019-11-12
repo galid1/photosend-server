@@ -18,14 +18,13 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     private Long expiredTime;
 
     @Override
-    public String createToken(String uid) {
+    public String createToken() {
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("exp", makeExpiredTime());
-        claims.put("uid", uid);
 
         return Jwts.builder()
                         .setHeader(headers)
