@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class UserSignInRequest {
-    private LoginType loginType;
-    private String weChatTempCode;
+    private String deviceId;
 }
