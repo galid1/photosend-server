@@ -1,0 +1,62 @@
+// category
+insert into category(name) values('top');
+insert into category(name) values('bottom');
+insert into category(name) values('cosmetic');
+insert into category(name) values('souvenir');
+insert into category(name) values('etc');
+
+// location
+insert into location(location_image_path, name) values('MyeongDong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/myeong-dong.png');
+# myeong dong
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(1, 37.565937, 126.981036, 37.560732, 126.983375, 37.561327, 126.988718, 37.565954, 126.987259);
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(1, 37.560634, 126.980215, 37.560047, 126.980108, 37.559996, 126.981417, 37.560625, 126.981438);
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(1, 37.565086, 126.981074, 37.564061, 126.980752, 37.563819, 126.981996, 37.564844, 126.982275);
+
+
+insert into location(location_image_path, name) values('Hongdae_Sinchon_Ewah', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/sinchon.png');
+# hongdae
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(2, 37.560729, 126.925285, 37.552825, 126.915473, 37.549061, 126.931109, 37.557505, 126.934940);
+# sinchon
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(2, 37.557963, 126.933129, 37.550080, 126.933207, 37.548936, 126.951729, 37.558399, 126.954433);
+# ewah (다시 시정해야 함)
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(2, 37.557963, 126.933129, 37.550080, 126.933207, 37.548936, 126.951729, 37.558399, 126.954433);
+
+
+insert into location(location_image_path, name) values('Dongdaemun', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/dongdaemun.png');
+# dong dae mun
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(3, 37.573237, 127.002071, 37.560926, 127.000759, 37.562215, 127.012905, 37.574089, 127.013589);
+
+
+insert into location(location_image_path, name) values('sinsa_gangnam_apgujeong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/sinsa_gangnam_apgujeong.png');
+# sinsa (다시 지정해야 함)
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(2, 37.560729, 126.925285, 37.552825, 126.915473, 37.549061, 126.931109, 37.557505, 126.934940);
+# gangnam
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(2, 37.504530, 127.020709, 37.492283, 127.026214, 37.492854, 127.037843, 37.507549, 127.030436);
+# apgujeong
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(2, 37.521382, 127.017728, 37.511789, 127.022040, 37.518437, 127.036154, 37.528456, 127.033246);
+
+insert into location(location_image_path, name) values('etc', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/etc.png');
+
+
+
+
+
+
+
+
+
+insert into location_edges(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(4, 37.565937, 126.981036, 37.560732, 126.983375, 37.561327, 126.988718, 37.565954, 126.987259);
+
+
+
