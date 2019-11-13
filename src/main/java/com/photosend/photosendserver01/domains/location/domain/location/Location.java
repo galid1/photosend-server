@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Embeddable;
 
 @Getter
 @Builder
@@ -15,9 +13,21 @@ import java.util.List;
 @NoArgsConstructor
 @Embeddable
 public class Location {
-    @ElementCollection
-    @CollectionTable(name = "location_edges"
-            , joinColumns = @JoinColumn(name = "location_id")
-            , uniqueConstraints = @UniqueConstraint(columnNames = {"location_id", "a_edge"}))
-    private List<PieceOfEdges> edges = new ArrayList<>();
+//    @ElementCollection
+//    @CollectionTable(name = "location_edges"
+//            , joinColumns = @JoinColumn(name = "location_id")
+//            , uniqueConstraints = @UniqueConstraint(columnNames = {"location_id", "a_edge"}))
+//    private List<PieceOfEdges> edges = new ArrayList<>();
+
+    private double upperLeftLatitude;
+    private double upperLeftLongitude;
+
+    private double upperRightLatitude;
+    private double upperRightLongitude;
+
+    private double lowerLeftLatitude;
+    private double lowerLeftLongitude;
+
+    private double lowerRightLatitude;
+    private double lowerRightLongitude;
 }

@@ -1,8 +1,13 @@
 package com.photosend.photosendserver01.domains.location.domain.location;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "location")
 @Entity
@@ -19,14 +24,15 @@ public class LocationEntity {
     @Column(name = "location_image_path")
     private String locationImagePath;
 
-    @Embedded
-    private Location location;
+    @ElementCollection
+    @CollectionTable(name = "location_list", joinColumns = @JoinColumn(name = "location_id"))
+    private List<Location> locationList = new ArrayList<>();
 
     @Builder
-    public LocationEntity(String name, String locationImagePath, Location location) {
+    public LocationEntity(String name, String locationImagePath, List<Location> locationList) {
         this.name = name;
         this.locationImagePath = locationImagePath;
-        this.location = location;
+        this.locationList = locationList;
     }
 }
 
