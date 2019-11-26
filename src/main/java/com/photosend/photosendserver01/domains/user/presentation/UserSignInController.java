@@ -17,7 +17,7 @@ public class UserSignInController {
     @Autowired
     private UserSignInService userSignInService;
 
-    @PutMapping("/users/")
+    @PutMapping("/users")
     public UserSignInResponse signIn(@RequestBody UserSignInRequest userSignInRequest) {
         return userSignInService.signIn(userSignInRequest);
     }

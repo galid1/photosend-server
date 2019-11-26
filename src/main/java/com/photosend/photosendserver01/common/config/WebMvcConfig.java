@@ -16,11 +16,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //
 //        registry.addInterceptor(adminAuthenticationInterceptor())
-//                    .addPathPatterns("/admin/{usersId}/products/information");
+//                    .addPathPatterns("/admin/{userId}/products/information");
 //        registry.addInterceptor(checkTokenInterceptor())
 //                .addPathPatterns("/**")
-//                .excludePathPatterns("/users/");
-
+//                .excludePathPatterns("/users/**");
     }
 
     @Override

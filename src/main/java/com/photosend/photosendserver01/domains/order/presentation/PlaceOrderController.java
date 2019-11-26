@@ -13,8 +13,8 @@ public class PlaceOrderController {
     @Autowired
     private PlaceOrderService placeOrderService;
 
-    @PostMapping("/{usersId}")
-    public Long placeOrder(@RequestBody List<OrderRequest> orderRequests, @PathVariable("usersId")Long ordererId) {
+    @PostMapping("/{userId}")
+    public Long placeOrder(@RequestBody List<OrderRequest> orderRequests, @PathVariable("userId")Long ordererId) {
         return placeOrderService.placeOrder(orderRequests, ordererId);
     }
 }
