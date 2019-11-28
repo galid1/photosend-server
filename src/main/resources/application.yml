@@ -1,12 +1,14 @@
 server:
-  port: 8080
-  domain: rest.hellouni.co.kr
+  port: 443
+#  domain: rest.hellouni.co.kr # 배포시 도메인
+  domain: test.hellouni.co.kr # 테스트시 도메인
 
 ### ssl ###
-#  ssl:
-#    key-store: classpath:keystore/keystore.p12
-#    key-store-type: PKCS12
-#    key-store-password: crew1207
+  ssl:
+#    key-store: classpath:keystore/keystore.p12 # 배포시 keyfile
+    key-store: classpath:keystore/keystore_test.p12
+    key-store-type: PKCS12
+    key-store-password: crew1207
 
 ### jpa ###
 spring:
