@@ -22,7 +22,7 @@ public class CatalogController {
         return catalogService.getRecentlyPopulatedProductListAfter(getPaginationCatalogRequest);
     }
 
-    @PostMapping("/{productId}")
+    @GetMapping("/{productId}")
     public CheckIsMostRecentPopulatedProduct checkIsMostRecentProduct(@PathVariable("productId") long productId) {
         return catalogService.isMostRecentPopulatedProduct(productId);
     }
