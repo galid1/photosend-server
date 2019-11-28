@@ -6,17 +6,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
-//@Configuration
+@Configuration
+@Profile("deploy")
 public class DatabaseConfig {
     @Autowired
     private KeyValueFileLoader keyValueFileLoader;
 
     private String jdbcUrl = "jdbc:mysql://photosend-mysql-rds.cq2lmghf0zft.ap-northeast-2.rds.amazonaws.com:3306/photosend";
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClass;
+    private String driverClass = "com.mysql.jdbc.Driver";
 
     @Value("${photosend.credential.datasource.file-path}")
     private String dataBaseAccountFilePath;

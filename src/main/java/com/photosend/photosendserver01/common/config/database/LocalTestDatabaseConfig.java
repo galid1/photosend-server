@@ -1,17 +1,17 @@
 package com.photosend.photosendserver01.common.config.database;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.sql.DataSource;
 
-//@Configuration
+@Configuration
+@Profile("local")
 public class LocalTestDatabaseConfig {
     private String jdbcUrl = "jdbc:mysql://localhost:3306/testdb";
-    @Value("${spring.datasource.driver-class-name}")
-    private String driverClass;
+    private String driverClass = "com.mysql.jdbc.Driver";
 
     @Bean
     public DataSource getDataSource() {
