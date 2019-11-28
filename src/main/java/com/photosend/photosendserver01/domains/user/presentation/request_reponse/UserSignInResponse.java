@@ -8,5 +8,5 @@ import lombok.*;
 @Getter
 public class UserSignInResponse {
     private Long userId;
-    private String jwtToken;
+    private String token;
 }

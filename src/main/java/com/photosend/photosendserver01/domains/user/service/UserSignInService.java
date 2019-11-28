@@ -22,7 +22,7 @@ public class UserSignInService {
                 .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다. 회원가입을 먼저 진행해주세요."));
 
         return UserSignInResponse.builder()
-                .jwtToken(userEntity.getToken().getJwtToken())
+                .token(userEntity.getToken().getJwtToken())
                 .userId(userEntity.getUserId())
                 .build();
     }
