@@ -18,7 +18,6 @@ public class Location {
 //            , joinColumns = @JoinColumn(name = "location_id")
 //            , uniqueConstraints = @UniqueConstraint(columnNames = {"location_id", "a_edge"}))
 //    private List<PieceOfEdges> edges = new ArrayList<>();
-
     private double upperLeftLatitude;
     private double upperLeftLongitude;
 

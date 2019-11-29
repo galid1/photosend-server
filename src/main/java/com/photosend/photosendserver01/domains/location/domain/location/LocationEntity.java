@@ -29,10 +29,9 @@ public class LocationEntity {
     private List<Location> locationList = new ArrayList<>();
 
     @Builder
-    public LocationEntity(String name, String locationImagePath, List<Location> locationList) {
+    public LocationEntity(String name, String locationImagePath) {
         this.name = name;
         this.locationImagePath = locationImagePath;
-        this.locationList = locationList;
     }
 }
 

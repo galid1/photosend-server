@@ -29,6 +29,7 @@ public class LocationService {
                 .builder()
                 .name(locationEntity.getName())
                 .locationImagePath(locationEntity.getLocationImagePath())
+                .locationList(locationEntity.getLocationList())
                 .build();
     }
 }

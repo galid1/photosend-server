@@ -10,13 +10,13 @@ import javax.sql.DataSource;
 @Configuration
 @Profile("local")
 public class LocalTestDatabaseConfig {
-    private String jdbcUrl = "jdbc:mysql://localhost:3306/testdb";
+    private String jdbcUrl = "jdbc:mysql://localhost:3306/testdb?useSSL=false";
     private String driverClass = "com.mysql.jdbc.Driver";
 
     @Bean
     public DataSource getDataSource() {
         String username = "root";
-        String password = "crew1207!";
+        String password = "crew1207";
 
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.username(username);
