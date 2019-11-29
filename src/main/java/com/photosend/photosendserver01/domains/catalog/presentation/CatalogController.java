@@ -33,7 +33,7 @@ public class CatalogController {
     }
 
     @GetMapping("/products/best")
-    public List<ProductSummaryForCatalog> getBestProductList(@RequestBody GetPaginationCatalogRequest getPaginationCatalogRequest) {
-        return catalogService.getBestProductList(getPaginationCatalogRequest);
+    public List<ProductSummaryForCatalog> getBestProductList() {
+        return catalogService.getBestProductList();
     }
 }

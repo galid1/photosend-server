@@ -20,6 +20,9 @@ public class ProductEntity extends BaseTimeEntity {
     @Column(name = "product_id")
     private Long pid;
 
+    @Column(name = "uploader")
+    private Long uploaderId;
+
     @Embedded
     private ProductImageInformation productImageInformation;
 
@@ -31,7 +34,8 @@ public class ProductEntity extends BaseTimeEntity {
     private ProductState productState;
 
     @Builder
-    public ProductEntity(ProductImageInformation productImageInformation) {
+    public ProductEntity(Long uploaderId, ProductImageInformation productImageInformation) {
+        this.uploaderId = uploaderId;
         this.setProductImageInformation(productImageInformation);
         this.productState = ProductState.UPLOADED;
     }

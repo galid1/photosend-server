@@ -13,4 +13,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     ProductEntity findFirst1ByProductStateOrderByCreatedDateDesc(ProductState productState);
 
+    List<ProductEntity> findByUploaderId(long uploaderId);
 }

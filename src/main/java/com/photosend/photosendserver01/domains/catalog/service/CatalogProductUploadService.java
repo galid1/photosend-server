@@ -31,7 +31,7 @@ public class CatalogProductUploadService {
     private ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public List<ProductUploadResponse> uploadProductImages(long userId, List<UploadedProduct> uploadedProductList) {
+    public List<ProductUploadResponse> uploadProductImages(long uploaderId, List<UploadedProduct> uploadedProductList) {
         // Storage에 업로드
         uploadImageToStorage(uploadedProductList);
 
@@ -43,9 +43,9 @@ public class CatalogProductUploadService {
         );
 
         // 영속화
-        List<ProductUploadResponse> productUploadResponses = addProductEntityToRepository(uploadedProductList);
+        List<ProductUploadResponse> productUploadResponses = addProductEntityToRepository(uploaderId, uploadedProductList);
         
-        addUploadedProductIdListToUser(userId, productUploadResponses);
+        addUploadedProductIdListToUser(uploaderId, productUploadResponses);
         return productUploadResponses;
     }
 
@@ -61,12 +61,13 @@ public class CatalogProductUploadService {
         eventPublisher.publishEvent(new EmailEvent(imageByteArrayList));
     }
 
-    private List<ProductUploadResponse> addProductEntityToRepository(List<UploadedProduct> uploadedProductList) {
+    private List<ProductUploadResponse> addProductEntityToRepository(long uploaderId, List<UploadedProduct> uploadedProductList) {
         return uploadedProductList
                 .stream()
                 .map(uploadedProduct -> {
                     long uploadedProductId = productRepository.save(ProductEntity
                             .builder()
+                            .uploaderId(uploaderId)
                             .productImageInformation(ProductImageInformation.builder()
                                     .productImagePath(uploadedProduct.getUploadedImageFilePath())
                                     .productLocation(uploadedProduct.getProductLocation())

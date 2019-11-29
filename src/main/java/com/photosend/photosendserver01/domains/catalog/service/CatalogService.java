@@ -9,7 +9,6 @@ import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +20,8 @@ public class CatalogService {
 
     @Autowired
     private UserRepository userRepository;
+
+    private static long ADMIN_ID = 1l;
 
     public CheckIsMostRecentPopulatedProduct isMostRecentPopulatedProduct(long productId) {
         ProductEntity mostRecentPopulatedProduct = productRepository
@@ -37,16 +38,14 @@ public class CatalogService {
                         , PageRequest.of(getPaginationCatalogRequest.getPage()
                                 , getPaginationCatalogRequest.getCount()))
                 .stream()
-                .map((productEntity) -> {
-                    return toSummary(productEntity);
-                })
+                .map((productEntity) -> toSummary(productEntity))
                 .collect(Collectors.toList());
     }
 
-    public List<ProductSummaryForCatalog> getBestProductList(@RequestBody GetPaginationCatalogRequest getPaginationCatalogRequest) {
-        List<Long> bestProductIdList = getPaginationBestProductIdList(getPaginationCatalogRequest);
+    public List<ProductSummaryForCatalog> getBestProductList() {
+        List<ProductEntity> bestProductEntityList = productRepository.findByUploaderId(ADMIN_ID);
 
-        return toProductEntityList(bestProductIdList)
+        return bestProductEntityList
                 .stream()
                 .filter(productEntity -> {
                     return productEntity.getProductState() == ProductState.POPULATED;
@@ -55,17 +54,6 @@ public class CatalogService {
                     return toSummary(productEntity);
                 })
                 .collect(Collectors.toList());
-    }
-
-    private List<Long> getPaginationBestProductIdList(GetPaginationCatalogRequest getPaginationCatalogRequest) {
-        long adminUserId = 1l;
-
-        return userRepository
-                .findById(adminUserId)
-                .get()
-                .getProductList()
-                .subList(getPaginationCatalogRequest.getPage()
-                        ,getPaginationCatalogRequest.getCount());
     }
 
     private ProductSummaryForCatalog toSummary(ProductEntity productEntity) {
@@ -80,17 +68,6 @@ public class CatalogService {
                         .getProductImagePath())
                 .uploadedTime(productEntity.getCreatedDate())
                 .build();
-    }
-
-    private List<ProductEntity> toProductEntityList(List<Long> productIdList) {
-        return productIdList
-                .stream()
-                .map(productId -> {
-                    return productRepository
-                            .findById(productId)
-                            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다. (CatalogService Error.)"));
-                })
-                .collect(Collectors.toList());
     }
 
     public List<ProductFullInformation> getProductList() {
