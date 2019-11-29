@@ -6,13 +6,10 @@ insert into category(name) values('souvenir');
 insert into category(name) values('etc');
 
 
-
-
-
 ######## location ########
 
 ###### myeong dong
-insert into location(location_id, location_image_path, name) values(1, 'MyeongDong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/myeong-dong.png');
+insert into location(location_id, name, location_image_path) values(1, 'MyeongDong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/myeong-dong.png');
 
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(1, 37.565937, 126.981036, 37.560732, 126.983375, 37.561327, 126.988718, 37.565954, 126.987259);
@@ -22,7 +19,7 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
     values(1, 37.565086, 126.981074, 37.564061, 126.980752, 37.563819, 126.981996, 37.564844, 126.982275);
 
 ###### hongdae sinchon ewah
-insert into location(location_id, location_image_path, name) values(2, 'Hongdae_Sinchon_Ewah', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/sinchon.png');
+insert into location(location_id, name, location_image_path) values(2, 'Hongdae_Sinchon_Ewah', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/hongdae_sinchon_ewah.png');
 # hongdae
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(2, 37.560729, 126.925285, 37.552825, 126.915473, 37.549061, 126.931109, 37.557505, 126.934940);
@@ -36,14 +33,14 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 
 
 ###### dong dae mun
-insert into location(location_id, location_image_path, name) values(3, 'Dongdaemun', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/dongdaemun.png');
+insert into location(location_id, name, location_image_path) values(3, 'Dongdaemun', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/dongdaemun.png');
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(3, 37.573237, 127.002071, 37.560926, 127.000759, 37.562215, 127.012905, 37.574089, 127.013589);
 
 
 
 ###### sinsa gangnam apgujeong
-insert into location(location_id, location_image_path, name) values(4, 'sinsa_gangnam_apgujeong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/sinsa_gangnam_apgujeong.png');
+insert into location(location_id, name, location_image_path) values(4, 'Sinsa_Gangnam_Apgujeong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/sinsa_gangnam_apgujeong.png');
 # sinsa (다시 지정해야 함)
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(4, 37.560729, 126.925285, 37.552825, 126.915473, 37.549061, 126.931109, 37.557505, 126.934940);
@@ -62,7 +59,7 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 
 
 # etc 나중에 넣기
-insert into location(location_id, location_image_path, name) values(5, 'etc', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/etc.png');
+insert into location(location_id, name, location_image_path) values(5, 'etc', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/etc.png');
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(5, 37.565937, 126.981036, 37.560732, 126.983375, 37.561327, 126.988718, 37.565954, 126.987259);
 
