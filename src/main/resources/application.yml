@@ -1,14 +1,11 @@
 ############ Active Profile 설정 ###############
 spring:
   profiles:
-    active: test
+    active: local
 
 ---
 
 ################ TEST SERVER 환경 ################
-spring:
-  profiles: test
-
 server:
   port: 443
   domain: test.hellouni.co.kr
@@ -18,6 +15,9 @@ server:
     key-store: classpath:keystore/keystore_test.p12
     key-store-type: PKCS12
     key-store-password: crew1207
+
+spring:
+  profiles: test
 
   ### jpa ###
   jpa:
@@ -67,17 +67,18 @@ photosend:
 ---
 
 ################ LOCAL SERVER 환경 ################
-spring:
-  profiles: local
 
 server:
   port: 8080
+
+spring:
+  profiles: local
 
   ### jpa ###
   jpa:
     hibernate:
       use-new-id-generator-mappings: false
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
@@ -124,9 +125,6 @@ photosend:
 ---
 
 ################ DEPLOY SERVER 환경 ################
-spring:
-  profiles: deploy
-
 server:
   port: 443
   domain: rest.hellouni.co.kr
@@ -136,6 +134,10 @@ server:
     key-store: classpath:keystore/keystore.p12
     key-store-type: PKCS12
     key-store-password: crew1207
+
+
+spring:
+  profiles: deploy
 
   ### jpa ###
   jpa:
