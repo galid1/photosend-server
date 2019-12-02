@@ -66,28 +66,35 @@ public class CatalogService {
                 .build();
     }
 
-    public List<ProductFullInformation> getProductList() {
+    public List<ProductFullInformation> getProductInformationList() {
         return productRepository.findAll()
                 .stream()
-                .map(productEntity -> {
-                    ProductInformation information = productEntity.getProductInformation();
-                    return ProductFullInformation.builder()
-                            .productId(productEntity.getPid())
-                            .productState(productEntity.getProductState())
-                            .productImagePath(productEntity
-                                    .getProductImageInformation()
-                                    .getProductImagePath())
-                            .foundProductInformation(FoundProductInformation.builder()
-                                    .pid(productEntity.getPid())
-                                    .categoryIdList(information.getCategory())
-                                    .sizeList(information.getSize())
-                                    .price(information.getPrice())
-                                    .name(information.getName())
-                                    .brand(information.getBrand())
-                                    .build())
-                            .build();
-                })
+                .map(productEntity -> toFullInformation(productEntity))
                 .collect(Collectors.toList());
     }
 
+    public ProductFullInformation getProductInformation(long productId) {
+        return toFullInformation(productRepository.findById(productId).get());
+
+    }
+
+    private ProductFullInformation toFullInformation(ProductEntity productEntity) {
+        ProductInformation information = productEntity.getProductInformation();
+
+        return ProductFullInformation.builder()
+                .productId(productEntity.getPid())
+                .productState(productEntity.getProductState())
+                .productImagePath(productEntity
+                        .getProductImageInformation()
+                        .getProductImagePath())
+                .foundProductInformation(FoundProductInformation.builder()
+                        .pid(productEntity.getPid())
+                        .categoryIdList(information.getCategory())
+                        .sizeList(information.getSize())
+                        .price(information.getPrice())
+                        .name(information.getName())
+                        .brand(information.getBrand())
+                        .build())
+                .build();
+    }
 }
