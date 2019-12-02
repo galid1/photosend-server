@@ -6,6 +6,14 @@ insert into category(name) values('souvenir');
 insert into category(name) values('etc');
 
 
+######## Product ########
+-- insert into product(product_id, product_image_path, latitude, longitude, brand, name, price, product_state, uploader) values (1, 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/2019-12-02/product-11:26:00.png', a, aa, 123123, 'POPULATED' ,1);
+-- insert into product(product_id, product_image_path, latitude, longitude, brand, name, price, product_state, uploader) values (2, 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/2019-12-02/product-11:26:00.png', b, baa, 34, 'POPULATED'  ,1);
+-- insert into product(product_id, product_image_path, latitude, longitude, brand, name, price, product_state, uploader) values (3, 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/2019-12-02/product-11:26:00.png', c, vaasca, 122, 'POPULATED'  ,1);
+-- insert into product(product_id, product_image_path, latitude, longitude, brand, name, price, product_state, uploader) values (4, 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/2019-12-02/product-11:26:00.png', d, qeqaa, 666623, 'POPULATED'  ,1);
+-- insert into product(product_id, product_image_path, latitude, longitude, brand, name, price, product_state, uploader) values (5, 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/2019-12-02/product-11:26:00.png', e, yyttaa, 8767123, 'POPULATED'  ,1);
+
+
 ######## location ########
 
 ###### myeong dong
@@ -50,13 +58,6 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 # apgujeong
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(4, 37.521382, 127.017728, 37.511789, 127.022040, 37.518437, 127.036154, 37.528456, 127.033246);
-
-
-
-
-
-
-
 
 # etc 나중에 넣기
 insert into location(location_id, name, location_image_path) values(5, 'etc', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/etc.png');
