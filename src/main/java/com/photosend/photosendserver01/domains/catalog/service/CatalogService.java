@@ -5,7 +5,6 @@ import com.photosend.photosendserver01.domains.catalog.domain.product.ProductInf
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductState;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.*;
-import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,9 +16,6 @@ import java.util.stream.Collectors;
 public class CatalogService {
     @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     private static long ADMIN_ID = 1l;
 
@@ -94,4 +90,12 @@ public class CatalogService {
                 .collect(Collectors.toList());
     }
 
+    public List<ProductSummaryForCatalog> getUsersUploadProductList(long uploaderId) {
+        return productRepository.findByUploaderId(uploaderId)
+                .stream()
+                .map(productEntity -> {
+                    return toSummary(productEntity);
+                })
+                .collect(Collectors.toList());
+    }
 }

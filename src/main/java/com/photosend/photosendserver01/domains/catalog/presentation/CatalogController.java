@@ -36,4 +36,10 @@ public class CatalogController {
     public List<ProductSummaryForCatalog> getBestProductList() {
         return catalogService.getBestProductList();
     }
+
+    @GetMapping("/products/users/{userId}")
+    public List<ProductSummaryForCatalog> getUsersUploadProductList(@PathVariable("userId") long uploaderId) {
+        return catalogService.getUsersUploadProductList(uploaderId);
+    }
+
 }
