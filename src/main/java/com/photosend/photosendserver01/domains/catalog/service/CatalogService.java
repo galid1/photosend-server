@@ -90,12 +90,4 @@ public class CatalogService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductSummaryForCatalog> getUsersUploadProductList(long uploaderId) {
-        return productRepository.findByUploaderId(uploaderId)
-                .stream()
-                .map(productEntity -> {
-                    return toSummary(productEntity);
-                })
-                .collect(Collectors.toList());
-    }
 }
