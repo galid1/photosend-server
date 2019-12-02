@@ -24,7 +24,7 @@ public class CatalogProductUploadController {
     @Autowired
     private FileUtil fileUtil;
 
-    @PostMapping(value = "/{userId}/products/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "products/users/{userId}/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<ProductUploadResponse> uploadProductImages(@PathVariable("userId") long userId,
                                                            @RequestParam("location") ProductLocation[] productLocations,
                                                            @RequestParam("file") MultipartFile[] productImageFiles) throws IOException {
