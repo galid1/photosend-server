@@ -4,9 +4,11 @@ import com.photosend.photosendserver01.common.config.logging.BaseTimeEntity;
 import com.photosend.photosendserver01.common.model.Money;
 import com.photosend.photosendserver01.domains.order.exception.NoOrderLineException;
 import com.photosend.photosendserver01.domains.order.exception.ShipStateException;
-import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.exception.DepartureTimeException;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,9 +28,10 @@ public class OrderEntity extends BaseTimeEntity {
     private OrderState orderState;
 
     @Embedded
-    @ManyToOne
-    @JoinColumn(name = "orderer_id")
-    private UserEntity orderer;
+    private ShippingInformation shippingInformation;
+
+    @Column(name = "orderer_id")
+    private long ordererId;
 
     @ElementCollection
     @CollectionTable(name = "order_lines", joinColumns = @JoinColumn(name = "order_id"))
@@ -39,9 +42,10 @@ public class OrderEntity extends BaseTimeEntity {
     private Money totalAmount;
 
     @Builder
-    public OrderEntity(List<OrderLine> orderLines, UserEntity orderer) {
+    public OrderEntity(List<OrderLine> orderLines, ShippingInformation shippingInformation, long ordererId) {
         setOrderLines(orderLines);
-        this.orderer = orderer;
+        this.shippingInformation = shippingInformation;
+        this.ordererId = ordererId;
         this.orderState = OrderState.SHIPPING_IN_PROGRESS;
     }
 

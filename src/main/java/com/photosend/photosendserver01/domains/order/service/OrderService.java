@@ -5,10 +5,12 @@ import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderDetailResponse;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderProductList;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderSummaryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class OrderService {
     public List<OrderSummaryResponse> getUsersOrderSummaryList(Long ordererId) {
        // 사용자 주문 리스트
         return orderRepository
-                .findByOrdererUserId(ordererId)
+                .findByOrdererId(ordererId)
                 .stream()
                 .map(orderEntity -> {
                     return toOrderSummaryResponse(orderEntity);
@@ -69,5 +71,18 @@ public class OrderService {
                 .size(orderLine.getSize())
                 .totalPrice(orderLine.getTotalPrice())
                 .build();
+    }
+
+    public OrderProductList getOrderedProductIdList(long userId) {
+        List<OrderEntity> usersOrderList = orderRepository.findByOrdererId(userId);
+        List<Long> orderProductList = new ArrayList<>();
+
+        usersOrderList.stream().forEach(order -> {
+            order.getOrderLines().stream().forEach(orderLine -> {
+                orderProductList.add(orderLine.getProductId());
+            });
+        });
+
+        return new OrderProductList(orderProductList);
     }
 }

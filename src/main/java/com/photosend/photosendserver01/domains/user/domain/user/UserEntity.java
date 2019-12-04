@@ -22,7 +22,6 @@ public class UserEntity extends BaseTimeEntity {
 
     private String deviceId;
 
-    // Required Field
     @Embedded
     @NonNull
     private UserInformation userInformation;

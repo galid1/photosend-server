@@ -6,10 +6,8 @@ import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRep
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderProduct;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderRequest;
-import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
-import com.photosend.photosendserver01.domains.user.exception.ProductNotFoundException;
-import com.photosend.photosendserver01.domains.user.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,35 +24,34 @@ public class PlaceOrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Transactional
-    public Long placeOrder(List<OrderRequest> orderRequests, Long ordererId) {
-        List<OrderLine> orderLines = toOrderLineList(orderRequests);
+    public Long placeOrder(OrderRequest orderRequest, long ordererId) {
+        List<OrderLine> orderLineList = makeOrderLineList(orderRequest.getOrderProductList());
 
         OrderEntity orderEntity = OrderEntity.builder()
-                                    .orderer(userRepository.findById(ordererId)
-                                            .orElseThrow(() -> new UserNotFoundException("사용자가 존재하지 않습니다.")))
-                                    .orderLines(orderLines)
-                                    .build();
+                .ordererId(ordererId)
+                .orderLines(orderLineList)
+                .shippingInformation(orderRequest.getShippingInformation())
+                .build();
 
         return orderRepository.save(orderEntity).getOid();
     }
 
-    private List<OrderLine> toOrderLineList(List<OrderRequest> orderRequests) {
-        return orderRequests
+    private List<OrderLine> makeOrderLineList(List<OrderProduct> orderProductList) {
+        return orderProductList
                 .stream()
-                .map(orderRequest -> {
-                    ProductEntity orderedProduct = productRepository.findById(orderRequest.getProductId())
-                            .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
+                .map(orderProduct -> {
+                    ProductEntity productEntity = productRepository.findById(orderProduct.getProductId())
+                            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
 
                     return OrderLine.builder()
-                            .productPrice(Money.builder().value(orderedProduct.getProductInformation().getPrice()).build())
-                            .productId(orderedProduct.getPid())
-                            .quantity(orderRequest.getQuantity())
-                            .size(orderRequest.getSize())
-                            .build();
+                            .productId(orderProduct.getProductId())
+                            .productPrice(Money.builder()
+                                    .value(productEntity.getProductInformation().getPrice())
+                                    .build())
+                            .quantity(orderProduct.getQuantity())
+                            .size(orderProduct.getSize())
+                                .build();
                 })
                 .collect(Collectors.toList());
     }
