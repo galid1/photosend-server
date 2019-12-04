@@ -19,7 +19,7 @@ public class CatalogUserUploadedProductService {
     private UserRepository userRepository;
 
     public List<UserUploadedProduct> getUsersUploadProductList(long uploaderId) {
-        return productRepository.findByUploaderId(uploaderId)
+        return productRepository.findByUploaderIdOrderByProductState(uploaderId)
                 .stream()
                 .map(usersUploadedProductEntity -> toUserUploadedProduct(uploaderId, usersUploadedProductEntity))
                 .collect(Collectors.toList());
