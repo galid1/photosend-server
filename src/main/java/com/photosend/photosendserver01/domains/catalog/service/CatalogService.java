@@ -56,7 +56,7 @@ public class CatalogService {
         ProductInformation information = productEntity.getProductInformation();
 
         return ProductSummaryForCatalog.builder()
-                .pid(productEntity.getPid())
+                .productId(productEntity.getPid())
                 .name(information.getName())
                 .price(information.getPrice())
                 .productImagePath(productEntity

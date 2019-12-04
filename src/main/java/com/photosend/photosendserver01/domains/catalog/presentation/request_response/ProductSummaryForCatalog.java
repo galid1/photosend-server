@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ProductSummaryForCatalog {
-    private long pid;
+    private long productId;
     private String name;
     private int price;
     private String productImagePath;
