@@ -5,8 +5,8 @@ import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderDetailResponse;
-import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderProductList;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderSummaryResponse;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,16 +73,28 @@ public class OrderService {
                 .build();
     }
 
-    public OrderProductList getOrderedProductIdList(long userId) {
+    public List<OrderedProduct> getOrderedProductIdList(long userId) {
         List<OrderEntity> usersOrderList = orderRepository.findByOrdererId(userId);
-        List<Long> orderProductList = new ArrayList<>();
+        List<OrderedProduct> orderedProductList = new ArrayList<>();
 
         usersOrderList.stream().forEach(order -> {
             order.getOrderLines().stream().forEach(orderLine -> {
-                orderProductList.add(orderLine.getProductId());
+                orderedProductList.add(toOrderedProduct(orderLine));
             });
         });
 
-        return new OrderProductList(orderProductList);
+        return orderedProductList;
+    }
+
+    private OrderedProduct toOrderedProduct(OrderLine orderLine) {
+        String productImagePath = productRepository.findById(orderLine.getProductId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."))
+                .getProductImageInformation()
+                .getProductImagePath();
+
+        return OrderedProduct.builder()
+                .productId(orderLine.getProductId())
+                .productImagePath(productImagePath)
+                .build();
     }
 }
