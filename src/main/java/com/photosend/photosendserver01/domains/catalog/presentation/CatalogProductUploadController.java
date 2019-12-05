@@ -49,7 +49,8 @@ public class CatalogProductUploadController {
         List<UploadedProduct> uploadedProductList = new ArrayList<>();
 
         for (int i = 0; i < productLocations.length; i++) {
-            uploadedProductList.add(UploadedProduct.builder()
+            uploadedProductList.add(
+                    UploadedProduct.builder()
                     .imageBytes(productImageFiles[i].getBytes())
                     .uploadedImageFilePath(makeFilePath(productImageFiles[i].getOriginalFilename()))
                     .productLocation(productLocations[i])

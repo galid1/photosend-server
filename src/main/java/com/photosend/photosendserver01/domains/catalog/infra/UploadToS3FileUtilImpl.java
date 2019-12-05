@@ -14,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Component
 @Primary
@@ -36,7 +34,7 @@ public class UploadToS3FileUtilImpl implements FileUtil {
     // aws path는 목적 파일 명까지 지정 해주어야 함
     @Override
     public String makeFileUploadPath(String fileName, ImageType imageType) {
-        return LocalDate.now() + "/" + imageType.getValue() + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss")) + ".png";
+        return LocalDate.now() + "/" + imageType.getValue() + ".png";
     }
 
     @Override
