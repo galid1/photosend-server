@@ -1,7 +1,7 @@
 ############ Active Profile 설정 ###############
 spring:
   profiles:
-    active: local
+    active: test
 
 ---
 
@@ -18,6 +18,8 @@ server:
 
 spring:
   profiles: test
+  jackson:
+    time-zone: Asia/Seoul
 
   ### jpa ###
   jpa:

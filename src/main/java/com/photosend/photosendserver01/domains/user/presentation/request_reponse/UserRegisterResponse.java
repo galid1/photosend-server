@@ -8,5 +8,5 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRegisterResponse {
     private Long userId;
-    private String jwtToken;
+    private String token;
 }

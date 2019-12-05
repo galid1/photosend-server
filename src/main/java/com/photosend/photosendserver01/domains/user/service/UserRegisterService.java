@@ -27,7 +27,7 @@ public class UserRegisterService {
 
         return UserRegisterResponse.builder()
                 .userId(newUserEntity.getUserId())
-                .jwtToken(newUserEntity.getToken().getJwtToken())
+                .token(newUserEntity.getToken().getJwtToken())
                 .build();
     }
 
