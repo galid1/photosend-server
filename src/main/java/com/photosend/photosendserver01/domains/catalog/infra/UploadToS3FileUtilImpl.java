@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
-import java.time.LocalDate;
+import java.util.UUID;
 
 @Component
 @Primary
@@ -34,7 +34,7 @@ public class UploadToS3FileUtilImpl implements FileUtil {
     // aws path는 목적 파일 명까지 지정 해주어야 함
     @Override
     public String makeFileUploadPath(String fileName, ImageType imageType) {
-        return LocalDate.now() + "/" + imageType.getValue() + ".png";
+        return UUID.randomUUID() + "/" + imageType.getValue() + ".png";
     }
 
     @Override
