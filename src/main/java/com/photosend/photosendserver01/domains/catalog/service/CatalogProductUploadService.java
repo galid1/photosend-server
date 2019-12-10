@@ -31,30 +31,30 @@ public class CatalogProductUploadService {
     private ApplicationEventPublisher eventPublisher;
 
     @Transactional
-    public List<ProductUploadResponse> uploadProductImages(long uploaderId, List<UploadedProduct> uploadedProductList) {
+    public List<ProductUploadResponse> uploadProductImages(long uploaderId, List<UploadedProduct> usersUploadProductList) {
         // Storage에 업로드
-        uploadImageToStorage(uploadedProductList);
+        uploadImageToStorage(usersUploadProductList);
 
         // Email Event emit
-        publishEmailEvent(uploadedProductList
+        publishEmailEvent(usersUploadProductList
                 .stream()
                 .map(uploadedProduct -> uploadedProduct.getImageBytes())
                 .collect(Collectors.toList())
         );
 
         // 영속화
-        List<ProductUploadResponse> productUploadResponses = addProductEntityToRepository(uploaderId, uploadedProductList);
+        List<ProductUploadResponse> productUploadResponses = addProductEntityToRepository(uploaderId, usersUploadProductList);
         
         addUploadedProductIdListToUser(uploaderId, productUploadResponses);
         return productUploadResponses;
     }
 
-    private void uploadImageToStorage(List<UploadedProduct> uploadedProductList) {
-        uploadedProductList
-                .forEach(uploadedProduct -> {
-                    fileUtil.uploadFile(uploadedProduct.getUploadedImageFilePath()
-                            , uploadedProduct.getImageBytes());
-                });
+    private void uploadImageToStorage(List<UploadedProduct> usersUploadProductList) {
+        usersUploadProductList
+            .forEach(usersUploadProduct -> {
+                fileUtil.uploadFile(usersUploadProduct.getUploadedImageFilePath()
+                        , usersUploadProduct.getImageBytes());
+            });
     }
 
     private void publishEmailEvent(List<byte[]> imageByteArrayList) {
@@ -69,7 +69,7 @@ public class CatalogProductUploadService {
                             .builder()
                             .uploaderId(uploaderId)
                             .productImageInformation(ProductImageInformation.builder()
-                                    .productImagePath(uploadedProduct.getUploadedImageFilePath())
+                                    .productImagePath(fileUtil.getFileUploadPathForProductEntity(uploadedProduct.getUploadedImageFilePath()))
                                     .productLocation(uploadedProduct.getProductLocation())
                                     .build())
                             .build()

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Component
 public class UploadToLocalFileUtilImpl implements FileUtil {
     @Override
-    public String getFileUploadPathForProductEntity(String fileName, ImageType imageType) {
+    public String getFileUploadPathForProductEntity(String filePath) {
         throw new UnsupportedOperationException("아직 지원되지 않습니다.");
     }
 

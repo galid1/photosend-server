@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Component
@@ -27,24 +28,25 @@ public class UploadToS3FileUtilImpl implements FileUtil {
     @Value("${photosend.aws.s3.upload-path.prefix}")
     private String s3Prefix;
 
-    public String getFileUploadPathForProductEntity(String fileName, ImageType imageType) {
-        return s3Prefix + makeFileUploadPath(fileName, imageType);
+    @Override
+    public String getFileUploadPathForProductEntity(String filePath) {
+        return s3Prefix + filePath;
     }
 
     // aws path는 목적 파일 명까지 지정 해주어야 함
     @Override
     public String makeFileUploadPath(String fileName, ImageType imageType) {
-        return UUID.randomUUID() + "/" + imageType.getValue() + ".png";
+        return LocalDate.now() + "/" + UUID.randomUUID() + "-" + imageType.getValue() + ".png";
     }
 
     @Override
-    public void uploadFile(String fileName, byte[] fileByteArray) {
+    public void uploadFile(String filePath, byte[] fileByteArray) {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(MediaType.IMAGE_PNG_VALUE);
         metadata.setContentLength(fileByteArray.length);
         simpleS3Client.getS3Client(Regions.AP_NORTHEAST_2)
                 .putObject(
-                        new PutObjectRequest(bucketName, makeFileUploadPath(fileName, ImageType.PRODUCT), new ByteArrayInputStream(fileByteArray), metadata)
+                        new PutObjectRequest(bucketName, filePath, new ByteArrayInputStream(fileByteArray), metadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
                 );
         //TODO 비동기로 요청하도록 하고, 실패시 처리로직 구현

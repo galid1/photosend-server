@@ -61,7 +61,7 @@ public class CatalogProductUploadController {
     }
 
     private String makeFilePath(String originalFileName) {
-        return fileUtil.getFileUploadPathForProductEntity(originalFileName, ImageType.PRODUCT);
+        return fileUtil.makeFileUploadPath(originalFileName, ImageType.PRODUCT);
     }
 
 }
