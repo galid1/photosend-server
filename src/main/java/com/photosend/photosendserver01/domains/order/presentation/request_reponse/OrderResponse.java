@@ -3,13 +3,17 @@ package com.photosend.photosendserver01.domains.order.presentation.request_repon
 import com.photosend.photosendserver01.domains.order.domain.OrderState;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OrderSummaryResponse {
+public class OrderResponse {
     private Long orderId;
     private OrderState orderState;
-    private String mainImagePath;
+    private LocalDate orderedTime;
+    private List<OrderLineResponse> orderLineList;
 }

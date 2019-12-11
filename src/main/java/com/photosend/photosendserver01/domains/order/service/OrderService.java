@@ -1,11 +1,13 @@
 package com.photosend.photosendserver01.domains.order.service;
 
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderDetailResponse;
-import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderSummaryResponse;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderLineResponse;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderResponse;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,30 +23,38 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<OrderSummaryResponse> getUsersOrderSummaryList(Long ordererId) {
+    public List<OrderResponse> getUsersOrderList(Long ordererId) {
        // 사용자 주문 리스트
         return orderRepository
-                .findByOrdererId(ordererId)
+                .findByOrdererIdOrderByCreatedDateDesc(ordererId)
                 .stream()
                 .map(orderEntity -> {
-                    return toOrderSummaryResponse(orderEntity);
+                    return toOrderResponse(orderEntity);
                 })
                 .collect(Collectors.toList());
     }
 
-    private OrderSummaryResponse toOrderSummaryResponse(OrderEntity orderEntity) {
-        String mainImagePath = productRepository.findById(orderEntity
-                                                            .getOrderLines()
-                                                            .get(0)
-                                                            .getProductId())
-                                                                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."))
-                    .getProductImageInformation()
-                    .getProductImagePath();
-
-        return OrderSummaryResponse.builder()
+    private OrderResponse toOrderResponse(OrderEntity orderEntity) {
+        return OrderResponse.builder()
                 .orderId(orderEntity.getOid())
                 .orderState(orderEntity.getOrderState())
-                .mainImagePath(mainImagePath)
+                .orderedTime(orderEntity.getCreatedDate().toLocalDate())
+                .orderLineList(orderEntity.getOrderLines()
+                  .stream()
+                  .map(orderLine -> toOrderLineResponse(orderLine.getProductId()))
+                  .collect(Collectors.toList())
+                )
+                .build();
+    }
+
+    private OrderLineResponse toOrderLineResponse(long orderedProductId) {
+        ProductEntity orderedProduct = productRepository.findById(orderedProductId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품번호입니다."));
+
+        return OrderLineResponse.builder()
+                .productImagePath(orderedProduct.getProductImageInformation().getProductImagePath())
+                .name(orderedProduct.getProductInformation().getName())
+                .price(orderedProduct.getProductInformation().getPrice())
                 .build();
     }
 
@@ -79,21 +89,21 @@ public class OrderService {
 
         usersOrderList.stream().forEach(order -> {
             order.getOrderLines().stream().forEach(orderLine -> {
-                orderedProductList.add(toOrderedProduct(orderLine));
+                orderedProductList.add(toOrderedProduct(orderLine.getProductId()));
             });
         });
 
         return orderedProductList;
     }
 
-    private OrderedProduct toOrderedProduct(OrderLine orderLine) {
-        String productImagePath = productRepository.findById(orderLine.getProductId())
+    private OrderedProduct toOrderedProduct(long orderedProductId) {
+        String productImagePath = productRepository.findById(orderedProductId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."))
                 .getProductImageInformation()
                 .getProductImagePath();
 
         return OrderedProduct.builder()
-                .productId(orderLine.getProductId())
+                .productId(orderedProductId)
                 .productImagePath(productImagePath)
                 .build();
     }
