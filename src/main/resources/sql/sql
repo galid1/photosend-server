@@ -59,8 +59,14 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(4, 37.521382, 127.017728, 37.511789, 127.022040, 37.518437, 127.036154, 37.528456, 127.033246);
 
+
+###### Garosugil
+insert into location (location_id, location_image_path, name) values('5','https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/garousu-gil.png','Garousu_gil Road');
+insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(5, 37.511052, 127.021408, 37.51422, 127.031833, 37.52177, 127.017776, 37.527079, 127.028439);
+
 # etc 나중에 넣기
-insert into location(location_id, name, location_image_path) values(5, 'etc', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/etc.png');
+insert into location(location_id, name, location_image_path) values(6, 'etc', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/etc.png');
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(5, 37.565937, 126.981036, 37.560732, 126.983375, 37.561327, 126.988718, 37.565954, 126.987259);
 
