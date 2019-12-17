@@ -1,3 +1,13 @@
+# 명동 : 37.562611, 126.984909
+
+# 홍대 신촌 이화 : 37.555758, 126.929516
+
+# 동대문 : 37.569410, 127.010063
+
+# 신사 : 37.552889, 126.925358
+
+# 가로수 길 :  37.514407, 127.023304
+
 ######## category ########
 insert into category(name) values('top');
 insert into category(name) values('bottom');
@@ -63,7 +73,7 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 ###### Garosugil
 insert into location (location_id, location_image_path, name) values('5','https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/garousu-gil.png','Garousu_gil Road');
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
-    values(5, 37.511052, 127.021408, 37.51422, 127.031833, 37.52177, 127.017776, 37.527079, 127.028439);
+    values(5, 37.52177, 127.017776, 37.511052, 127.021408, 37.51422, 127.031833, 37.527079, 127.028439);
 
 # etc 나중에 넣기
 insert into location(location_id, name, location_image_path) values(6, 'etc', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/etc.png');
