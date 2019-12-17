@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class OrderRequest {
+public class PlaceOrderRequest {
     private List<OrderProduct> orderProductList = new ArrayList<>();
     private ShippingInformation shippingInformation;
 }

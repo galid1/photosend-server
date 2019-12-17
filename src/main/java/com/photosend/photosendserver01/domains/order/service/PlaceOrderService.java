@@ -7,7 +7,8 @@ import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderProduct;
-import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderRequest;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderRequest;
+import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +26,21 @@ public class PlaceOrderService {
     private ProductRepository productRepository;
 
     @Transactional
-    public Long placeOrder(OrderRequest orderRequest, long ordererId) {
-        List<OrderLine> orderLineList = makeOrderLineList(orderRequest.getOrderProductList());
+    public PlaceOrderResponse placeOrder(PlaceOrderRequest placeOrderRequest, long ordererId) {
+        List<OrderLine> orderLineList = makeOrderLineList(placeOrderRequest.getOrderProductList());
 
-        OrderEntity orderEntity = OrderEntity.builder()
+        OrderEntity savedOrderEntity = orderRepository.save(
+                OrderEntity.builder()
                 .ordererId(ordererId)
                 .orderLines(orderLineList)
-                .shippingInformation(orderRequest.getShippingInformation())
-                .build();
+                .shippingInformation(placeOrderRequest.getShippingInformation())
+                .build());
 
-        return orderRepository.save(orderEntity).getOid();
+        return PlaceOrderResponse.builder()
+                .orderId(savedOrderEntity.getOid())
+                .totalAmount(savedOrderEntity.getTotalAmount().getValue())
+                .ordererId(savedOrderEntity.getOrdererId())
+                .build();
     }
 
     private List<OrderLine> makeOrderLineList(List<OrderProduct> orderProductList) {
