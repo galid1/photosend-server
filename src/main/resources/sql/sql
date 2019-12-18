@@ -62,6 +62,10 @@ insert into location(location_id, name, location_image_path) values(4, 'Sinsa_Ga
 # gangnam
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(4, 37.504530, 127.020709, 37.492283, 127.026214, 37.492854, 127.037843, 37.507549, 127.030436);
+# sparkplus
+insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+    values(4, 37.512390, 127.054964, 37.497341, 127.057144, 37.499460, 127.071542, 37.514808, 127.063835);
+
 # apgujeong
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(4, 37.521382, 127.017728, 37.511789, 127.022040, 37.518437, 127.036154, 37.528456, 127.033246);
