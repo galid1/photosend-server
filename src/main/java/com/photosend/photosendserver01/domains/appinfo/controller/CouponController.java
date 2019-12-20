@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.domains.appinfo.controller;
 
 import com.amazonaws.regions.Regions;
 import com.photosend.photosendserver01.common.util.aws.SimpleS3Client;
+import com.photosend.photosendserver01.domains.appinfo.controller.request_response.CouponDetailImageResponse;
 import com.photosend.photosendserver01.domains.appinfo.controller.request_response.CouponImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +25,20 @@ public class CouponController {
                 .listObjectsV2(COUPON_IMAGE_BUCKET_NAME)
                 .getObjectSummaries()
                 .stream()
-                .map(object -> {
-                    return new CouponImageResponse(COUPON_BUCKET_URL + "/" + object.getKey());
-                })
+                .map(object -> new CouponImageResponse(COUPON_BUCKET_URL + "/" + object.getKey()))
                 .collect(Collectors.toList());
     }
+
+    private static String COUPON_DETAIL_IMAGE_BUCKET_NAME = "photosend-coupondetail-img";
+    private static String COUPON_DETAIL_BUCKET_URL = "https://photosend-coupondetail-img.s3.ap-northeast-2.amazonaws.com";
+    @GetMapping("/detail")
+    public List<CouponDetailImageResponse> getCouponDetailImageUrlList() {
+        return s3Client.getS3Client(Regions.AP_NORTHEAST_2)
+                .listObjectsV2(COUPON_DETAIL_IMAGE_BUCKET_NAME)
+                .getObjectSummaries()
+                .stream()
+                .map(object -> new CouponDetailImageResponse(COUPON_DETAIL_BUCKET_URL + "/" + object.getKey()))
+                .collect(Collectors.toList());
+    }
+
 }

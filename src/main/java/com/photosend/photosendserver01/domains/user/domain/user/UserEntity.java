@@ -76,7 +76,7 @@ public class UserEntity extends BaseTimeEntity {
         if(verifyIsAdmin())
             return;
 
-        if (this.productList.size() >= 5)
+        if (this.productList.size() >= 10)
         throw new ProductUploadCountException("商品图片最多可以上传5分.");
 //            throw new ProductUploadCountException("상품 이미지는 최대 5장 업로드 가능합니다.");
     }
