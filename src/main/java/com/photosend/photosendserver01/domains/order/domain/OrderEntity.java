@@ -77,19 +77,7 @@ public class OrderEntity extends BaseTimeEntity {
     }
 
     private void setShippingInformation(ShippingInformation shippingInformation) {
-        verifyShippingInformation(shippingInformation);
         this.shippingInformation = shippingInformation;
-    }
-
-    private void verifyShippingInformation(ShippingInformation shippingInformation) {
-        if(shippingInformation == null ||
-        shippingInformation.getAddress() == null ||
-        shippingInformation.getAddress().getAddress1() == null ||
-        shippingInformation.getAddress().getAddress2() == null ||
-        shippingInformation.getAddress().getAddressType() == null ||
-        shippingInformation.getReceiveTime() == null ||
-        shippingInformation.getUserSnsId() == null)
-            throw new IllegalArgumentException("no Shipping Information");
     }
 
     private void setOrdererId(long ordererId) {
