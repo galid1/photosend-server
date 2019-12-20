@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class ProductSummaryForCatalog {
     private long productId;
     private String name;
+    private String brand;
     private int price;
     private String productImagePath;
     private LocalDateTime uploadedTime;
