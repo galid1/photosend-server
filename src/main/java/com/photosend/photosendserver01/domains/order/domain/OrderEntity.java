@@ -50,7 +50,7 @@ public class OrderEntity extends BaseTimeEntity {
         setShippingInformation(shippingInformation);
         setOrdererId(ordererId);
         setPaymentMethod(paymentMethod);
-        this.orderState = OrderState.SHIPPING_IN_PROGRESS;
+        this.orderState = OrderState.ORDER_COMPLEMENT;
     }
 
     private void setOrderLines(List<OrderLine> orderLines) {
@@ -160,8 +160,8 @@ public class OrderEntity extends BaseTimeEntity {
     }
 
     private void verifyShipmentCompleted() {
-        if(this.orderState != OrderState.SHIPMENT_COMPLETED)
-            throw new ShipStateException("결제를 하기전에 배송이 완료되어있어야 합니다.");
+        if(this.orderState != OrderState.ORDER_COMPLEMENT)
+            throw new ShipStateException("결제를 하기전에 주문이 완료되어있어야 합니다.");
     }
 }
 
