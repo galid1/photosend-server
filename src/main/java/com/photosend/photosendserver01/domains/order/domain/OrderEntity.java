@@ -27,6 +27,9 @@ public class OrderEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
     @Embedded
     private ShippingInformation shippingInformation;
 
@@ -42,10 +45,11 @@ public class OrderEntity extends BaseTimeEntity {
     private Money totalAmount;
 
     @Builder
-    public OrderEntity(List<OrderLine> orderLines, ShippingInformation shippingInformation, long ordererId) {
+    public OrderEntity(List<OrderLine> orderLines, ShippingInformation shippingInformation, long ordererId, PaymentMethod paymentMethod) {
         setOrderLines(orderLines);
-        this.shippingInformation = shippingInformation;
-        this.ordererId = ordererId;
+        setShippingInformation(shippingInformation);
+        setOrdererId(ordererId);
+        setPaymentMethod(paymentMethod);
         this.orderState = OrderState.SHIPPING_IN_PROGRESS;
     }
 
@@ -55,9 +59,11 @@ public class OrderEntity extends BaseTimeEntity {
         calculateTotalAmount();
     }
 
-//    @Transient
-//    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
-//    private int shippingFee = 120;
+    private void verifyOrderLine(List<OrderLine> orderLines) {
+        if(orderLines == null || orderLines.isEmpty())
+            throw new NoOrderLineException("至少要订购一个以上的商品.");
+//            throw new NoOrderLineException("최소한 하나 이상의 상품을 주문해야 합니다.");
+    }
 
     private void calculateTotalAmount() {
 //        shippingFee + this.orderLines.stream()
@@ -70,11 +76,36 @@ public class OrderEntity extends BaseTimeEntity {
                 .build();
     }
 
-    private void verifyOrderLine(List<OrderLine> orderLines) {
-        if(orderLines == null || orderLines.isEmpty())
-            throw new NoOrderLineException("至少要订购一个以上的商品.");
-//            throw new NoOrderLineException("최소한 하나 이상의 상품을 주문해야 합니다.");
+    private void setShippingInformation(ShippingInformation shippingInformation) {
+        verifyShippingInformation(shippingInformation);
+        this.shippingInformation = shippingInformation;
     }
+
+    private void verifyShippingInformation(ShippingInformation shippingInformation) {
+        if(shippingInformation == null ||
+        shippingInformation.getAddress() == null ||
+        shippingInformation.getAddress().getAddress1() == null ||
+        shippingInformation.getAddress().getAddress2() == null ||
+        shippingInformation.getAddress().getAddressType() == null ||
+        shippingInformation.getReceiveTime() == null ||
+        shippingInformation.getUserSnsId() == null)
+            throw new IllegalArgumentException("no Shipping Information");
+    }
+
+    private void setOrdererId(long ordererId) {
+        this.ordererId = ordererId;
+    }
+
+    private void setPaymentMethod(PaymentMethod paymentMethod) {
+        if(paymentMethod == null)
+            throw new IllegalArgumentException("no PaymentMethod");
+
+        this.paymentMethod = paymentMethod;
+    }
+
+//    @Transient
+//    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
+//    private int shippingFee = 120;
 
     private void verifyDepartureTime(LocalDateTime departureTime) {
         int departureYear = departureTime.getYear();

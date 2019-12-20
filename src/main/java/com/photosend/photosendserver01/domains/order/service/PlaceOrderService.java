@@ -34,6 +34,7 @@ public class PlaceOrderService {
                 .ordererId(ordererId)
                 .orderLines(orderLineList)
                 .shippingInformation(placeOrderRequest.getShippingInformation())
+                .paymentMethod(placeOrderRequest.getPaymentMethod())
                 .build());
 
         return PlaceOrderResponse.builder()
