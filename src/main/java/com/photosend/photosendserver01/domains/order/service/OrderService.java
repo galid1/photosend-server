@@ -3,7 +3,6 @@ package com.photosend.photosendserver01.domains.order.service;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
-import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderDetailResponse;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderLineResponse;
@@ -37,6 +36,7 @@ public class OrderService {
     private OrderResponse toOrderResponse(OrderEntity orderEntity) {
         return OrderResponse.builder()
                 .orderId(orderEntity.getOid())
+                .paymentMethod(orderEntity.getPaymentMethod())
                 .orderState(orderEntity.getOrderState())
                 .orderedTime(orderEntity.getCreatedDate().toLocalDate())
                 .orderLineList(orderEntity.getOrderLines()
@@ -58,28 +58,16 @@ public class OrderService {
                 .build();
     }
 
-    public List<OrderDetailResponse> getOrderDetail(long orderId) {
-        return orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."))
-                .getOrderLines()
-                .stream()
-                .map(orderLine -> {
-                    return toOrderDetailResponse(orderLine);
-                })
-                .collect(Collectors.toList());
+    public OrderDetailResponse getOrderDetail(long orderId) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+        return toOrderDetailResponse(orderEntity);
     }
 
-    private OrderDetailResponse toOrderDetailResponse(OrderLine orderLine) {
+    private OrderDetailResponse toOrderDetailResponse(OrderEntity orderEntity) {
         return OrderDetailResponse.builder()
-                .productId(orderLine.getProductId())
-                .productImagePath(
-                        productRepository
-                                .findById(orderLine.getProductId())
-                                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."))
-                                .getProductImageInformation()
-                                .getProductImagePath())
-                .quantity(orderLine.getQuantity())
-                .size(orderLine.getSize())
-                .totalPrice(orderLine.getTotalPrice())
+                .receiveTime(orderEntity.getShippingInformation().getReceiveTime())
+                .totalPrice(orderEntity.getTotalAmount().getValue())
+                .shippingInformation(orderEntity.getShippingInformation())
                 .build();
     }
 
