@@ -66,6 +66,7 @@ public class EmailUtilImpl implements EmailUtil{
             Transport.send(msg);
 
         } catch (Exception e) {
+            System.out.println("error : " + e);
             e.printStackTrace();
         }
     }

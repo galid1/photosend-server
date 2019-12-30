@@ -12,14 +12,15 @@ public class KeyValueFileLoader {
 
     private String filePathStartWithUserHome = System.getProperty("user.home") + "/";
 
-    private Map<String, Optional<String>> valueMap;
+    private Map<String, Map<String, Optional<String>>> storeMaps = new HashMap<>();
 
-    public String getValueFromFile(String filePath, String key) {
-        if (this.valueMap == null) {
-            initValueMap(filePath);
+    public String getValueFromFile(String filePathMapKey, String rowKey) {
+        if (this.storeMaps.get(filePathMapKey) == null) {
+            initValueMap(filePathMapKey);
         }
 
-        return this.valueMap.get(key)
+        return this.storeMaps.get(filePathMapKey)
+                .get(rowKey)
                 .orElseThrow(() -> new IllegalArgumentException("키 값에 해당하는 값이 KeyValueStore에 존재하지 않습니다."));
     }
 
@@ -27,9 +28,9 @@ public class KeyValueFileLoader {
         String resultPath = filePathStartWithUserHome + filePath;
         Map<String, Optional<String>> keyValueStore = new HashMap<>();
 
-        File adminCredentailFile = new File(resultPath);
+        File file = new File(resultPath);
         try {
-            BufferedReader br = new BufferedReader(new FileReader(adminCredentailFile));
+            BufferedReader br = new BufferedReader(new FileReader(file));
 
             String line = "";
             String[] keyValuePair = null;
@@ -44,6 +45,6 @@ public class KeyValueFileLoader {
             e.printStackTrace();
         }
 
-        this.valueMap = keyValueStore;
+        this.storeMaps.put(filePath, keyValueStore);
     }
 }

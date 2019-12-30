@@ -1,7 +1,5 @@
 package com.photosend.photosendserver01.common.util.email;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
