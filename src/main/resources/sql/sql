@@ -37,7 +37,7 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
     values(1, 37.565086, 126.981074, 37.564061, 126.980752, 37.563819, 126.981996, 37.564844, 126.982275);
 
 ###### hongdae sinchon ewah
-insert into location(location_id, name, location_image_path) values(2, 'Hongdae_Sinchon_Ewah', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/hongdae_sinchon_ewah.png');
+insert into location(location_id, name, location_image_path) values(2, 'Hongdae / Sinchon / Ewah', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/hongdae_sinchon_ewah.png');
 # hongdae
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(2, 37.560729, 126.925285, 37.552825, 126.915473, 37.549061, 126.931109, 37.557505, 126.934940);
@@ -57,22 +57,22 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 
 
 
-###### sinsa gangnam apgujeong
-insert into location(location_id, name, location_image_path) values(4, 'Sinsa_Gangnam_Apgujeong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/gangnam_apgujeong.png');
+###### gangnam apgujeong
+insert into location(location_id, name, location_image_path) values(4, 'Gangnam_/ Apgujeong', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/gangnam_apgujeong.png');
 # gangnam
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(4, 37.504530, 127.020709, 37.492283, 127.026214, 37.492854, 127.037843, 37.507549, 127.030436);
-# sparkplus
-insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
-    values(4, 37.512390, 127.054964, 37.497341, 127.057144, 37.499460, 127.071542, 37.514808, 127.063835);
+-- # sparkplus
+-- insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+--     values(4, 37.512390, 127.054964, 37.497341, 127.057144, 37.499460, 127.071542, 37.514808, 127.063835);
 
 # apgujeong
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(4, 37.521382, 127.017728, 37.511789, 127.022040, 37.518437, 127.036154, 37.528456, 127.033246);
 
 
-###### Garosugil
-insert into location (location_id, name, location_image_path) values(5,'Garousu_gil Road', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/garousu-gil.png');
+###### Sinsa Garosugil
+insert into location (location_id, name, location_image_path) values(5,'Sinsa / Garousu gil', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/sinsa_garousu-gil.png');
 # sinsa (다시 지정해야 함)
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(5, 37.560729, 126.925285, 37.552825, 126.915473, 37.549061, 126.931109, 37.557505, 126.934940);
