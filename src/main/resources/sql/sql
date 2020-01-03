@@ -45,8 +45,8 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(2, 37.557963, 126.933129, 37.550080, 126.933207, 37.548936, 126.951729, 37.558399, 126.954433);
 # ewah (다시 시정해야 함)
-insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
-    values(2, 37.557963, 126.933129, 37.550080, 126.933207, 37.548936, 126.951729, 37.558399, 126.954433);
+# insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
+#   values(2, 37.557963, 126.933129, 37.550080, 126.933207, 37.548936, 126.951729, 37.558399, 126.954433);
 
 
 
@@ -74,8 +74,6 @@ insert into location_list(location_id, upper_left_latitude, upper_left_longitude
 ###### Sinsa Garosugil
 insert into location (location_id, name, location_image_path) values(5,'Sinsa / Garousu gil', 'https://photosend-server.s3.ap-northeast-2.amazonaws.com/location-imgs/sinsa_garousu-gil.png');
 # sinsa (다시 지정해야 함)
-insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
-    values(5, 37.560729, 126.925285, 37.552825, 126.915473, 37.549061, 126.931109, 37.557505, 126.934940);
 insert into location_list(location_id, upper_left_latitude, upper_left_longitude, lower_left_latitude, lower_left_longitude, lower_right_latitude, lower_right_longitude, upper_right_latitude, upper_right_longitude)
     values(5, 37.52177, 127.017776, 37.511052, 127.021408, 37.51422, 127.031833, 37.527079, 127.028439);
 
