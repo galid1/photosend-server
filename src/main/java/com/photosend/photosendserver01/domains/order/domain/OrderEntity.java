@@ -66,9 +66,6 @@ public class OrderEntity extends BaseTimeEntity {
     }
 
     private void calculateTotalAmount() {
-//        shippingFee + this.orderLines.stream()
-//                                                    .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
-//                                                    .sum();
         this.totalAmount = Money.builder()
                 .value(this.orderLines.stream()
                         .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())

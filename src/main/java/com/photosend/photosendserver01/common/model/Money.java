@@ -16,4 +16,7 @@ public class Money {
     public Money multiply(int multiply){
         return new Money(value * multiply);
     }
+    public Money plus(Money money) {
+        return new Money(value + money.getValue());
+    }
 }

@@ -29,6 +29,9 @@ public class UserEntity extends BaseTimeEntity {
     @Embedded
     @NonNull
     private Token token;
+    @Embedded
+    @NonNull
+    private String apnsDeviceToken;
 
     @ElementCollection
     @CollectionTable(
@@ -40,10 +43,11 @@ public class UserEntity extends BaseTimeEntity {
     private List<Long> productList = new ArrayList<>();
 
     @Builder
-    public UserEntity( UserInformation userInformation, String deviceId, @NonNull Token token) {
+    public UserEntity(UserInformation userInformation, String deviceId, @NonNull Token token, String apnsDeviceToken) {
         setUserInformation(userInformation);
         setDeviceId(deviceId);
         this.token = token;
+        setAPNsDeviceToken(apnsDeviceToken);
     }
 
     private void setUserInformation(UserInformation userInformation) {
@@ -65,6 +69,13 @@ public class UserEntity extends BaseTimeEntity {
         this.deviceId = deviceId;
     }
 
+    private void setAPNsDeviceToken(String apnsDeviceToken) {
+        if(apnsDeviceToken == null || apnsDeviceToken.length() <= 0)
+            throw new IllegalArgumentException("APNs Device Token을 입력하세요.");
+
+        this.apnsDeviceToken = apnsDeviceToken;
+    }
+
     // 상품 사진의 이미지 경로 추가 메소드
     public void addProduct(long productId) {
         verifyProductCountFive();
@@ -76,7 +87,7 @@ public class UserEntity extends BaseTimeEntity {
         if(verifyIsAdmin())
             return;
 
-        if (this.productList.size() >= 10)
+        if (this.productList.size() >= 100)
         throw new ProductUploadCountException("商品图片最多可以上传5分.");
 //            throw new ProductUploadCountException("상품 이미지는 최대 5장 업로드 가능합니다.");
     }

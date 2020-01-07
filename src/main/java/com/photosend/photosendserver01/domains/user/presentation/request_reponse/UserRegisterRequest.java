@@ -14,4 +14,5 @@ public class UserRegisterRequest {
 //    private LoginType loginType;
     private String deviceId;
     private UserInformation userInformation;
+    private String apnsDeviceToken;
 }

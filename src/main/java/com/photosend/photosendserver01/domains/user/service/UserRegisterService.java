@@ -36,6 +36,7 @@ public class UserRegisterService {
                 .deviceId(registerRequest.getDeviceId())
                 .token(Token.builder().jwtToken(jwtTokenProvider.createToken()).build())
                 .userInformation(registerRequest.getUserInformation())
+                .apnsDeviceToken(registerRequest.getApnsDeviceToken())
                 .build());
     }
 
