@@ -29,8 +29,9 @@ public class UserEntity extends BaseTimeEntity {
     @Embedded
     @NonNull
     private Token token;
-    @Embedded
+
     @NonNull
+    @Column(name = "apns_device_token")
     private String apnsDeviceToken;
 
     @ElementCollection
