@@ -11,8 +11,6 @@ public class AdminProductController {
     @Autowired
     private AdminProductService adminProductService;
 
-
-
 //    @GetMapping("/admin/{userId}/products")
 //    public String inputProductInformation(@PathVariable("userId") long userId, Model model) {
 //        model.addAttribute("userId", userId);
@@ -25,4 +23,5 @@ public class AdminProductController {
         model.addAttribute("uploadedProductList", adminProductService.getUploadedProductList());
         return "admin";
     }
+
 }

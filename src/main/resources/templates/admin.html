@@ -4,12 +4,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="UTF-8">
   <title>ADMIN</title>
-  <link rel="stylesheet" href="/admin.css">
+
   <script
       src="https://code.jquery.com/jquery-3.4.1.js"
       integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
       crossorigin="anonymous">
   </script>
+
+  <style>
+    .product_information_container {
+      display: flex;
+      margin-bottom: 5vh;
+      border-style: solid;
+      border-color: cadetblue;
+    }
+
+    .checkbox_container {
+      flex: 1;
+      border-right-style: solid;
+      border-right-color: cadetblue;
+    }
+
+    .image_container {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-content: center;
+    }
+
+    .product_information {
+      flex: 4;
+    }
+
+    .size_input_list_container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .size_input {
+      width: 15vw;
+    }
+
+    .remove_size_btn {
+      width: 5vw;
+      border-radius: 100%;
+    }
+  </style>
 </head>
 <body>
 
@@ -51,7 +92,9 @@
     <div class="image_container">
       <div></div>
       <div style="display: flex; justify-content: center;">
-        <img th:src="@{${product.getProductImageInformation().getProductImagePath()}}" alt="" style="width: 15vw; height: auto;">
+        <a th:href="@{${product.getProductImageInformation().getProductImagePath()}}">
+          <img th:src="@{${product.getProductImageInformation().getProductImagePath()}}" alt="" style="width: 15vw; height: auto;">
+        </a>
       </div>
       <div></div>
     </div>
@@ -102,33 +145,49 @@
          alert("하나 이상의 상품을 체크하세요.");
          return;
       }
-
       if(confirmPopulatedInformation(checkedProductList)) {
         alert("체크한 상품의 모든 정보를 기입하세요.");
         return;
       }
 
-      // let userId = document.getElementById("user_id").innerText;
-      let productInformationListJson = makeProductInformationListToJson(checkedProductList);
-      console.log(JSON.stringify(productInformationListJson));
+      sendPutProductInformationRequest(makeProductInformationListToJson(checkedProductList))
+        .then(() => sendPushNotificationRequest(makeProductIdList(checkedProductList)));
+    });
 
-      // url: `/admin/${userId}/products/information`,
-
-        $.ajax({
-          url: `/admin/products/information`,
-          type: "POST",
+    async function sendPutProductInformationRequest(productInformationJsonList) {
+      $.ajax({
+        url: `/admin/products/information`,
+        type: "POST",
         contentType: "application/json",
-        data: JSON.stringify(productInformationListJson),
-        success : function() {
-          alert("업로드 성공!");
-          location.reload();
+        data: JSON.stringify(productInformationJsonList),
+        success : function(data, textStatus, xhr) {
+          if (textStatus == "success") {
+            alert("업로드 성공!");
+            location.reload();
+          } else {
+            throw Error("업로드 실패");
+          }
         },
         error : function(jqXHR, textStatus, error) {
           alert(textState + " : " +  error);
         }
       });
+    }
 
-    });
+    async function sendPushNotificationRequest(productIdList) {
+      $.ajax({
+        url: '/admin/notification',
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(productIdList),
+        success : () => {
+          alert("Success Send PushNotification");
+        },
+        error : error => {
+          alert("error : " + JSON.stringify(error))
+        }
+      });
+    }
 
     function getCheckedProductList() {
         let checkedProductList = $(".checkbox").map((i, checkbox) => {
@@ -188,6 +247,16 @@
       });
 
       return productInformationListJson;
+    }
+
+    function makeProductIdList(checkedProductList) {
+      let productIdList = [];
+      checkedProductList
+        .map((i, checkedProduct) => {
+          productIdList.push(parseInt(checkedProduct.getElementsByClassName("product_id")[0].innerText));
+        });
+
+      return productIdList;
     }
 
     $(".add_size_btn").on("click", function() {

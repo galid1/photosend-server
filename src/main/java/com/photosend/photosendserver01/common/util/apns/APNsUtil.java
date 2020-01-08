@@ -11,7 +11,6 @@ import com.turo.pushy.apns.util.concurrent.PushNotificationFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -25,8 +24,6 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class APNsUtil {
     @Autowired
-    private ResourceLoader resourceLoader;
-    @Autowired
     private Environment env;
 
     private String KEY_ID = "8NYW4PKBLS";
@@ -36,6 +33,8 @@ public class APNsUtil {
     private String DEPLOY_PROFILE = "deploy";
     @Value("${photosend.bundle}")
     private String TOPIC;
+    @Value("${photosend.credential.apns.file-path}")
+    private String APNS_KEY_FILE_PATH;
 
     public void sendPushNotification(String deviceToken, NotificationPayload notificationPayload) throws NoSuchAlgorithmException, InvalidKeyException, IOException, InterruptedException {
         ApnsClient apnsClient = getApnsClient();
@@ -55,8 +54,8 @@ public class APNsUtil {
     }
 
     private File getTokenFile() throws IOException {
-        return resourceLoader.getResource("classpath:keystore/apns/AuthKey_8NYW4PKBLS.p8")
-                .getFile();
+        String apnsKeyFilePath = System.getProperty("user.home") + "/" + APNS_KEY_FILE_PATH;
+        return new File(apnsKeyFilePath);
     }
 
     private String getServerDomainByActiveProfile() {

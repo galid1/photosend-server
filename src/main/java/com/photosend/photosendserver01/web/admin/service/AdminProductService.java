@@ -16,5 +16,4 @@ public class AdminProductService {
     public List<ProductEntity> getUploadedProductList() {
         return productRepository.findByProductState(ProductState.UPLOADED);
     }
-
 }

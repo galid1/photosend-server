@@ -20,8 +20,7 @@ public class AdminProductInformationService {
     @Transactional
     public void inputProductInformation(List<FoundProductInformation> foundProductInformationList) {
         foundProductInformationList.forEach((foundProductInformation) -> {
-            verifyExistCategories(foundProductInformation.getCategoryIdList());
-
+//            verifyExistCategories(foundProductInformation.getCategoryIdList());
             productRepository.findById(foundProductInformation.getPid())
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."))
                     .putProductInformation(foundProductInformation.toProductInformation());
