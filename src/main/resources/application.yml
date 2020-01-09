@@ -63,9 +63,14 @@ photosend:
 
   aws:
     s3:
-      bucket-name: photosend-server
+      bucket-name:
+        users-upload: photosend-server
+        app-img: photosend-server-app-img
+
       upload-path:
-        prefix: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+        prefix:
+          users-upload: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+          app-img: https://photosend-server-app-img.s3.ap-northeast-2.amazonaws.com/
 
   file:
     upload-path:
@@ -122,9 +127,14 @@ photosend:
 
   aws:
     s3:
-      bucket-name: photosend-server
+      bucket-name:
+        users-upload: photosend-server
+        app-img: photosend-server-app-img
+
       upload-path:
-        prefix: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+        prefix:
+          users-upload: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+          app-img: https://photosend-server-app-img.s3.ap-northeast-2.amazonaws.com/
 
   file:
     upload-path:
@@ -191,9 +201,14 @@ photosend:
 
   aws:
     s3:
-      bucket-name: photosend-server
+      bucket-name:
+        users-upload: photosend-server
+        app-img: photosend-server-app-img
+
       upload-path:
-        prefix: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+        prefix:
+          users-upload: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+          app-img: https://photosend-server-app-img.s3.ap-northeast-2.amazonaws.com/
 
   file:
     upload-path:

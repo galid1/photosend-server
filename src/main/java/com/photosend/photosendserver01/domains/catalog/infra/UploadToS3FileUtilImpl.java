@@ -22,10 +22,10 @@ public class UploadToS3FileUtilImpl implements FileUtil {
     @Autowired
     private SimpleS3Client simpleS3Client;
 
-    @Value("${photosend.aws.s3.bucket-name}")
+    @Value("${photosend.aws.s3.bucket-name.users-upload}")
     private String bucketName;
 
-    @Value("${photosend.aws.s3.upload-path.prefix}")
+    @Value("${photosend.aws.s3.upload-path.prefix.users-upload}")
     private String s3Prefix;
 
     @Override

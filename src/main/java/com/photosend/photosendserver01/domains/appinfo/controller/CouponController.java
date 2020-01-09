@@ -5,7 +5,9 @@ import com.photosend.photosendserver01.common.util.aws.SimpleS3Client;
 import com.photosend.photosendserver01.domains.appinfo.controller.request_response.CouponDetailImageResponse;
 import com.photosend.photosendserver01.domains.appinfo.controller.request_response.CouponImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,28 +18,36 @@ public class CouponController {
     @Autowired
     private SimpleS3Client s3Client;
 
-    private static String COUPON_IMAGE_BUCKET_NAME = "photosend-coupon-img";
-    private static String COUPON_BUCKET_URL = "https://photosend-coupon-img.s3.ap-northeast-2.amazonaws.com";
+    @Value("${photosend.aws.s3.upload-path.prefix.app-img}")
+    private String s3AppImgPrefix;
+
+    @Value("${photosend.aws.s3.bucket-name.app-img}")
+    private String BUCKET_NAME;
+
+    private String COUPON_IMAGE_DIRECTORY = "coupon-imgs";
+    private String COUPON_DETAIL_IMAGE_DIRECTORY = "coupon-detail-imgs";
 
     @GetMapping()
-    public List<CouponImageResponse> getCouponImageUrlList() {
+    public List<CouponImageResponse> getCouponImageUrlList(@RequestParam("language") String language) {
         return s3Client.getS3Client(Regions.AP_NORTHEAST_2)
-                .listObjectsV2(COUPON_IMAGE_BUCKET_NAME)
+                .listObjectsV2(BUCKET_NAME)
                 .getObjectSummaries()
                 .stream()
-                .map(object -> new CouponImageResponse(COUPON_BUCKET_URL + "/" + object.getKey()))
+                .map(object -> object.getKey())
+                .filter(objectsKey -> objectsKey.startsWith(COUPON_IMAGE_DIRECTORY + "/" + language) && objectsKey.endsWith(".png"))
+                .map(objectsKey -> new CouponImageResponse(s3AppImgPrefix + objectsKey))
                 .collect(Collectors.toList());
     }
 
-    private static String COUPON_DETAIL_IMAGE_BUCKET_NAME = "photosend-coupondetail-img";
-    private static String COUPON_DETAIL_BUCKET_URL = "https://photosend-coupondetail-img.s3.ap-northeast-2.amazonaws.com";
     @GetMapping("/detail")
-    public List<CouponDetailImageResponse> getCouponDetailImageUrlList() {
+    public List<CouponDetailImageResponse> getCouponDetailImageUrlList(@RequestParam("language") String language) {
         return s3Client.getS3Client(Regions.AP_NORTHEAST_2)
-                .listObjectsV2(COUPON_DETAIL_IMAGE_BUCKET_NAME)
+                .listObjectsV2(BUCKET_NAME)
                 .getObjectSummaries()
                 .stream()
-                .map(object -> new CouponDetailImageResponse(COUPON_DETAIL_BUCKET_URL + "/" + object.getKey()))
+                .map(object -> object.getKey())
+                .filter(objectsKey -> objectsKey.startsWith(COUPON_DETAIL_IMAGE_DIRECTORY + "/" + language) && objectsKey.endsWith(".png"))
+                .map(objectsKey -> new CouponDetailImageResponse(s3AppImgPrefix + objectsKey))
                 .collect(Collectors.toList());
     }
 
