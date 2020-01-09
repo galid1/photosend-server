@@ -49,7 +49,7 @@ photosend:
 
   credential:
     admin:
-      file-path: .photosend/adminCredential.txt
+      file-path: .photosend/webAdminCredential.txt
     datasource:
       file-path: .photosend/databaseAccount.txt
     mail:
@@ -113,7 +113,7 @@ photosend:
 
   credential:
     admin:
-      file-path: .photosend/adminCredential.txt
+      file-path: .photosend/webAdminCredential.txt
     datasource:
       file-path: .photosend/databaseAccount.txt
     mail:
@@ -187,7 +187,7 @@ photosend:
 
   credential:
     admin:
-      file-path: .photosend/adminCredential.txt
+      file-path: .photosend/webAdminCredential.txt
     datasource:
       file-path: .photosend/databaseAccount.txt
     mail:
