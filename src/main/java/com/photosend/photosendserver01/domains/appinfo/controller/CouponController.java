@@ -7,13 +7,15 @@ import com.photosend.photosendserver01.domains.appinfo.controller.request_respon
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController("/appinfo/coupons")
+@RestController
+@RequestMapping("/appinfo/coupons")
 public class CouponController {
     @Autowired
     private SimpleS3Client s3Client;
