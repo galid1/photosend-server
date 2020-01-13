@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class OrderLineResponse {
+    private long productId;
     private String productImagePath;
     private String name;
     private int price;

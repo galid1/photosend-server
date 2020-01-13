@@ -27,9 +27,7 @@ public class OrderService {
         return orderRepository
                 .findByOrdererIdOrderByCreatedDateDesc(ordererId)
                 .stream()
-                .map(orderEntity -> {
-                    return toOrderResponse(orderEntity);
-                })
+                .map(orderEntity -> toOrderResponse(orderEntity))
                 .collect(Collectors.toList());
     }
 
@@ -52,6 +50,7 @@ public class OrderService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품번호입니다."));
 
         return OrderLineResponse.builder()
+                .productId(orderedProductId)
                 .productImagePath(orderedProduct.getProductImageInformation().getProductImagePath())
                 .name(orderedProduct.getProductInformation().getName())
                 .price(orderedProduct.getProductInformation().getPrice())
