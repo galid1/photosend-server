@@ -58,7 +58,8 @@ public class PlaceOrderService {
                                     .build())
                             .quantity(orderProduct.getQuantity())
                             .size(orderProduct.getSize())
-                                .build();
+                            .description(orderProduct.getDescription())
+                            .build();
                 })
                 .collect(Collectors.toList());
     }

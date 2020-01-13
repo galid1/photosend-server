@@ -1,14 +1,14 @@
 ############ Active Profile 설정 ###############
 spring:
   profiles:
-    active: test
+    active: deploy
 
 ---
 
 ################ TEST SERVER 환경 ################
 server:
   port: 443
-  domain: test.hellouni.co.kr
+  domain: test.phsend.com
 
   ### ssl ###
   ssl:
@@ -147,7 +147,7 @@ photosend:
 ################ DEPLOY SERVER 환경 ################
 server:
   port: 443
-  domain: rest.hellouni.co.kr
+  domain: rest.phsend.com
 
   ### ssl ###
   ssl:

@@ -22,17 +22,20 @@ public class OrderLine {
 //    private Size size;
     private String size;
 
+    private String description;
+
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "total_price"))
     private Money totalPrice;
 
     @Builder
-    public OrderLine(Long productId, Money productPrice, Integer quantity, String size) {
+    public OrderLine(Long productId, Money productPrice, Integer quantity, String size, String description) {
         this.productId = productId;
         this.productPrice = productPrice;
         this.quantity = quantity;
         this.size = size;
         this.totalPrice = calculateAmounts();
+        this.description = description;
     }
 
     private Money calculateAmounts() {

@@ -10,4 +10,5 @@ public class OrderProduct {
     private long productId;
     private int quantity;
     private String size;
+    private String description;
 }
