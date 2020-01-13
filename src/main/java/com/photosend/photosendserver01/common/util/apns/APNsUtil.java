@@ -68,7 +68,7 @@ public class APNsUtil {
             host = ApnsClientBuilder.PRODUCTION_APNS_HOST;
         }
 
-        return ApnsClientBuilder.DEVELOPMENT_APNS_HOST;
+        return host;
     }
 
     private String makePayload(NotificationPayload notificationPayload) {

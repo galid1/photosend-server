@@ -14,9 +14,9 @@ public class Money {
     private int value;
 
     public Money multiply(int multiply){
-        return new Money(value * multiply);
-    }
-    public Money plus(Money money) {
-        return new Money(value + money.getValue());
+        return Money
+                .builder()
+                .value(value * multiply)
+                .build();
     }
 }
