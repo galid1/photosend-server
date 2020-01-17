@@ -158,7 +158,7 @@
       $.ajax({
         url: `/admin/products/information`,
         type: "POST",
-        contentType: "application/json",
+        contentType: "application/json;  charset:ISO-8859-1",
         data: JSON.stringify(productInformationJsonList),
         success : function(data, textStatus, xhr) {
           if (textStatus == "success") {
@@ -242,7 +242,7 @@
           "price": price,
           "brand": brand,
           "type": type,
-          "size": size
+          "sizeList": size
         })
       });
 
