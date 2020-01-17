@@ -16,7 +16,7 @@ public class DatabaseConfig {
     @Autowired
     private KeyValueFileLoader keyValueFileLoader;
 
-    private String jdbcUrl = "jdbc:mysql://photosend-mysql-rds.cq2lmghf0zft.ap-northeast-2.rds.amazonaws.com:3306/photosend";
+    private String jdbcUrl = "jdbc:mysql://photosend-mysql-rds.cq2lmghf0zft.ap-northeast-2.rds.amazonaws.com:3306/photosend?useSSL=false&characterEncoding=UTF-8";
     private String driverClass = "com.mysql.jdbc.Driver";
 
     @Value("${photosend.credential.datasource.file-path}")

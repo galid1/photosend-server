@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 @Configuration
 @Profile("local")
 public class LocalTestDatabaseConfig {
-    private String jdbcUrl = "jdbc:mysql://localhost:3306/testdb?useSSL=false";
+    private String jdbcUrl = "jdbc:mysql://localhost:3306/testdb?useSSL=false&?characterEncoding=UTF-8";
     private String driverClass = "com.mysql.jdbc.Driver";
 
     @Bean

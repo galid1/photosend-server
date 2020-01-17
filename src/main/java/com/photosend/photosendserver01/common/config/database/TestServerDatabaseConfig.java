@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 @Configuration
 @Profile("test")
 public class TestServerDatabaseConfig {
-    private String jdbcUrl = "jdbc:mysql://ec2-13-124-205-33.ap-northeast-2.compute.amazonaws.com:3306/testdb";
+    private String jdbcUrl = "jdbc:mysql://ec2-13-124-205-33.ap-northeast-2.compute.amazonaws.com:3306/testdb?useSSL=false&characterEncoding=UTF-8";
     private String driverClass = "com.mysql.jdbc.Driver";
 
     @Bean
