@@ -17,4 +17,5 @@ public class UserUploadedProduct {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime uploadedTime;
     private ProductState productState;
+    private FoundProductInformation foundProductInformation;
 }
