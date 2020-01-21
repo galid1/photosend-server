@@ -14,4 +14,5 @@ public class OrderLineResponse {
     private String productImagePath;
     private String name;
     private int price;
+    private String brand;
 }

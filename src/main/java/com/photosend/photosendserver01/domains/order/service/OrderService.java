@@ -55,6 +55,7 @@ public class OrderService {
                 .productImagePath(orderedProduct.getProductImageInformation().getProductImagePath())
                 .name(orderedProduct.getProductInformation().getName())
                 .price(orderedProduct.getProductInformation().getPrice())
+                .brand(orderedProduct.getProductInformation().getBrand())
                 .build();
     }
 
