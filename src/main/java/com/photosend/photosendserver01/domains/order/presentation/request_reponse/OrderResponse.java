@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.domains.order.presentation.request_repon
 
 import com.photosend.photosendserver01.domains.order.domain.OrderState;
 import com.photosend.photosendserver01.domains.order.domain.PaymentMethod;
+import com.photosend.photosendserver01.domains.order.domain.ShippingInformation;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -17,5 +18,6 @@ public class OrderResponse {
     private PaymentMethod paymentMethod;
     private OrderState orderState;
     private LocalDate orderedTime;
+    private ShippingInformation shippingInformation;
     private List<OrderLineResponse> orderLineList;
 }

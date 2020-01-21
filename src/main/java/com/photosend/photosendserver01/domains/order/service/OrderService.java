@@ -37,6 +37,7 @@ public class OrderService {
                 .paymentMethod(orderEntity.getPaymentMethod())
                 .orderState(orderEntity.getOrderState())
                 .orderedTime(orderEntity.getCreatedDate().toLocalDate())
+                .shippingInformation(orderEntity.getShippingInformation())
                 .orderLineList(orderEntity.getOrderLines()
                   .stream()
                   .map(orderLine -> toOrderLineResponse(orderLine.getProductId()))
