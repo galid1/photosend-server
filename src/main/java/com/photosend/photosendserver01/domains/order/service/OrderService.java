@@ -3,6 +3,7 @@ package com.photosend.photosendserver01.domains.order.service;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
+import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderDetailResponse;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderLineResponse;
@@ -40,21 +41,23 @@ public class OrderService {
                 .shippingInformation(orderEntity.getShippingInformation())
                 .orderLineList(orderEntity.getOrderLines()
                   .stream()
-                  .map(orderLine -> toOrderLineResponse(orderLine.getProductId()))
+                  .map(orderLine -> toOrderLineResponse(orderLine))
                   .collect(Collectors.toList())
                 )
                 .build();
     }
 
-    private OrderLineResponse toOrderLineResponse(long orderedProductId) {
-        ProductEntity orderedProduct = productRepository.findById(orderedProductId)
+    private OrderLineResponse toOrderLineResponse(OrderLine orderLine) {
+        ProductEntity orderedProduct = productRepository.findById(orderLine.getProductId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품번호입니다."));
 
         return OrderLineResponse.builder()
-                .productId(orderedProductId)
+                .productId(orderLine.getProductId())
                 .productImagePath(orderedProduct.getProductImageInformation().getProductImagePath())
                 .name(orderedProduct.getProductInformation().getName())
-                .price(orderedProduct.getProductInformation().getPrice())
+                .price(orderLine.getProductPrice().getValue())
+                .quantity(orderLine.getQuantity())
+                .lineTotalPrice(orderLine.getTotalPrice().getValue())
                 .brand(orderedProduct.getProductInformation().getBrand())
                 .build();
     }
