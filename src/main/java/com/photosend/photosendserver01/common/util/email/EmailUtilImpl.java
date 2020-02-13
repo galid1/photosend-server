@@ -9,20 +9,17 @@ import org.springframework.stereotype.Component;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.*;
 import javax.mail.util.ByteArrayDataSource;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 @Component
 @Primary
-public class EmailUtilImpl implements EmailUtil{
-    private final String IMAGE_UPLOAD_TITLE = "사용자가 이미지를 업로드 하였습니다.";
-    private final String ORDER_TITLE = "가 상품을 주문하였습니다.";
-
+public class EmailUtilImpl implements EmailUtil {
     @Autowired
     private KeyValueFileLoader keyValueFileLoader;
     @Value("${photosend.credential.mail.file-path}")
@@ -30,29 +27,55 @@ public class EmailUtilImpl implements EmailUtil{
     private final String MAIL_ID_KEY = "mail_id";
     private final String MAIL_PW_KEY = "mail_pw";
 
+    private List<String> receiveEmailList = Arrays.asList("peoplusapply@gmail.com", "oyun0221@naver.com");
+
     @Override
     public void sendEmailWithImage(byte[] imageFileBytes) {
+        Session session = Session.getDefaultInstance(getSessionProperties(), getAuthenticator());
+
+        MimeMessage msg = new MimeMessage(session);
+        configureMsg(imageFileBytes, msg);
+
+        receiveEmailList.forEach(receiveEmail -> {
+            addRecipient(msg, receiveEmail);
+        });
+
+        try {
+            Transport.send(msg);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Authenticator getAuthenticator() {
+        String mailId = keyValueFileLoader.getValueFromFile(mailCredentialFilePath, MAIL_ID_KEY);
+        String mailPw = keyValueFileLoader.getValueFromFile(mailCredentialFilePath, MAIL_PW_KEY);
+        return new MailAuthentication(mailId, mailPw);
+    }
+
+    private Properties getSessionProperties() {
         Properties prop = System.getProperties();
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "smtp.gmail.com");
         prop.put("mail.smtp.auth", "true");
         prop.put("mail.smtp.port", "587");
+        return prop;
+    }
 
-        String mailId = keyValueFileLoader.getValueFromFile(mailCredentialFilePath, MAIL_ID_KEY);
-        String mailPw = keyValueFileLoader.getValueFromFile(mailCredentialFilePath, MAIL_PW_KEY);
-        Authenticator auth = new MailAuthentication(mailId, mailPw);
-
-        Session session = Session.getDefaultInstance(prop, auth);
-
-        MimeMessage msg = new MimeMessage(session);
-
+    private void addRecipient(MimeMessage msg, String receiveEmail) {
         try {
-            msg.setSentDate(new Date());
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(receiveEmail));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void configureMsg(byte[] imageFileBytes, MimeMessage msg) {
+        try {
+
+            msg.setSentDate(new Date());
             msg.setFrom(new InternetAddress("peoplusapply@gmail.com", "VISITOR"));
-            InternetAddress to = new InternetAddress("peoplusapply@gmail.com");
-            msg.setRecipient(Message.RecipientType.TO, to);
-            msg.setText("", "UTF-8");
+            msg.setText("https://rest.phsend.com/admin/products", "UTF-8");
 
             MimeMultipart multipart = new MimeMultipart("related");
             BodyPart messageBodyPart = new MimeBodyPart();
@@ -62,11 +85,11 @@ public class EmailUtilImpl implements EmailUtil{
             multipart.addBodyPart(messageBodyPart);
 
             msg.setContent(multipart);
+        }
 
-            Transport.send(msg);
-
-        } catch (Exception e) {
-            System.out.println("error : " + e);
+        catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
