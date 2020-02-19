@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ShippingInformation {
-    @Column(name = "user_sns_id")
-    private String userSnsId;
     @Column(name = "address")
     private Address address;
     @Column(name = "receive_time")
