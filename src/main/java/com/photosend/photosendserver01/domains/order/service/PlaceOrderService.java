@@ -1,6 +1,8 @@
 package com.photosend.photosendserver01.domains.order.service;
 
+import com.photosend.photosendserver01.common.event.EmailEvent;
 import com.photosend.photosendserver01.common.model.Money;
+import com.photosend.photosendserver01.common.util.email.EmailType;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
@@ -10,6 +12,7 @@ import com.photosend.photosendserver01.domains.order.presentation.request_repons
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderRequest;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class PlaceOrderService {
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -28,6 +33,9 @@ public class PlaceOrderService {
     @Transactional
     public PlaceOrderResponse placeOrder(PlaceOrderRequest placeOrderRequest, long ordererId) {
         List<OrderLine> orderLineList = makeOrderLineList(placeOrderRequest.getOrderProductList());
+
+        // emit email event
+        eventPublisher.publishEvent(new EmailEvent(EmailType.ORDERED, ordererId, null));
 
         OrderEntity savedOrderEntity = orderRepository.save(
                 OrderEntity.builder()

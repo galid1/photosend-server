@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.domains.catalog.service;
 
 import com.photosend.photosendserver01.common.event.EmailEvent;
+import com.photosend.photosendserver01.common.util.email.EmailType;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductImageInformation;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
@@ -36,11 +37,10 @@ public class CatalogProductUploadService {
         uploadImageToStorage(usersUploadProductList);
 
         // Email Event emit
-        publishEmailEvent(usersUploadProductList
+        eventPublisher.publishEvent(new EmailEvent(EmailType.IMAGE_UPLOADED, uploaderId, usersUploadProductList
                 .stream()
                 .map(uploadedProduct -> uploadedProduct.getImageBytes())
-                .collect(Collectors.toList())
-        );
+                .collect(Collectors.toList())));
 
         // 영속화
         List<ProductUploadResponse> productUploadResponses = addProductEntityToRepository(uploaderId, usersUploadProductList);
@@ -55,10 +55,6 @@ public class CatalogProductUploadService {
                 fileUtil.uploadFile(usersUploadProduct.getUploadedImageFilePath()
                         , usersUploadProduct.getImageBytes());
             });
-    }
-
-    private void publishEmailEvent(List<byte[]> imageByteArrayList) {
-        eventPublisher.publishEvent(new EmailEvent(imageByteArrayList));
     }
 
     private List<ProductUploadResponse> addProductEntityToRepository(long uploaderId, List<UploadedProduct> uploadedProductList) {

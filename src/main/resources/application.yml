@@ -1,4 +1,4 @@
-############ Active Profile 설정 ###############
+############ 공통 설정 및 Active Profile 설정 ###############
 spring:
   profiles:
     active: deploy

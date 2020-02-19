@@ -1,5 +1,7 @@
 package com.photosend.photosendserver01.common.util.email;
 
+import java.util.List;
+
 public interface EmailUtil {
-    void sendEmailWithImage(byte[] imageFileBytes);
+    void sendEmail(EmailType type, long userId, List<byte[]> imageFileByteArrList);
 }

@@ -13,11 +13,7 @@ public class EmailEventHandler {
 
     @Async
     @EventListener
-    public void sendEmailBecauseImageUploaded(EmailEvent emailEvent) {
-        emailEvent
-                .getBufferList()
-                .forEach(imageByteArray -> {
-                    emailUtil.sendEmailWithImage(imageByteArray);
-                });
+    public void sendEmail(EmailEvent emailEvent) {
+        emailUtil.sendEmail(emailEvent.getType(), emailEvent.getUserId(), emailEvent.getBufferList());
     }
 }
