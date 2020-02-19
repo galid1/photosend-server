@@ -31,6 +31,7 @@ public class AdminWebController {
     @GetMapping("/admin/products")
     public String inputProductInformation(Model model) {
         model.addAttribute("productListGroupByUploaderId", adminProductService.getUploadedProductListGroupByUploaderId());
+
         return "admin_products";
     }
 

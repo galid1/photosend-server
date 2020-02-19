@@ -25,14 +25,22 @@
 
         .user_information_container {
             width: 80%;
-            height: 10vh;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
             align-items: center;
             border: 5px solid orchid;
+            background-color: white;
+            margin-bottom: 3vh;
+        }
+
+        .user_information_content_container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-top: 3vh;
             margin-bottom: 3vh;
-            background-color: white;
         }
 
         .product_information_container {
@@ -114,8 +122,14 @@
     <div th:id="${entry.key}" class="product_list_container">
 
         <div class="user_information_container">
-            <span style="width: 40%; text-align: center"> 유저 번호 : </span>
-            <span style="width: 40%; text-align: left" th:text="${entry.key}"></span>
+            <div class="user_information_content_container">
+                <span style="width: 40%; text-align: center"> 유저 번호 : </span>
+                <span style="width: 40%; text-align: left" th:text="${entry.key.getUserId()}"></span>
+            </div>
+            <div class="user_information_content_container">
+                <span style="width: 40%; text-align: center"> 유저 이름 : </span>
+                <span style="width: 40%; text-align: left" th:text="${entry.key.getName()}"></span>
+            </div>
         </div>
 
         <div class="product_information_container" th:each="product : ${entry.value}">
