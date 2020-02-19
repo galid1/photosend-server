@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AdminProductController {
+public class AdminWebController {
     @Autowired
     private AdminProductService adminProductService;
 
@@ -18,10 +18,20 @@ public class AdminProductController {
 //        return "admin";
 //    }
 
+    @GetMapping("/")
+    public String getAdminIndex() {
+        return "admin_index";
+    }
+
+    @GetMapping("/admin/orders")
+    public String getOrderList() {
+        return "orders";
+    }
+
     @GetMapping("/admin/products")
     public String inputProductInformation(Model model) {
         model.addAttribute("uploadedProductList", adminProductService.getUploadedProductList());
-        return "admin";
+        return "admin_products";
     }
 
 }

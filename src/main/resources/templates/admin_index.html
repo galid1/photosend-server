@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .contentContainer {
+            width: 44%;
+            height: 30vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contentContainer > a {
+            display : flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contentContainer > a:link {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div style="width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <div style="width: 80%; height: 50%; display: flex; justify-content: space-between;">
+        <div class="contentContainer" style="background-color: #4D269E;">
+            <a style="width: 100%; height: 100%; text-underline: none;" href="/admin/products">
+                <span style="width: 100%; height: 7vh; font-size: 5vw; color: white; text-align: center">
+                    사용자 상품 <br>
+                    리스트
+                </span>
+            </a>
+        </div>
+        <div class="contentContainer" style="background-color: #C46689;">
+            <a style="width: 100%; height: 100%; text-underline: none;" href="/admin/orders">
+                <span style="width: 100%; height: 7vh; font-size: 5vw; color: white; text-align: center">
+                    사용자 주문 목록
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
