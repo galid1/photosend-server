@@ -133,11 +133,11 @@ public class EmailUtilImpl implements EmailUtil {
         String messageBody = userId + " ";
         switch (type) {
             case IMAGE_UPLOADED:
-                messageBody += IMAGE_UPLOADED_BODY + "\n" + IMAGE_UPLOADED_LIST_URL;
+                messageBody += IMAGE_UPLOADED_BODY + "\n" + IMAGE_UPLOADED_LIST_URL + "#" + userId;
                 break;
 
             case ORDERED:
-                messageBody += ORDERED_BODY + "\n" + ORDERED_LIST_URL;
+                messageBody += ORDERED_BODY + "\n" + ORDERED_LIST_URL + "#" + userId;
                 break;
 
             default:
