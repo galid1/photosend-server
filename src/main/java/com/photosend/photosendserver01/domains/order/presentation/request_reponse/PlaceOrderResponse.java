@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlaceOrderResponse {
     private long orderId;
-    private int totalAmount;
+    private Double totalAmount;
     private long ordererId;
 }

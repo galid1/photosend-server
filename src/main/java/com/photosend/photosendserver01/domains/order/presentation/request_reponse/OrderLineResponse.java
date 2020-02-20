@@ -13,8 +13,8 @@ public class OrderLineResponse {
     private long productId;
     private String productImagePath;
     private String name;
-    private int price;
-    private int lineTotalPrice;
+    private Double price;
+    private Double lineTotalPrice;
     private String brand;
     private int quantity;
 }

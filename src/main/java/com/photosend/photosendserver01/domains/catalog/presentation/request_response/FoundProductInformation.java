@@ -13,7 +13,7 @@ import java.util.Set;
 public class FoundProductInformation {
     private Long pid;
     private String name;
-    private Integer price;
+    private Double price;
     private String brand;
     private Set<Long> categoryIdList;
     private List<String> sizeList;

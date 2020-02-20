@@ -2,7 +2,10 @@ package com.photosend.photosendserver01.domains.catalog.domain.product;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +20,7 @@ public class ProductInformation {
     private String name;
 
     @NonNull
-    private Integer price;
+    private Double price;
 
     private String brand;
 

@@ -68,7 +68,7 @@ public class OrderEntity extends BaseTimeEntity {
     private void calculateTotalAmount() {
         this.totalAmount = Money.builder()
                 .value(this.orderLines.stream()
-                        .mapToInt(orderLine -> orderLine.getTotalPrice().getValue())
+                        .mapToDouble(orderLine -> orderLine.getTotalPrice().getValue())
                         .sum())
                 .build();
     }

@@ -12,7 +12,7 @@ public class ProductSummaryForCatalog {
     private long productId;
     private String name;
     private String brand;
-    private int price;
+    private Double price;
     private String productImagePath;
     private LocalDateTime uploadedTime;
 }

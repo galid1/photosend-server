@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDetailResponse {
-    private int totalPrice;
+    private Double totalPrice;
     private LocalDateTime receiveTime;
     private ShippingInformation shippingInformation;
 }
