@@ -103,7 +103,7 @@
 
 <div class="upload_btn_container"
      style="height: 25vh; display: flex; flex-direction: column; justify-content: space-evenly">
-    <button class="upload_btn" style="width: 50vw; height: 10vh;">상품정보 업로드</button>
+    <button id="top" class="upload_btn" style="width: 50vw; height: 10vh;">상품정보 업로드</button>
     <span style="color: cornflowerblue;">
         상품정보 입력을 완료한뒤, <br>
         정보 업로드를 원하는 상품에 체크하고, <br>
@@ -133,8 +133,9 @@
         </div>
 
         <div class="product_information_container" th:each="product : ${entry.value}">
-            <div class="checkbox_container" style="display: flex; align-items: center; justify-content: center;">
+            <div class="checkbox_container" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <input class="checkbox" type="checkbox">
+                <a href="#top" style="font-size: 1vw; margin-top: 5vh; font-weight: bold">맨 위로</a>
             </div>
 
             <div class="image_container">
