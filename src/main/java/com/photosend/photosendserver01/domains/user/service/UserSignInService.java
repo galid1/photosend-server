@@ -24,6 +24,7 @@ public class UserSignInService {
         return UserSignInResponse.builder()
                 .token(userEntity.getToken().getJwtToken())
                 .userId(userEntity.getUserId())
+                .apnsDeviceToken(userEntity.getApnsDeviceToken())
                 .build();
     }
 

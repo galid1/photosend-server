@@ -9,4 +9,5 @@ import lombok.*;
 public class UserSignInResponse {
     private Long userId;
     private String token;
+    private String apnsDeviceToken;
 }

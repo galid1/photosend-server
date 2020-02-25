@@ -44,11 +44,10 @@ public class UserEntity extends BaseTimeEntity {
     private List<Long> productList = new ArrayList<>();
 
     @Builder
-    public UserEntity(UserInformation userInformation, String deviceId, @NonNull Token token, String apnsDeviceToken) {
+    public UserEntity(UserInformation userInformation, String deviceId, @NonNull Token token) {
         setUserInformation(userInformation);
         setDeviceId(deviceId);
         this.token = token;
-        setAPNsDeviceToken(apnsDeviceToken);
     }
 
     private void setUserInformation(UserInformation userInformation) {
@@ -70,7 +69,7 @@ public class UserEntity extends BaseTimeEntity {
         this.deviceId = deviceId;
     }
 
-    private void setAPNsDeviceToken(String apnsDeviceToken) {
+    public void setAPNsDeviceToken(String apnsDeviceToken) {
         if(apnsDeviceToken == null || apnsDeviceToken.length() <= 0)
             throw new IllegalArgumentException("APNs Device Token을 입력하세요.");
 
