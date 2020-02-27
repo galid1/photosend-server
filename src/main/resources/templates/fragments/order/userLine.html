@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>user line</title>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+    </script>
+
+    <script>
+      $(function () {
+        $(".userLineExpanderContainer").on("click", function () {
+          let isOpen = $(this).find("img").attr("src") == "/images/common/openedBtn.png"
+            ?
+            true
+            :
+            false;
+
+          $(".userLineExpanderContainer").find("img").attr("src", "/images/common/closedBtn.png");
+
+          if (isOpen) {
+            $(this).find("img").attr("src", "/images/common/closedBtn.png");
+            $("#userOrderContainer").hide();
+          } else {
+            $(this).find("img").attr("src", "/images/common/openedBtn.png");
+            $("#userOrderContainer").slideDown();
+          }
+        });
+
+
+      });
+    </script>
+
+    <style>
+        .userLineContainer {
+            width: 100%;
+            margin-bottom: 2vh;
+        }
+
+        .userInfoContainer {
+            display: flex;
+
+        }
+
+        .userInfoContentContainer {
+            flex: 1;
+            height: 8vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .userInfoLine {
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+        }
+
+        .userLineExpanderContainer {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1vh;
+        }
+
+        .userOrderPreviewContainer {
+            display: flex;
+            height: 10vh;
+            align-items: center;
+        }
+
+        .userOrderPreviewContainer > img {
+            width: 100px;
+            height: 80px;
+            background-color: #F2F2F2;
+        }
+
+        #userOrderContainer {
+            margin-top: 2vh;
+            display: none;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="userLineContainer">
+    <div th:replace="fragments/horizontal :: thick"></div>
+
+    <div class="userInfoContainer">
+        <div class="userInfoContentContainer">
+            <div class="userInfoLine">
+                <span>사용자 번호</span>
+                <span>1234</span>
+            </div>
+            <div class="userInfoLine">
+                <span>사용자 이름</span>
+                <span>JJY</span>
+            </div>
+        </div>
+        <div class="userLineExpanderContainer">
+            <img style="width: 20px; height: 20px;" src="/images/common/closedBtn.png" alt="">
+        </div>
+    </div>
+
+    <div class="userOrderPreviewContainer">
+        <img src="" alt="">
+    </div>
+
+    <div id="userOrderContainer">
+        <div th:replace="fragments/order/userOrder"></div>
+    </div>
+</div>
+
+</body>
+</html>

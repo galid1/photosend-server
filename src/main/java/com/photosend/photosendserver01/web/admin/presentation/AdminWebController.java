@@ -6,6 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
+
 @Controller
 public class AdminWebController {
     @Autowired
@@ -24,15 +28,22 @@ public class AdminWebController {
     }
 
     @GetMapping("/admin/orders")
-    public String getOrderList() {
-        return "orders";
+    public String getOrderList(HttpServletRequest request, Model model) {
+        model.addAttribute("path", getPath(request));
+
+        return "admin_orders";
     }
 
     @GetMapping("/admin/products")
-    public String inputProductInformation(Model model) {
+    public String inputProductInformation(HttpServletRequest request, Model model) {
+        model.addAttribute("path", getPath(request));
         model.addAttribute("productListGroupByUploaderId", adminProductService.getUploadedProductListGroupByUploaderId());
 
         return "admin_products";
     }
 
+    private String getPath(HttpServletRequest request) {
+        List<String> paths = Arrays.asList(request.getServletPath().split("/"));
+        return paths.get(paths.size() - 1);
+    }
 }

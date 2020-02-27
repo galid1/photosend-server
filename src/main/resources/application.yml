@@ -1,7 +1,15 @@
 ############ 공통 설정 및 Active Profile 설정 ###############
 spring:
   profiles:
-    active: deploy
+    active: local
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+  thymeleaf:
+    cache: false
+
 
 ---
 
@@ -80,7 +88,7 @@ photosend:
 ################ LOCAL SERVER 환경 ################
 
 server:
-  port: 8080
+  port: 80
 
 spring:
   profiles: local

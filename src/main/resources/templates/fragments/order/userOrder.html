@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>userOrderLine</title>
+
+    <style>
+        .userOrderContainer {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .userOrderLineHeaderContainer {
+            height: 9vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .userOrderLineDateContainer > span {
+            font-size: 20px;
+            color: #F794A8;
+        }
+
+        .userOrderLineOrderNumContainer {
+            display: flex;
+            width: 25%;
+            justify-content: space-between;
+        }
+
+        .userOrderLineOrderNumContainer > span {
+            color: #5900E2;
+        }
+
+        /* @@@@@@@@@@@@@@@ 하나의 주문 라인 @@@@@@@@@@@@@ */
+        .userOrderLineContainer {
+            display: flex;
+            height: 15vh;
+            width: 100%;
+            margin-bottom: 4vh;
+        }
+
+        .userOrderLineImageContainer {
+            height: 100%;
+            width: 50%;
+            background-color: #F2F2F2;
+        }
+
+        .userOrderLineInfoContainer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .orderLineInfoContentContainer {
+            margin-left: 2vw;
+            width: 40%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .orderLineInfoContentContainer > span {
+            color: #33312A;
+        }
+
+        .userOrderSummaryContainer {
+            background-color: #F2F2F2;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 15vh;
+        }
+
+        .userOrderSummaryContentContainer {
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .userOrderSummaryLine {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .userOrderBtnContainer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 8vh;
+        }
+
+        .userOrderBtn {
+            width: 48%;
+            height: 70%;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .userOrderBtn > span {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="userOrderContainer">
+        <div th:replace="fragments/horizontal :: thin"></div>
+
+        <div class="userOrderLineHeaderContainer">
+            <div class="userOrderLineDateContainer">
+                <span>2020년 2월 26일 수요일</span>
+            </div>
+            <div class="userOrderLineOrderNumContainer">
+                <span>주문번호</span>
+                <span>123123</span>
+            </div>
+        </div>
+
+        <div class="userOrderLineContainer">
+            <div class="userOrderLineImageContainer">
+                <img style="width: 100%; height: auto" src="" alt="">
+            </div>
+
+            <div class="userOrderLineInfoContainer">
+                <div class="orderLineInfoContentContainer">
+                    <span>상품번호</span>
+                    <span>1234</span>
+                </div>
+                <div class="orderLineInfoContentContainer">
+                    <span>상품이름</span>
+                    <span>티셔츠</span>
+                </div>
+                <div class="orderLineInfoContentContainer">
+                    <span>가격</span>
+                    <span>25,000 원</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="userOrderSummaryContainer">
+            <div class="userOrderSummaryContentContainer">
+                <div class="userOrderSummaryLine">
+                    <span style="font-size: 20px; color: #5900E2">총 합계</span>
+                    <span style="font-size: 20px; color: #5900E2">37,900원</span>
+                </div>
+                <div class="userOrderSummaryLine">
+                    <span style="color: #33312A;">배송지정보</span>
+                    <span style="color: #5C5C5C;">경기도 안양시 동안구 동안로35</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="userOrderBtnContainer">
+            <div class="userOrderBtn" style="background-color: #5900E2">
+                <span>처리완료</span>
+            </div>
+            <div class="userOrderBtn" style="background-color: #C1C1C1;">
+                <span>오주문</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

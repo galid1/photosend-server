@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>filterBar</title>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+    </script>
+
+    <style>
+        #filterBarContainer {
+            margin-top: 3vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filterBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filterBtn:hover {
+            cursor: pointer;
+        }
+
+        .filterBtn > img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .filterBtn > span {
+            font-size: 1vw;
+            margin-left: 10px;
+        }
+
+    </style>
+
+    <script>
+        $(function() {
+          $(".filterBtn").on("click", function() {
+            $(".filterBtn > img").attr("src", "/images/common/check_off.png");
+            $(this).find("img").attr("src", "/images/common/check_on.png");
+          });
+
+        });
+    </script>
+</head>
+<body>
+
+    <div id="filterBarContainer">
+        <div class="filterBtn">
+            <img src="/images/common/check_on.png" alt="">
+            <span> 미처리 </span>
+        </div>
+        <div class="filterBtn">
+            <img src="/images/common/check_off.png" alt="">
+            <span> 정상처리 </span>
+        </div>
+        <div class="filterBtn">
+            <img src="/images/common/check_off.png" alt="">
+            <span> 오주문 </span>
+        </div>
+    </div>
+
+</body>
+</html>

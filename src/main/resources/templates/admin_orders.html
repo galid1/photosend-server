@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <style>
+        #container {
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #contentContainer {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #orderTitleContainer {
+            width: 20vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+            justify-content: center;
+        }
+
+        #orderTitleContainer > span {
+            font-size: 1.5vw;
+        }
+
+        /* @@@@@@@@@@ header @@@@@@@@@@ */
+        #orderHeaderContainer {
+            width: 100%;
+            margin-bottom: 2vh;
+        }
+
+
+        /* @@@@@@@@@@ body @@@@@@@@@@ */
+        #orderBodyContainer {
+            width: 100%;
+        }
+    </style>
 </head>
+
+
 <body>
-    사용자 주문목록
+<header>
+    <div th:replace="fragments/header"></div>
+</header>
+
+<div id="container">
+    <div id="contentContainer">
+        <div id="orderTitleContainer">
+        <span>
+            주문목록 페이지
+        </span>
+        </div>
+
+        <div id="orderHeaderContainer">
+            <div th:replace="fragments/order/searchBar"></div>
+            <div th:replace="fragments/order/filterBar"></div>
+        </div>
+
+        <div id="orderBodyContainer">
+            <div th:replace="fragments/order/userLine"></div>
+        </div>
+    </div>
+</div>
 </body>
+
+
 </html>

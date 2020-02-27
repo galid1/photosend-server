@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>header</title>
+
+    <style>
+        #headerContainer {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        #headerContainer > .tab {
+            margin: 0px 5px;
+            width: 7vw;
+            height: 3.5vh;
+            background-color: #F2F2F2;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tab > a {
+            color: #C1C1C1;
+            text-decoration: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        #headerContainer > .activeTab {
+            background-color: #5900E2;
+        }
+
+        .activeTab > a {
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="headerContainer">
+        <div class="tab" th:classappend="${path} == 'products' ? 'activeTab' : ''">
+            <a href="/admin/products">
+                상품관리
+            </a>
+        </div>
+        <div class="tab" th:classappend="${path} == 'orders' ? 'activeTab' : ''">
+            <a href="/admin/orders">
+                주문관리
+            </a>
+        </div>
+    </div>
+</body>
+</html>
