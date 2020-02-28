@@ -39,18 +39,81 @@
         }
 
         /* @@@@@@@@@@ header @@@@@@@@@@ */
-        #orderHeaderContainer {
+        .orderHeaderContainer {
             width: 100%;
             margin-bottom: 2vh;
         }
 
 
         /* @@@@@@@@@@ body @@@@@@@@@@ */
-        #orderBodyContainer {
+        .orderBodyContainer {
             width: 100%;
         }
     </style>
 
+    <script>
+      $(function () {
+        $(".userLineExpanderContainer").on("click", function () {
+          let isOpen = $(this).hasClass("open");
+
+          $(".userLineExpanderContainer").removeClass("open");
+          $(".userLineExpanderContainer").find("img").attr("src", "/images/common/closedBtn.png");
+          $(".userOrderContainerContainer").slideUp();
+
+          if(isOpen) {
+            $(this).removeClass("open");
+            $(this).find("img").attr("src", "/images/common/closedBtn.png");
+            $(this).parent().parent().find(".userOrderContainerContainer").slideUp();
+          }
+          else {
+            $(this).addClass("open");
+            $(this).find("img").attr("src", "/images/common/openedBtn.png");
+            $(this).parent().parent().find(".userOrderContainerContainer").slideDown();
+          }
+        });
+
+
+        $(".treatingMask").hide();
+
+        $(".treatBtn").on('click', function () {
+          let orderId = $(this).parent().parent().find(".userOrderLineOrderNumContainer").children()[1].textContent;
+          processOrderRequest(orderId, 'ship');
+        });
+
+        $(".cancelBtn").on('click', function () {
+          let orderId = $(this).parent().parent().find(".userOrderLineOrderNumContainer").children()[1].textContent;
+          processOrderRequest(orderId, 'cancel');
+        });
+
+        $(".userOrderBtn").on('click', function () {
+          $(this).parent().parent().find(".treatingMask").show();
+        })
+
+        function processOrderRequest(orderId, processType) {
+          $.ajax({
+            url: `/orders/${orderId}/${processType}`,
+            type: 'PUT',
+            success: function (data, textStatus) {
+              handleProcessOrderResponse(orderId, true);
+            },
+            error: function (jqXHR, textStatus, error) {
+              handleProcessOrderResponse(orderId, false);
+            }
+          });
+        }
+
+        function handleProcessOrderResponse(orderId, isSuccess) {
+          let targetResultSpan = $(`#${orderId}`).find(".treatingResult");
+
+          if (isSuccess) {
+            targetResultSpan.text("처리성공");
+          } else {
+            targetResultSpan.text("에러발생");
+            targetResultSpan.css("color", "red");
+          }
+        }
+      });
+    </script>
 </head>
 
 
@@ -67,12 +130,12 @@
             </span>
         </div>
 
-        <div id="orderHeaderContainer">
+        <div class="orderHeaderContainer">
             <div th:replace="fragments/order/searchBar"></div>
             <div th:replace="fragments/order/filterBar"></div>
         </div>
 
-        <div id="orderBodyContainer">
+        <div class="orderBodyContainer">
             <div th:each="entry, stat : ${orderListGroupingByUser}">
                 <div th:replace="fragments/order/userLine"></div>
             </div>

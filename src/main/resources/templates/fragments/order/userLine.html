@@ -10,30 +10,6 @@
         crossorigin="anonymous">
     </script>
 
-    <script>
-      $(function () {
-        $(".userLineExpanderContainer").on("click", function () {
-          let isOpen = $(this).find("img").attr("src") == "/images/common/openedBtn.png"
-            ?
-            true
-            :
-            false;
-
-          $(".userLineExpanderContainer").find("img").attr("src", "/images/common/closedBtn.png");
-
-          if (isOpen) {
-            $(this).find("img").attr("src", "/images/common/closedBtn.png");
-            $("#userOrderContainer").slideUp();
-          } else {
-            $(this).find("img").attr("src", "/images/common/openedBtn.png");
-            $("#userOrderContainer").slideDown();
-          }
-        });
-
-
-      });
-    </script>
-
     <style>
         .userLineContainer {
             width: 100%;
@@ -91,61 +67,17 @@
             background-color: #F2F2F2;
         }
 
-        #userOrderContainer {
+        .userOrderContainerContainer {
             margin-top: 2vh;
             display: none;
             width: 100%;
         }
     </style>
 
-    <script>
-      $(function () {
-        $(".treatingMask").hide();
-
-        $(".treatBtn").on('click', function () {
-          let orderId = $(this).parent().parent().find(".userOrderLineOrderNumContainer").children()[1].textContent;
-          processOrderRequest(orderId, 'ship');
-        });
-
-        $(".cancelBtn").on('click', function () {
-          let orderId = $(this).parent().parent().find(".userOrderLineOrderNumContainer").children()[1].textContent;
-          processOrderRequest(orderId, 'cancel');
-        });
-
-        $(".userOrderBtn").on('click', function() {
-          $(this).parent().parent().find(".treatingMask").show();
-        })
-
-        function processOrderRequest(orderId, processType) {
-          $.ajax({
-            url: `/orders/${orderId}/${processType}`,
-            type: 'PUT',
-            success: function (data, textStatus) {
-              handleProcessOrderResponse(orderId, true);
-            },
-            error: function (jqXHR, textStatus, error) {
-              handleProcessOrderResponse(orderId, false);
-            }
-          });
-        }
-
-        function handleProcessOrderResponse(orderId, isSuccess) {
-          let targetResultSpan = $(`#${orderId}`).find(".treatingResult");
-
-          if(isSuccess) {
-           targetResultSpan.text("처리성공");
-          }
-          else {
-            targetResultSpan.text("에러발생");
-            targetResultSpan.css("color", "red");
-          }
-        }
-      });
-    </script>
 </head>
 <body>
 
-<div class="userLineContainer">
+<div class="userLineContainer" th:classappend="|userId_${entry.key.userId} userName_${entry.key.name}|">
     <div th:replace="fragments/horizontal :: thick"></div>
 
     <div class="userInfoContainer">
@@ -168,7 +100,7 @@
 <!--        <img src="" alt="">-->
 <!--    </div>-->
 
-    <div id="userOrderContainer">
+    <div class="userOrderContainerContainer">
         <!-- entry.value == List<OrderInformation> -->
         <div th:each="order : ${entry.value}">
             <div th:replace="fragments/order/userOrder"></div>

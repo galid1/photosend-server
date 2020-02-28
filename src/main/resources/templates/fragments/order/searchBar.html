@@ -59,7 +59,63 @@
 
     <script>
       $(function () {
+        let searchKeyWord = "";
+        $("#searchInput").on("keyup", function() {
+          searchKeyWord = $(this).val();
+        });
 
+        $("#searchByOrderIdBtn").on('click', function() {
+          let target = $(`.orderId_${searchKeyWord}`);
+          verifyTargetExist(target);
+
+          let expander = $(`.orderId_${searchKeyWord}`).parent().parent().parent().find(".userLineExpanderContainer");
+          let isOpen = expander.hasClass("open");
+
+          if(isOpen) {
+            goToTarget(target);
+          }
+          else {
+            $(".userLineExpanderContainer").removeClass("open");
+            $(".userLineExpanderContainer").find("img").attr("src", "/images/common/closedBtn.png");
+            $(".userOrderContainerContainer").slideUp();
+            
+            expandUserOrderList(expander);
+            setTimeout(() => {
+              goToTarget(target);
+            }, 300);
+          }
+        });
+
+        $("#searchByUserIdBtn").on('click', function() {
+          let target = $(`.userId_${searchKeyWord}`);
+          verifyTargetExist(target);
+
+          goToTarget(target);
+        });
+
+        $("#searchByUserNameBtn").on('click', function() {
+          let target = $(`.userName_${searchKeyWord}`);
+          verifyTargetExist(target);
+
+          goToTarget(target);
+        });
+
+        function expandUserOrderList(expander) {
+            expander.addClass("open");
+            expander.find("img").attr("src", "/images/common/openedBtn.png");
+            expander.parent().parent().find(".userOrderContainerContainer").slideDown();
+        }
+
+        function verifyTargetExist(target) {
+          if(!target.length) {
+            alert("존재하지 않는 번호 또는 이름입니다.");
+            throw Error();
+          }
+        }
+
+        function goToTarget(target) {
+          $(document).scrollTop((target).offset().top);
+        }
       });
     </script>
 </head>
@@ -71,17 +127,17 @@
             <div style="flex: 1.8;">
                 <input id="searchInput" placeholder="'주문번호' 또는 '사용자번호' 또는 '사용자이름'으로 검색" type="text">
             </div>
-            <div class="searchBtnContainer">
+            <div class="searchBtnContainer" id="searchByOrderIdBtn">
                 <span>
                     주문번호
                 </span>
             </div>
-            <div class="searchBtnContainer">
+            <div class="searchBtnContainer" id="searchByUserIdBtn">
                 <span>
                     사용자번호
                 </span>
             </div>
-            <div class="searchBtnContainer">
+            <div class="searchBtnContainer" id="searchByUserNameBtn">
                 <span>
                     사용자이름
                 </span>
