@@ -10,6 +10,8 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            position: relative;
+            margin-bottom: 2vh;
         }
 
         .userOrderLineHeaderContainer {
@@ -78,52 +80,185 @@
         .userOrderBtn > span {
             color: white;
         }
+
+
+        .mask {
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 10;
+            background-color: #D1D1D170;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4vw;
+        }
+
+        .treatedOrderMask {
+            color: white;
+        }
+
+        .canceldOrderMask {
+            color: orange;
+        }
+
+        .treatingMask {
+            color: green;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
+<!-- @@@@@@@@@@@@@@@@ 미처리 @@@@@@@@@@@@@@@@@ -->
+<div th:if="${order.orderState eq 'ORDER_COMPLEMENT'}" class="userOrderContainer untreatedOrder" th:id="${order.oid}">
+    <div th:replace="fragments/horizontal :: thin"></div>
 
-    <div class="userOrderContainer">
-        <div th:replace="fragments/horizontal :: thin"></div>
-
-        <div class="userOrderLineHeaderContainer">
-            <div class="userOrderLineDateContainer">
-                <span th:text="${order.receiveTime}">2020년 2월 26일 수요일</span>
-            </div>
-            <div class="userOrderLineOrderNumContainer">
-                <span>주문번호</span>
-                <span th:text="${order.oid}">123123</span>
-            </div>
+    <div class="userOrderLineHeaderContainer">
+        <div class="userOrderLineDateContainer">
+            <span th:text="${order?.receiveTime}">2020년 2월 26일 수요일</span>
         </div>
-
-        <!--  orderList.orderLineList  == List<OrderLineInformation> -->
-        <div th:each="orderLine : ${order.orderLineList}">
-            <div th:replace="fragments/order/userOrderLine"></div>
+        <div class="userOrderLineOrderNumContainer">
+            <span>주문번호</span>
+            <span th:text="${order.oid}">123123</span>
         </div>
+    </div>
 
-        <div class="userOrderSummaryContainer">
-            <div class="userOrderSummaryContentContainer">
-                <div class="userOrderSummaryLine">
-                    <span style="font-size: 20px; color: #5900E2">총 합계</span>
-                    <span style="font-size: 20px; color: #5900E2" th:text="${order.totalAmount.value} + ' $'">원</span>
-                </div>
-                <div class="userOrderSummaryLine">
-                    <span style="color: #33312A;">배송지정보</span>
-                    <span style="color: #5C5C5C;" th:text="${order.address}"></span>
-                </div>
+    <!--  orderList.orderLineList  == List<OrderLineInformation> -->
+    <div th:each="orderLine : ${order.orderLineList}">
+        <div th:replace="fragments/order/userOrderLine"></div>
+    </div>
+
+    <div class="userOrderSummaryContainer">
+        <div class="userOrderSummaryContentContainer">
+            <div class="userOrderSummaryLine">
+                <span style="font-size: 20px; color: #5900E2">총 합계</span>
+                <span style="font-size: 20px; color: #5900E2" th:text="${order.totalAmount.value} + ' $'">원</span>
             </div>
-        </div>
-
-
-        <!--   주문 상태에 따라서 버튼 변경   -->
-        <div class="userOrderBtnContainer">
-            <div class="userOrderBtn" style="background-color: #5900E2">
-                <span>처리완료</span>
-            </div>
-            <div class="userOrderBtn" style="background-color: #C1C1C1;">
-                <span>주문취소</span>
+            <div class="userOrderSummaryLine">
+                <span style="color: #33312A;">배송지정보</span>
+                <span style="color: #5C5C5C;" th:text="${order.address}"></span>
             </div>
         </div>
     </div>
+
+
+    <!--   주문 상태에 따라서 버튼 변경   -->
+    <div class="userOrderBtnContainer">
+        <div class="userOrderBtn treatBtn" style="background-color: #5900E2">
+            <span>처리완료</span>
+        </div>
+        <div class="userOrderBtn cancelBtn" style="background-color: #C1C1C1;">
+            <span>주문취소</span>
+        </div>
+    </div>
+
+    <div class="treatingMask mask">
+        <span class="treatingResult">처리중</span>
+        <span>(새로고침시 일괄처리)</span>
+    </div>
+</div>
+
+
+<!-- @@@@@@@@@@@@@@@@ 처리완료 @@@@@@@@@@@@@@@@@ -->
+<div th:if="${order.orderState eq 'SHIPPING_IN_PROGRESS'}" class="userOrderContainer treatedOrder">
+    <div th:replace="fragments/horizontal :: thin"></div>
+
+    <div class="userOrderLineHeaderContainer">
+        <div class="userOrderLineDateContainer">
+            <span th:text="${order.receiveTime}">2020년 2월 26일 수요일</span>
+        </div>
+        <div class="userOrderLineOrderNumContainer">
+            <span>주문번호</span>
+            <span th:text="${order.oid}">123123</span>
+        </div>
+    </div>
+
+    <!--  orderList.orderLineList  == List<OrderLineInformation> -->
+    <div th:each="orderLine : ${order.orderLineList}">
+        <div th:replace="fragments/order/userOrderLine"></div>
+    </div>
+
+    <div class="userOrderSummaryContainer">
+        <div class="userOrderSummaryContentContainer">
+            <div class="userOrderSummaryLine">
+                <span style="font-size: 20px; color: #5900E2">총 합계</span>
+                <span style="font-size: 20px; color: #5900E2" th:text="${order.totalAmount.value} + ' $'">원</span>
+            </div>
+            <div class="userOrderSummaryLine">
+                <span style="color: #33312A;">배송지정보</span>
+                <span style="color: #5C5C5C;" th:text="${order.address}"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <!--   주문 상태에 따라서 버튼 변경   -->
+    <div class="userOrderBtnContainer">
+        <div class="userOrderBtn" style="background-color: #5900E2">
+            <span>처리완료</span>
+        </div>
+        <div class="userOrderBtn" style="background-color: #C1C1C1;">
+            <span>주문취소</span>
+        </div>
+    </div>
+
+    <div th:if="${order.orderState eq 'SHIPPING_IN_PROGRESS'}" class="treatedOrderMask mask">처리완료</div>
+    <div th:if="${order.orderState eq 'ORDER_CANCELD'}" class="canceldOrderMask mask">취소완료</div>
+</div>
+
+
+<!-- @@@@@@@@@@@@@@@@ 취소된 주문 @@@@@@@@@@@@@@@@@ -->
+<div th:if="${order.orderState eq 'ORDER_CANCELD'}" class="userOrderContainer canceldOrder">
+    <div th:replace="fragments/horizontal :: thin"></div>
+
+    <div class="userOrderLineHeaderContainer">
+        <div class="userOrderLineDateContainer">
+            <span th:text="${order.receiveTime}">2020년 2월 26일 수요일</span>
+        </div>
+        <div class="userOrderLineOrderNumContainer">
+            <span>주문번호</span>
+            <span th:text="${order.oid}">123123</span>
+        </div>
+    </div>
+
+    <!--  orderList.orderLineList  == List<OrderLineInformation> -->
+    <div th:each="orderLine : ${order.orderLineList}">
+        <div th:replace="fragments/order/userOrderLine"></div>
+    </div>
+
+    <div class="userOrderSummaryContainer">
+        <div class="userOrderSummaryContentContainer">
+            <div class="userOrderSummaryLine">
+                <span style="font-size: 20px; color: #5900E2">총 합계</span>
+                <span style="font-size: 20px; color: #5900E2" th:text="${order.totalAmount.value} + ' $'">원</span>
+            </div>
+            <div class="userOrderSummaryLine">
+                <span style="color: #33312A;">배송지정보</span>
+                <span style="color: #5C5C5C;" th:text="${order.address}"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <!--   주문 상태에 따라서 버튼 변경   -->
+    <div class="userOrderBtnContainer">
+        <div class="userOrderBtn" style="background-color: #5900E2">
+            <span>처리완료</span>
+        </div>
+        <div class="userOrderBtn" style="background-color: #C1C1C1;">
+            <span>주문취소</span>
+        </div>
+    </div>
+
+    <div th:if="${order.orderState eq 'SHIPPING_IN_PROGRESS'}" class="treatedOrderMask mask">처리완료</div>
+    <div th:if="${order.orderState eq 'ORDER_CANCELD'}" class="canceldOrderMask mask">취소완료</div>
+</div>
 
 </body>
 </html>

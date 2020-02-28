@@ -78,6 +78,13 @@ public class AdminOrderService {
         orderEntity.cancel();
     }
 
+    @Transactional
+    public void ship(long orderId) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+
+        orderEntity.ship();
+    }
+
 
     @Getter
     private class User {

@@ -105,16 +105,16 @@ public class OrderEntity extends BaseTimeEntity {
     }
 
     // 배송 시작 (결제가 완료 되었으며, 취소된 상태가 아니어야 함)
-    public void startShipping() {
-        verifyShippableState();
+    public void ship() {
+//        verifyShippableState();
         verifyNotCanceld();
         this.orderState = OrderState.SHIPPING_IN_PROGRESS;
     }
 
-    private void verifyShippableState() {
-        if(this.orderState != OrderState.PAYMENT_COMPLETED)
-            throw new ShipStateException("배송완료 처리가 가능한 상태가 아닙니다.");
-    }
+//    private void verifyShippableState() {
+//        if(this.orderState != OrderState.PAYMENT_COMPLETED)
+//            throw new ShipStateException("배송완료 처리가 가능한 상태가 아닙니다.");
+//    }
 
     // 배송 취소 (배송 시작 전과 주문 취소 전에만 가능)
     public void cancel() {

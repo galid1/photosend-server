@@ -49,21 +49,53 @@
             $(this).find("img").attr("src", "/images/common/check_on.png");
           });
 
+          let untreatedOrder = $(".untreatedOrder");
+          let treatedOrder = $(".treatedOrder");
+          let canceldOrder = $(".canceldOrder");
+
+          $(".filterBtn").on("click", function() {
+            untreatedOrder.hide();
+            treatedOrder.hide();
+            canceldOrder.hide();
+          });
+
+          $("#wholeBtn").on("click", function() {
+            untreatedOrder.show();
+            treatedOrder.show();
+            canceldOrder.show();
+          });
+
+          $("#untreatedBtn").on('click', function() {
+            untreatedOrder.show();
+          });
+
+          $("#treatedBtn").on('click', function() {
+            treatedOrder.show();
+          })
+
+          $("#canceldBtn").on("click", function() {
+            canceldOrder.show();
+          });
+
         });
     </script>
 </head>
 <body>
 
     <div id="filterBarContainer">
-        <div class="filterBtn">
+        <div id="wholeBtn" class="filterBtn">
             <img src="/images/common/check_on.png" alt="">
+            <span> 전체 </span>
+        </div>
+        <div id="untreatedBtn" class="filterBtn">
+            <img src="/images/common/check_off.png" alt="">
             <span> 미처리 </span>
         </div>
-        <div class="filterBtn">
+        <div id="treatedBtn" class="filterBtn">
             <img src="/images/common/check_off.png" alt="">
             <span> 정상처리 </span>
         </div>
-        <div class="filterBtn">
+        <div id="canceldBtn" class="filterBtn">
             <img src="/images/common/check_off.png" alt="">
             <span> 취소된주문 </span>
         </div>

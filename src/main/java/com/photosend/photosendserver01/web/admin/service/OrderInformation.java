@@ -15,7 +15,7 @@ import java.util.List;
 public class OrderInformation {
     private long oid;
 
-    private OrderState orderState;
+    private String orderState;
     private String address;
     private LocalDateTime receiveTime;
 
@@ -28,7 +28,7 @@ public class OrderInformation {
     @Builder
     public OrderInformation(long oid, OrderState orderState, Address address, LocalDateTime receiveTime, long ordererId, List<OrderLineInformation> orderLineList, Money totalAmount) {
         this.oid = oid;
-        this.orderState = orderState;
+        this.orderState = orderState.toString();
         setAddress(address);
         this.receiveTime = receiveTime;
         this.ordererId = ordererId;
