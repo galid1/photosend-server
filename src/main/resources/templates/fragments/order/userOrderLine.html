@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>userOrderLine</title>
+
+    <style>
+        .userOrderLineContainer {
+            display: flex;
+            height: 15vh;
+            width: 100%;
+            margin-bottom: 4vh;
+        }
+
+        .userOrderLineImageContainer {
+            height: 100%;
+            width: 50%;
+            background-color: #F2F2F2;
+        }
+
+        .userOrderLineInfoContainer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .orderLineInfoContentContainer {
+            margin-left: 2vw;
+            width: 50%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .orderLineInfoContentContainer > span {
+            color: #33312A;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="userOrderLineContainer">
+        <div class="userOrderLineImageContainer">
+            <img th:src="@{${orderLine.productImagePath}}" style="width: 100%; height: auto" src="" alt="">
+        </div>
+
+        <div class="userOrderLineInfoContainer">
+            <div class="orderLineInfoContentContainer">
+                <span>상품번호</span>
+                <span th:text="${orderLine.productId}">1234</span>
+            </div>
+            <div class="orderLineInfoContentContainer">
+                <span>상품이름</span>
+                <span th:text="${orderLine.productInformation.name}"></span>
+            </div>
+            <div class="orderLineInfoContentContainer">
+                <span>가격</span>
+                <span th:text="${orderLine.productInformation.price}">0 $</span>
+            </div>
+            <div class="orderLineInfoContentContainer">
+                <span>메모</span>
+                <span th:text="${orderLine.productInformation.memo}">memo</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -15,15 +15,16 @@ public class FoundProductInformation {
     private String name;
     private Double price;
     private String brand;
+    private String memo;
     private Set<Long> categoryIdList;
     private List<String> sizeList;
-//    private List<Size> size = new ArrayList<>();
 
     public ProductInformation toProductInformation() {
         return ProductInformation.builder()
                 .name(name)
                 .price(price)
                 .brand(brand)
+                .memo(memo)
                 .category(categoryIdList)
                 .size(sizeList)
                 .build();

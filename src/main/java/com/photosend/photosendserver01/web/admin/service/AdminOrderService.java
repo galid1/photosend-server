@@ -1,0 +1,93 @@
+package com.photosend.photosendserver01.web.admin.service;
+
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
+import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
+import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
+import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
+import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+public class AdminOrderService {
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+
+    public Map<User, List<OrderInformation>> getOrderListGroupingByUser() {
+        return orderRepository.findAll().stream()
+                .collect(Collectors.groupingBy(order -> order.getOrdererId()))
+                .entrySet().stream()
+                .collect(
+                        Collectors.toMap(
+                                entry -> toUser(entry.getKey()),
+                                entry -> toOrderInformation(entry.getValue())
+                        )
+                );
+    }
+
+    private User toUser(long ordererId) {
+        return new User(ordererId, userRepository.findById(ordererId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문자입니다."))
+                .getUserInformation()
+                .getName());
+    }
+
+    private List<OrderInformation> toOrderInformation(List<OrderEntity> orderList) {
+        return orderList.parallelStream()
+                .map(order -> OrderInformation.builder()
+                .oid(order.getOid())
+                .address(order.getShippingInformation().getAddress())
+                .ordererId(order.getOrdererId())
+                .orderLineList(order.getOrderLines().parallelStream()
+                        .map(orderLine -> toOrderLineInformation(orderLine.getProductId()))
+                        .collect(Collectors.toList())
+                )
+                .orderState(order.getOrderState())
+                .receiveTime(order.getShippingInformation().getReceiveTime())
+                .totalAmount(order.getTotalAmount())
+                .build())
+                .collect(Collectors.toList());
+    }
+
+    private OrderLineInformation toOrderLineInformation(long productId) {
+        ProductEntity product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+
+        return OrderLineInformation.builder()
+                .productId(productId)
+                .productImagePath(product.getProductImageInformation().getProductImagePath())
+                .productInformation(product.getProductInformation())
+                .build();
+    }
+
+    @Transactional
+    public void cancel(long orderId) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+        orderEntity.cancel();
+    }
+
+
+    @Getter
+    private class User {
+        private long userId;
+        private String name;
+
+        public User(long userId, String name) {
+            this.userId = userId;
+            this.name = name;
+        }
+    }
+
+}

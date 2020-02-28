@@ -1,5 +1,6 @@
 package com.photosend.photosendserver01.web.admin.presentation;
 
+import com.photosend.photosendserver01.web.admin.service.AdminOrderService;
 import com.photosend.photosendserver01.web.admin.service.AdminProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,9 @@ import java.util.List;
 public class AdminWebController {
     @Autowired
     private AdminProductService adminProductService;
+
+    @Autowired
+    private AdminOrderService adminOrderService;
 
 //    @GetMapping("/admin/{userId}/products")
 //    public String inputProductInformation(@PathVariable("userId") long userId, Model model) {
@@ -30,7 +34,7 @@ public class AdminWebController {
     @GetMapping("/admin/orders")
     public String getOrderList(HttpServletRequest request, Model model) {
         model.addAttribute("path", getPath(request));
-
+        model.addAttribute("orderListGroupingByUser", adminOrderService.getOrderListGroupingByUser());
         return "admin_orders";
     }
 

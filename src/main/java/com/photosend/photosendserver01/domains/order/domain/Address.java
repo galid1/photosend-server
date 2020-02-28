@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@ToString
 public class Address {
     @Enumerated(EnumType.STRING)
     private AddressType addressType;

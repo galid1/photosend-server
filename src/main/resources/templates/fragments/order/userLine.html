@@ -23,7 +23,7 @@
 
           if (isOpen) {
             $(this).find("img").attr("src", "/images/common/closedBtn.png");
-            $("#userOrderContainer").hide();
+            $("#userOrderContainer").slideUp();
           } else {
             $(this).find("img").attr("src", "/images/common/openedBtn.png");
             $("#userOrderContainer").slideDown();
@@ -46,7 +46,7 @@
         }
 
         .userInfoContentContainer {
-            flex: 1;
+            flex: 4;
             height: 8vh;
             display: flex;
             flex-direction: column;
@@ -55,8 +55,16 @@
 
         .userInfoLine {
             display: flex;
-            justify-content: space-between;
             align-content: center;
+        }
+
+        .userInfoKey {
+            width: 25%;
+        }
+
+        .userInfoValue {
+            margin-left: 5vw;
+            width: 100%;
         }
 
         .userLineExpanderContainer {
@@ -64,6 +72,11 @@
             display: flex;
             justify-content: flex-end;
             margin-top: 1vh;
+        }
+
+        .userLineExpanderContainer > img:hover {
+            cursor: pointer;
+            opacity: 0.7;
         }
 
         .userOrderPreviewContainer {
@@ -94,12 +107,12 @@
     <div class="userInfoContainer">
         <div class="userInfoContentContainer">
             <div class="userInfoLine">
-                <span>사용자 번호</span>
-                <span>1234</span>
+                <span class="userInfoKey">사용자 번호</span>
+                <span class="userInfoValue" th:text="${entry.key.userId}"></span>
             </div>
             <div class="userInfoLine">
-                <span>사용자 이름</span>
-                <span>JJY</span>
+                <span class="userInfoKey">사용자 이름</span>
+                <span class="userInfoValue" th:text="${entry.key.name}"></span>
             </div>
         </div>
         <div class="userLineExpanderContainer">
@@ -107,12 +120,15 @@
         </div>
     </div>
 
-    <div class="userOrderPreviewContainer">
-        <img src="" alt="">
-    </div>
+<!--    <div class="userOrderPreviewContainer">-->
+<!--        <img src="" alt="">-->
+<!--    </div>-->
 
     <div id="userOrderContainer">
-        <div th:replace="fragments/order/userOrder"></div>
+        <!-- entry.value == List<OrderInformation> -->
+        <div th:each="order : ${entry.value}">
+            <div th:replace="fragments/order/userOrder"></div>
+        </div>
     </div>
 </div>
 

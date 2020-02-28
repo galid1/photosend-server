@@ -117,7 +117,7 @@ public class OrderEntity extends BaseTimeEntity {
     }
 
     // 배송 취소 (배송 시작 전과 주문 취소 전에만 가능)
-    public void cancelOrder() {
+    public void cancel() {
         verifyNotYetStartShipping();
         verifyNotCanceld();
         this.orderState = OrderState.ORDER_CANCELD;

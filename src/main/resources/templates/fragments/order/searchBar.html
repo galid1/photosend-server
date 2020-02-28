@@ -38,6 +38,7 @@
 
         .searchBtnContainer {
             background-color: #5900E2;
+            margin-left: 5px;
             border-radius: 5px;
             width: 100%;
             height: 100%;
@@ -48,6 +49,11 @@
 
         .searchBtnContainer > span {
             color: white;
+        }
+
+        .searchBtnContainer:hover {
+            cursor: pointer;
+            opacity: 0.8;
         }
     </style>
 
@@ -62,10 +68,10 @@
 
     <div id="searchBarContainer">
         <div id="searchBarContentContainer">
-            <div style="flex: 1.4;">
-                <input id="searchInput" placeholder="주문번호 또는 사용자번호" type="text">
+            <div style="flex: 1.8;">
+                <input id="searchInput" placeholder="'주문번호' 또는 '사용자번호' 또는 '사용자이름'으로 검색" type="text">
             </div>
-            <div class="searchBtnContainer" style="margin: 0px 10px;">
+            <div class="searchBtnContainer">
                 <span>
                     주문번호
                 </span>
@@ -73,6 +79,11 @@
             <div class="searchBtnContainer">
                 <span>
                     사용자번호
+                </span>
+            </div>
+            <div class="searchBtnContainer">
+                <span>
+                    사용자이름
                 </span>
             </div>
         </div>

@@ -24,6 +24,9 @@ public class ProductInformation {
 
     private String brand;
 
+    // 관리자 편의를 위한
+    private String memo;
+
     @ElementCollection
     @CollectionTable(name = "product_category_list", joinColumns = @JoinColumn(name = "product_id"))
     private Set<Long> category = new HashSet<>();
