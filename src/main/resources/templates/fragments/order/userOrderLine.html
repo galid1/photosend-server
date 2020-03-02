@@ -42,7 +42,9 @@
 
     <div class="userOrderLineContainer">
         <div class="userOrderLineImageContainer">
-            <img th:src="@{${orderLine.productImagePath}}" style="width: 100%; height: auto" src="" alt="">
+            <a th:href="@{${orderLine.productImagePath}}">
+                <img th:src="@{${orderLine.productImagePath}}" style="width: 100%; height: 100%; object-fit: contain;" src="" alt="">
+            </a>
         </div>
 
         <div class="userOrderLineInfoContainer">

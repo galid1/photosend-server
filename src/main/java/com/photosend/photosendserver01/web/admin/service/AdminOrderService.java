@@ -46,12 +46,12 @@ public class AdminOrderService {
     }
 
     private List<OrderInformation> toOrderInformation(List<OrderEntity> orderList) {
-        return orderList.parallelStream()
+        return orderList.stream()
                 .map(order -> OrderInformation.builder()
                 .oid(order.getOid())
                 .address(order.getShippingInformation().getAddress())
                 .ordererId(order.getOrdererId())
-                .orderLineList(order.getOrderLines().parallelStream()
+                .orderLineList(order.getOrderLines().stream()
                         .map(orderLine -> toOrderLineInformation(orderLine.getProductId()))
                         .collect(Collectors.toList())
                 )
