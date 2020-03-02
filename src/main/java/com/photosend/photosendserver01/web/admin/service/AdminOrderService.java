@@ -3,6 +3,7 @@ package com.photosend.photosendserver01.web.admin.service;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
+import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import lombok.Getter;
@@ -52,7 +53,7 @@ public class AdminOrderService {
                 .address(order.getShippingInformation().getAddress())
                 .ordererId(order.getOrdererId())
                 .orderLineList(order.getOrderLines().stream()
-                        .map(orderLine -> toOrderLineInformation(orderLine.getProductId()))
+                        .map(orderLine -> toOrderLineInformation(orderLine))
                         .collect(Collectors.toList())
                 )
                 .orderState(order.getOrderState())
@@ -62,13 +63,15 @@ public class AdminOrderService {
                 .collect(Collectors.toList());
     }
 
-    private OrderLineInformation toOrderLineInformation(long productId) {
-        ProductEntity product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
+    private OrderLineInformation toOrderLineInformation(OrderLine orderLine) {
+        ProductEntity product = productRepository.findById(orderLine.getProductId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 상품입니다."));
 
         return OrderLineInformation.builder()
-                .productId(productId)
+                .productId(orderLine.getProductId())
                 .productImagePath(product.getProductImageInformation().getProductImagePath())
                 .productInformation(product.getProductInformation())
+                .quantity(orderLine.getQuantity())
+                .totalPrice(orderLine.getTotalPrice())
                 .build();
     }
 

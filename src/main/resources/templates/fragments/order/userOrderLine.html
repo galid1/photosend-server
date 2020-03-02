@@ -31,6 +31,7 @@
             width: 50%;
             display: flex;
             justify-content: space-between;
+            border-bottom: 1px solid lightgray;
         }
 
         .orderLineInfoContentContainer > span {
@@ -57,8 +58,16 @@
                 <span th:text="${orderLine.productInformation.name}"></span>
             </div>
             <div class="orderLineInfoContentContainer">
-                <span>가격</span>
-                <span th:text="${orderLine.productInformation.price}">0 $</span>
+                <span>가격(1개)</span>
+                <span>[[${orderLine.productInformation.price}]] <span style="color: forestgreen">$</span></span>
+            </div>
+            <div class="orderLineInfoContentContainer">
+                <span>수량</span>
+                <span>[[${orderLine.quantity}]]</span>
+            </div>
+            <div class="orderLineInfoContentContainer">
+                <span>총 가격</span>
+                <span>[[${orderLine.totalPrice.value}]] <span style="color: forestgreen">$</span></span>
             </div>
             <div class="orderLineInfoContentContainer">
                 <span>메모</span>

@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 public class OrderLineInformation {
     private long productId;
     private String productImagePath;
+    private int quantity;
     private ProductInformation productInformation;
     private Money productPrice;
+    private Money totalPrice;
 }
