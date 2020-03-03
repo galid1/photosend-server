@@ -116,7 +116,7 @@
 </head>
 <body>
 <!-- @@@@@@@@@@@@@@@@ 미처리 @@@@@@@@@@@@@@@@@ -->
-<div th:if="${order.orderState eq 'ORDER_COMPLEMENT'}" class="userOrderContainer untreatedOrder" th:classappend="|orderId_${order.oid}|">
+<div th:if="${order.orderState eq 'ORDER_COMPLEMENT' || order.orderState eq 'PAYMENT_COMPLETED'}" class="userOrderContainer untreatedOrder" th:classappend="|orderId_${order.oid}|">
     <div th:replace="fragments/horizontal :: thin"></div>
 
     <div class="userOrderLineHeaderContainer">
