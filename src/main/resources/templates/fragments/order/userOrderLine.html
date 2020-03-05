@@ -58,6 +58,10 @@
                 <span th:text="${orderLine.productInformation.name}"></span>
             </div>
             <div class="orderLineInfoContentContainer">
+                <span>사이즈</span>
+                <span>[[${orderLine.size}]]</span>
+            </div>
+            <div class="orderLineInfoContentContainer">
                 <span>가격(1개)</span>
                 <span>[[${orderLine.productInformation.price}]] <span style="color: forestgreen">$</span></span>
             </div>
