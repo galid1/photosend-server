@@ -18,4 +18,5 @@ public class OrderLineInformation {
     private ProductInformation productInformation;
     private Money productPrice;
     private Money totalPrice;
+    private String size;
 }

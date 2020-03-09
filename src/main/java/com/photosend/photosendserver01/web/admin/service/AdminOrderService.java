@@ -72,6 +72,7 @@ public class AdminOrderService {
                 .productInformation(product.getProductInformation())
                 .quantity(orderLine.getQuantity())
                 .totalPrice(orderLine.getTotalPrice())
+                .size(orderLine.getSize())
                 .build();
     }
 
