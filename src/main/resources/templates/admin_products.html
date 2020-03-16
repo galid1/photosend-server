@@ -269,6 +269,10 @@
         }
 
         for (let i = 0; i < inputList.length; i++) {
+          // memo만 필수가 아니게 입력받음.
+          if (inputList[i].className == "memo")
+            return;
+
           if (inputList[i].value.length < 1) {
             wrong = true;
             break;

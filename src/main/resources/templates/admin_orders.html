@@ -11,6 +11,10 @@
     </script>
 
     <style>
+        body {
+            margin: 0px;
+        }
+
         #container {
             width: 100vw;
             display: flex;
@@ -19,7 +23,24 @@
         }
 
         #contentContainer {
-            width: 40%;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+        }
+
+        #chatContainer {
+            height: 90vh;
+            flex: 2;
+            margin-top: 5vh;
+        }
+
+        #orderContainer {
+            border: 1px solid darkgray;
+            margin-top: 5vh;
+            margin-right: 1vw;
+
+            flex: 1;
+            height: 90vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -48,6 +69,7 @@
         /* @@@@@@@@@@ body @@@@@@@@@@ */
         .orderBodyContainer {
             width: 100%;
+            flex: 1;
         }
     </style>
 
@@ -124,24 +146,33 @@
 
 <div id="container">
     <div id="contentContainer">
-        <div id="orderTitleContainer">
-            <span>
-                주문목록 페이지
-            </span>
+        <div id="chatContainer">
+            <div th:replace="fragments/order/chat/chat"></div>
         </div>
 
-        <div class="orderHeaderContainer">
-            <div th:replace="fragments/order/searchBar"></div>
-            <div th:replace="fragments/order/filterBar"></div>
-        </div>
+        <div id="orderContainer">
+            <div id="orderTitleContainer">
+                <span>
+                    주문목록
+                </span>
+            </div>
 
-        <div class="orderBodyContainer">
-            <div th:each="entry, stat : ${orderListGroupingByUser}">
-                <div th:replace="fragments/order/userLine"></div>
+            <div class="orderHeaderContainer">
+                <div th:replace="fragments/order/searchBar"></div>
+                <div th:replace="fragments/order/filterBar"></div>
+            </div>
+
+            <div class="orderBodyContainer">
+                <div class="orderUserLineContainer" th:each="entry, stat : ${orderListGroupingByUser}">
+                    <div th:replace="fragments/order/userLine"></div>
+                </div>
             </div>
         </div>
+
     </div>
+
 </div>
+
 </body>
 
 

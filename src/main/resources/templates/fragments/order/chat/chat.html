@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Title</title>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+    </script>
+
+    <style>
+        .chatContainer {
+            display: flex;
+            height: 100%;
+        }
+
+        .userListContainerContainer {
+            flex: 1;
+            height: 100%;
+            border: 1px solid darkgray;
+        }
+
+        .chatRoomContainerContainer {
+            flex: 3;
+            height: 100%;
+            border-top: 1px solid darkgray;
+            border-bottom: 1px solid darkgray;
+        }
+
+        .activeChatUserLine {
+            background-color: #D6D6D6;
+        }
+
+        /* ChatUserLine */
+        .chatUserLineContainer {
+            width: 100%;
+            height: 8vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chatUserLineContainer:hover {
+            background-color: #C1C1C1;
+            cursor: pointer;
+        }
+
+        .chatUserLineContentContainer {
+            width: 90%;
+            height: 50%;
+            display: flex;
+        }
+
+        .profileImageContainer {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 0.5vw;
+        }
+
+        .informationContainer {
+            flex: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: flex-start;
+        }
+
+        /* chat Room */
+        .chatRoomContainer {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chatLogContainerContainer {
+            flex: 95;
+            overflow: scroll;
+        }
+
+        .sendingContainer {
+            flex: 4;
+            display: flex;
+        }
+
+        #chatInput {
+            flex: 9;
+            font-size: 16px;
+        }
+
+        /* chat Log */
+        #hatLogContainer {
+        }
+
+        .myChatContainer {
+            margin-top: 1vh;
+            align-self: flex-end;
+            margin-right: 1.5vw;
+            height: 8vh;
+        }
+
+        .chatProfileImageContainer {
+            display: flex;
+            justify-content: center;
+            align-self: center;
+            margin-right: 1vw;
+        }
+
+        .myChatContentContainer {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .otherChatContainer {
+            margin-top: 1vh;
+            display: flex;
+            align-self: flex-start;
+            margin-left: 1.5vw;
+            height: 8vh;
+        }
+
+        .otherChatContentContainer {
+            display: flex;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .chatDateContainer {
+            color: #C1C1C1;
+        }
+
+        .chatMessageContainer {
+            background-color: #5900E2;
+            border-radius: 5px;
+            color: #FFFFFF;
+            padding: 12px;
+        }
+    </style>
+
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+    <!-- handlebars -->
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <script>
+      $(function () {
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyBtXXZqkRbjPRgGMKDgPXVoXn-5lA43dGw",
+          authDomain: "photosend-7e715.firebaseapp.com",
+          databaseURL: "https://photosend-7e715.firebaseio.com",
+          projectId: "photosend-7e715",
+          storageBucket: "photosend-7e715.appspot.com",
+          messagingSenderId: "1060083337156",
+          appId: "1:1060083337156:web:c59bfe540d703de0b10691",
+          measurementId: "G-H8T3Z0XD2H"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        let database = firebase.database();
+        let selectedUserId = 0;
+
+        database.ref("userList").on('value', snapshot => {
+          renderChatUserLineList(snapshot)
+            .then(() => addChatUserLineListener())
+        });
+
+        async function renderChatUserLineList(snapshot) {
+          let source = $("#chatUserLine").html();
+          let template = Handlebars.compile(source);
+
+          snapshot.forEach(child => {
+            let html = template({
+              userId: child.val().userId,
+              name: child.val().userName,
+              lastMessage: child.val().lastMessage
+            });
+
+            $(".userListContainerContainer").append(html);
+          })
+        }
+
+        function addChatUserLineListener() {
+          $(".chatUserLineContainer").on("click", function () {
+            $(".chatUserLineContainer").removeClass("activeChatUserLine");
+            $(this).addClass("activeChatUserLine");
+            selectedUserId = $(this).attr('id');
+
+            database.ref("chatRoomList")
+              .child(String(selectedUserId))
+              .orderByChild("date")
+              .on("value", renderChatLog);
+          });
+        }
+
+        function renderChatLog(snapshot) {
+          let chatLogContainer = $("#chatLogContainer");
+          chatLogContainer.empty();
+
+          snapshot.forEach(child => {
+            let source = '';
+            if (child.val().from != 'admin') {
+              source = $("#otherChat").html();
+            } else {
+              source = $("#myChat").html();
+            }
+
+            let template = Handlebars.compile(source);
+            let html = template({
+              message: child.val().message,
+              date: child.val().date
+            });
+
+            chatLogContainer.append(html);
+          });
+
+          scrollToBottom();
+        }
+
+        $("#chatInput").keypress(event => {
+          if (event.which == 13) {
+            sendMessage(selectedUserId);
+          }
+        });
+
+        function sendMessage(uid) {
+          if (uid == 0) {
+            alert("우선 대화할 유저를 클릭해야합니다.");
+            return;
+          }
+
+          let chatMessage = $("#chatInput").val();
+          if (chatMessage.length < 1) {
+            alert("메시지를 입력하세요.");
+            return;
+          }
+
+          let ref = database.ref(`chatRoomList/${uid}`);
+          let randomKey = ref.push().key;
+          ref.child(randomKey).set({
+            date: getNumberDate(),
+            from: 'admin',
+            message: chatMessage,
+          });
+
+          $("#chatInput").val("");
+          scrollToBottom();
+        };
+
+        function getNumberDate() {
+          let now = new Date();
+          let nowString = now.getFullYear().toString()
+            + toDouble(now.getMonth() < 12 ? now.getMonth() + 1 : 1)
+            + toDouble(now.getDate())
+            + toDouble(now.getHours())
+            + toDouble(now.getMinutes())
+            + toDouble(now.getSeconds());
+
+          return (Number(nowString));
+        };
+
+        function toDouble(anyDate) {
+          if (String(anyDate).length == 1) {
+            return '0' + anyDate;
+          } else {
+            return String(anyDate);
+          }
+        };
+
+        function scrollToBottom() {
+          $(".chatLogContainerContainer").scrollTop($(".chatLogContainerContainer")[0].scrollHeight);
+        }
+      });
+    </script>
+
+    <script id="chatUserLine" type="text/x-handlebars-template">
+        <div class="chatUserLineContainer" id="{{userId}}">
+            <div class="chatUserLineContentContainer">
+                <div class="profileImageContainer">
+                    <img style="width: 40px; height: 40px; border-radius: 100%;" src="/images/order/chat/userIcon.png"
+                         alt="">
+                </div>
+                <div class="informationContainer">
+                    <div>
+                        <span style="font-weight: bold; color: black;">
+                            {{name}}
+                        </span>
+                    </div>
+                    <div>
+                        <span style="color: #D1D1D1; font-size: 13px;">
+                            {{lastMessage}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="myChat" type="text/x-handlebars-template">
+        <div class="myChatContainer">
+            <div class="myChatContentContainer">
+                <div class="chatDateContainer" style="align-self: flex-end">
+                    <span>
+                        {{date}}
+                    </span>
+                </div>
+                <div class="chatMessageContainer" style="align-self: flex-end">
+                    <span>
+                        {{message}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script id="otherChat" type="text/x-handlebars-template">
+        <div class="otherChatContainer">
+            <div class="chatProfileImageContainer">
+                <img style="width: 40px; height: 40px; border-radius: 100%;" src="/images/order/chat/userIcon.png"
+                     alt="">
+            </div>
+            <div class="otherChatContentContainer">
+                <div class="chatDateContainer" style="align-self: flex-start">
+                    <span>
+                        {{date}}
+                    </span>
+                </div>
+                <div class="chatMessageContainer" style="align-self: flex-start">
+                    <span>
+                        {{message}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </script>
+</head>
+
+<body>
+<div class="chatContainer">
+    <div class="userListContainerContainer">
+    </div>
+    <div class="chatRoomContainerContainer">
+        <div class="chatRoomContainer">
+            <div class="chatLogContainerContainer">
+                <div id="chatLogContainer">
+                </div>
+            </div>
+            <div style="width: 100%; height: 3vh; background-color: #F4F4F4;">
+            </div>
+
+            <div class="sendingContainer">
+                <input type="text" id="chatInput" style="width: 30vw; height: 5vh;">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

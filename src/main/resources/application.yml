@@ -1,7 +1,7 @@
 ############ 공통 설정 및 Active Profile 설정 ###############
 spring:
   profiles:
-    active: local
+    active: deploy
   devtools:
     restart:
       enabled: true
