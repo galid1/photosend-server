@@ -14,7 +14,6 @@ public class FoundProductInformation {
     private String name;
     private Double price;
     private String brand;
-    private String memo;
     private List<String> sizeList;
 
     public ProductInformation toProductInformation() {
@@ -22,7 +21,6 @@ public class FoundProductInformation {
                 .name(name)
                 .price(price)
                 .brand(brand)
-                .memo(memo)
                 .size(sizeList)
                 .build();
     }
