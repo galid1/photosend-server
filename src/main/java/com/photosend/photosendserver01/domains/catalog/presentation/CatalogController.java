@@ -27,9 +27,13 @@ public class CatalogController {
         return catalogService.getProductInformationList();
     }
 
-    @PostMapping("/products")
-    public List<ProductSummaryForCatalog> getRecentlyPopulatedProductListAfter(@RequestBody GetPaginationCatalogRequest getPaginationCatalogRequest) {
-        return catalogService.getRecentlyPopulatedProductListAfter(getPaginationCatalogRequest);
+    @GetMapping("/products/{page}/{count}")
+    public List<ProductSummaryForCatalog> getRecentlyPopulatedProductListAfter(@PathVariable("page")int page, @PathVariable("count")int count) {
+        return catalogService.getRecentlyPopulatedProductListAfter(GetPaginationCatalogRequest.builder()
+                .page(page)
+                .count(count)
+                .build()
+        );
     }
 
     @GetMapping("/products/{productId}")

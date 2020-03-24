@@ -90,7 +90,6 @@ public class CatalogService {
                         .getProductImagePath())
                 .foundProductInformation(FoundProductInformation.builder()
                         .pid(productEntity.getPid())
-                        .categoryIdList(information.getCategory())
                         .sizeList(information.getSize())
                         .price(information.getPrice())
                         .name(information.getName())
