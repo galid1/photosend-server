@@ -117,7 +117,7 @@
 <body>
 <!-- @@@@@@@@@@@@@@@@ 미처리 @@@@@@@@@@@@@@@@@ -->
 <div th:if="${order.orderState eq 'ORDER_COMPLEMENT' || order.orderState eq 'PAYMENT_COMPLETED'}" class="userOrderContainer untreatedOrder" th:classappend="|orderId_${order.oid}|">
-    <div th:replace="fragments/horizontal :: thin"></div>
+    <div th:replace="fragments/common/horizontal :: thin"></div>
 
     <div class="userOrderLineHeaderContainer">
         <div class="userOrderLineDateContainer">
@@ -167,7 +167,7 @@
 
 <!-- @@@@@@@@@@@@@@@@ 처리완료 @@@@@@@@@@@@@@@@@ -->
 <div th:if="${order.orderState eq 'SHIPPING_IN_PROGRESS'}" class="userOrderContainer treatedOrder" th:classappend="|orderId_${order.oid}|">
-    <div th:replace="fragments/horizontal :: thin"></div>
+    <div th:replace="fragments/common/horizontal :: thin"></div>
 
     <div class="userOrderLineHeaderContainer">
         <div class="userOrderLineDateContainer">
@@ -215,7 +215,7 @@
 
 <!-- @@@@@@@@@@@@@@@@ 취소된 주문 @@@@@@@@@@@@@@@@@ -->
 <div th:if="${order.orderState eq 'ORDER_CANCELD'}" class="userOrderContainer canceldOrder" th:classappend="|orderId_${order.oid}|">
-    <div th:replace="fragments/horizontal :: thin"></div>
+    <div th:replace="fragments/common/horizontal :: thin"></div>
 
     <div class="userOrderLineHeaderContainer">
         <div class="userOrderLineDateContainer">
