@@ -2,10 +2,7 @@ package com.photosend.photosendserver01.domains.catalog.domain.product;
 
 import lombok.*;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +20,7 @@ public class ProductInformation {
     private String brand;
 
     // 관리자 편의를 위한
+    @Column(length = 10000)
     private String memo;
 
     @ElementCollection

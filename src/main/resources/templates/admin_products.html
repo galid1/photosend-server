@@ -81,10 +81,26 @@
             width: 15vw;
         }
 
+        input[type=checkbox]
+        {
+            /* Double-sized Checkboxes */
+            -ms-transform: scale(3.5); /* IE */
+            -moz-transform: scale(3.5); /* FF */
+            -webkit-transform: scale(3.5); /* Safari and Chrome */
+            -o-transform: scale(3.5); /* Opera */
+            padding: 5px;
+        }
+
         .remove_size_btn {
             width: 5vw;
             border-radius: 100%;
         }
+
+        .memo {
+            width: 400px;
+            height: 100px;
+        }
+
     </style>
 </head>
 <body>
@@ -173,8 +189,8 @@
                 <input type="text" class="type"> <br>
                 <br>
 
-                관련메모 : <br>
-                <input type="text" class="memo"> <br>
+                메모 : <br>
+                <textarea class="memo" wrap="virtual"></textarea> <br>
                 <br>
 
                 <div style="display: flex; flex-direction: column; ">
@@ -294,7 +310,7 @@
         let price = productInformations[1].value;
         let brand = productInformations[2].value;
         let type = productInformations[3].value;
-        let memo = productInformations[4].value;
+        let memo = checkedProduct.getElementsByClassName("memo")[0].value;
         let size = Array.from(checkedProduct.getElementsByClassName("size_input"))
           .map((sizeInput) => {
             return sizeInput.value;
