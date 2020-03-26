@@ -78,16 +78,24 @@ public class AdminOrderService {
 
     @Transactional
     public void cancel(long orderId) {
-        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+        OrderEntity orderEntity = orderRepository.findById(orderId).get();
+        verifyExistOrder(orderEntity);
+
         orderEntity.cancel();
     }
 
     @Transactional
     public void ship(long orderId) {
-        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+        OrderEntity orderEntity = orderRepository.findById(orderId).get();
+        verifyExistOrder(orderEntity);
+
         orderEntity.ship();
     }
 
+    private void verifyExistOrder(OrderEntity orderEntity) {
+        if(orderEntity == null)
+            throw new IllegalArgumentException("존재하지 않는 주문입니다.");
+    }
 
     @Getter
     private class User {
