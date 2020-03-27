@@ -71,6 +71,10 @@
             align-items: flex-start;
         }
 
+        .notificationContainer {
+            flex: 1;
+        }
+
         /* chat Room */
         .chatRoomContainer {
             flex: 1;
@@ -180,36 +184,68 @@
         let database = firebase.database();
         let selectedUserId = 0;
 
-        database.ref("userList").on('value', snapshot => {
-          renderChatUserLineList(snapshot)
-            .then(() => addChatUserLineListener())
+        let savedUserListSnapshot = "";
+        let unReadCountList = [];
+
+        database.ref("chatRoomList").on('value', chatRoomListSnapshot => {
+          unReadCountList = [];
+          chatRoomListSnapshot.forEach(chatRoom => {
+            let unReadCount = 0;
+
+            chatRoom.forEach(child => {
+              if(child.val().isRead == false)
+                unReadCount ++;
+            })
+
+            unReadCountList.push(unReadCount);
+          })
+
+          database.ref("userList").once('value', userListSnapshot => {
+            savedUserListSnapshot = userListSnapshot;
+            renderChatUserLineList(userListSnapshot, unReadCountList)
+                .then(() => addOnClickUserLineListener());
+          });
+
+
         });
 
-        async function renderChatUserLineList(snapshot) {
+        async function renderChatUserLineList(snapshot, unReadCountList = []) {
           let source = $("#chatUserLine").html();
           let template = Handlebars.compile(source);
 
+          $(".userListContainerContainer").children().remove();
+
+          let unReadCountListIndex = 0;
           snapshot.forEach(child => {
+            let unReadCount = unReadCountList[unReadCountListIndex];
+            let existUnread = unReadCount > 0;
+
             let html = template({
               userId: child.val().userId,
               name: child.val().userName,
-              lastMessage: child.val().lastMessage
+              lastMessage: child.val().lastMessage,
+              existUnread: existUnread,
+              unReadCount: unReadCount
             });
 
             $(".userListContainerContainer").append(html);
+            unReadCountListIndex ++;
           })
         }
 
-        function addChatUserLineListener() {
+        function addOnClickUserLineListener() {
           $(".chatUserLineContainer").on("click", function () {
             $(".chatUserLineContainer").removeClass("activeChatUserLine");
             $(this).addClass("activeChatUserLine");
+
             selectedUserId = $(this).attr('id');
 
             database.ref("chatRoomList")
               .child(String(selectedUserId))
               .orderByChild("date")
               .on("value", renderChatLog);
+
+            markReading(selectedUserId);
           });
         }
 
@@ -237,6 +273,26 @@
           scrollToBottom();
         }
 
+        // 선택된 유저의 메시지를 모두 읽음 표시처리
+        function markReading(userId) {
+          let ref = database.ref("chatRoomList")
+            .child(userId);
+
+          ref.once("value", snapshot => {
+            snapshot.forEach(child => {
+                child.ref.update({
+                  date: child.val().date,
+                  from: child.val().from,
+                  message: child.val().message,
+                  isRead: true
+                })
+            });
+          });
+
+          renderChatUserLineList(savedUserListSnapshot, unReadCountList)
+            .then(() => addOnClickUserLineListener());
+        }
+
         $("#chatInput").keypress(event => {
           if (event.which == 13) {
             sendMessage(selectedUserId);
@@ -261,6 +317,7 @@
             date: getNumberDate(),
             from: 'admin',
             message: chatMessage,
+            isRead: true
           });
 
           $("#chatInput").val("");
@@ -306,12 +363,22 @@
                             {{name}}
                         </span>
                     </div>
-                    <div>
+                    <div style="overflow: hidden; text-overflow: ellipsis; max-height: 2vh; max-width: 10vw;">
                         <span style="color: #D1D1D1; font-size: 13px;">
                             {{lastMessage}}
                         </span>
                     </div>
                 </div>
+
+                {{#if existUnread}}
+                <div class="notificationContainer">
+                    <div style="background-color: #5900E2; border-radius: 50%; width: 20px; height: 20px; justify-content: center; align-items: center; display: flex;">
+                        <span style="color: #ffffff; font-size: 15px; width: 20px; height: 20px; text-align: center;">
+                            {{unReadCount}}
+                        </span>
+                    </div>
+                </div>
+                {{/if}}
             </div>
         </div>
     </script>
