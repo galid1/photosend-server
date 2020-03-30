@@ -182,6 +182,7 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         let database = firebase.database();
+
         let selectedUserId = 0;
 
         let savedUserListSnapshot = "";
@@ -193,8 +194,8 @@
             let unReadCount = 0;
 
             chatRoom.forEach(child => {
-              if(child.val().isRead == false)
-                unReadCount ++;
+              if (child.val().isRead == false)
+                unReadCount++;
             })
 
             unReadCountList.push(unReadCount);
@@ -229,7 +230,8 @@
             });
 
             $(".userListContainerContainer").append(html);
-            unReadCountListIndex ++;
+            $(`#${selectedUserId}`).addClass("activeChatUserLine");
+            unReadCountListIndex++;
           })
         }
 
@@ -249,30 +251,6 @@
           });
         }
 
-        function renderChatLog(snapshot) {
-          let chatLogContainer = $("#chatLogContainer");
-          chatLogContainer.empty();
-
-          snapshot.forEach(child => {
-            let source = '';
-            if (child.val().from != 'admin') {
-              source = $("#otherChat").html();
-            } else {
-              source = $("#myChat").html();
-            }
-
-            let template = Handlebars.compile(source);
-            let html = template({
-              message: child.val().message,
-              date: child.val().date
-            });
-
-            chatLogContainer.append(html);
-          });
-
-          scrollToBottom();
-        }
-
         // 선택된 유저의 메시지를 모두 읽음 표시처리
         function markReading(userId) {
           let ref = database.ref("chatRoomList")
@@ -288,9 +266,78 @@
               })
             });
           });
+        }
 
-          renderChatUserLineList(savedUserListSnapshot, unReadCountList)
-            .then(() => addOnClickUserLineListener());
+        function renderChatLog(snapshot) {
+          let chatLogContainer = $("#chatLogContainer");
+          chatLogContainer.empty();
+
+          let lastDay = "";
+
+          snapshot.forEach(child => {
+            let source = '';
+            if (child.val().from != 'admin') {
+              source = $("#otherChat").html();
+            } else {
+              source = $("#myChat").html();
+            }
+
+            // 날짜 처리 부분
+            let curDay = "";
+            String(child.val().date).split("")
+              .slice(0, 8)
+              .forEach(day => {
+                curDay += day;
+              });
+
+            if (lastDay != curDay) {
+              lastDay = curDay;
+              chatLogContainer.append(makeDateLineTemplate(curDay));
+            }
+
+            // Message 처리부분
+            let chatDate = formatDateForChatMessage(String(child.val().date));
+            let template = Handlebars.compile(source);
+            let html = template({
+              message: child.val().message,
+              date: chatDate
+            });
+
+            chatLogContainer.append(html);
+          });
+
+          scrollToBottom();
+        }
+
+        function makeDateLineTemplate(date) {
+          let formattedDateStr = formatDateForDateLine(date);
+
+          let source = $("#dateLine").html();
+          let template = Handlebars.compile(source);
+          return template({date: formattedDateStr});
+        }
+
+        function formatDateForDateLine(date) {
+          let splitDate = date.split("");
+          return splitDate[0] + splitDate[1] + splitDate[2] + splitDate[3] + "년 "
+            + splitDate[4] + splitDate[5] + "월 "
+            + splitDate[6] + splitDate[7] + "일";
+        }
+
+        function formatDateForChatMessage(date) {
+          let formattedDateStr = "";
+          let index = 0;
+          date.split("")
+            .slice(8, 12)
+            .forEach(num => {
+              formattedDateStr += num
+              index ++;
+
+              if(index == 2)
+                formattedDateStr += ":";
+            });
+
+          return formattedDateStr;
         }
 
         $("#chatInput").keypress(event => {
@@ -350,6 +397,12 @@
       });
     </script>
 
+    <script id="dateLine" type="text/x-handlebars-template">
+        <div style="width: 100%; display: flex; height: 5vh; justify-content: center; align-items: center;">
+            <span style="color: black; width: 100%; text-align: center; font-size: 2vw;">{{date}}</span>
+        </div>
+    </script>
+
     <script id="chatUserLine" type="text/x-handlebars-template">
         <div class="chatUserLineContainer" id="{{userId}}">
             <div class="chatUserLineContentContainer">
@@ -372,7 +425,8 @@
 
                 {{#if existUnread}}
                 <div class="notificationContainer">
-                    <div style="background-color: #5900E2; border-radius: 50%; width: 20px; height: 20px; justify-content: center; align-items: center; display: flex;">
+                    <div
+                        style="background-color: #5900E2; border-radius: 50%; width: 20px; height: 20px; justify-content: center; align-items: center; display: flex;">
                         <span style="color: #ffffff; font-size: 15px; width: 20px; height: 20px; text-align: center;">
                             {{unReadCount}}
                         </span>
