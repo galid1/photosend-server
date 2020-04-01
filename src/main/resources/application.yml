@@ -10,6 +10,43 @@ spring:
   thymeleaf:
     cache: false
 
+# DB for test ###
+#  h2:
+#    console:
+#      path: /h2-console
+#      enabled: true
+
+### photo send application setting ###
+photosend:
+  bundle: org.reactjs.native.PhotoSend
+
+  credential:
+    admin:
+      file-path: .photosend/webAdminCredential.txt
+    datasource:
+      file-path: .photosend/databaseAccount.txt
+    mail:
+      file-path: .photosend/mailCredential.txt
+    apns:
+      file-path: .photosend/AuthKey_8NYW4PKBLS.p8
+
+  jwt:
+    secretkey: peoplus
+    expiredtime: 999999999999999999
+
+  aws:
+    s3:
+      bucket-name:
+        users-upload: photosend-server
+        app-img: photosend-server-app-img
+
+      upload-path:
+        prefix:
+          users-upload: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
+          app-img: https://photosend-server-app-img.s3.ap-northeast-2.amazonaws.com/
+
+  file:
+    upload-path:
 
 ---
 
@@ -38,50 +75,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+
   main:
     allow-bean-definition-overriding: true
 
   servlet:
     multipart:
       max-file-size: 10MB
-
-# DB for test ###
-#  h2:
-#    console:
-#      path: /h2-console
-#      enabled: true
-
-### photo send application setting ###
-photosend:
-  bundle: org.reactjs.native.PhotoSend
-
-  credential:
-    admin:
-      file-path: .photosend/webAdminCredential.txt
-    datasource:
-      file-path: .photosend/databaseAccount.txt
-    mail:
-      file-path: .photosend/mailCredential.txt
-    apns:
-      file-path: .photosend/AuthKey_8NYW4PKBLS.p8
-
-  jwt:
-    secretkey: peoplus
-    expiredtime: 999999999999999999
-
-  aws:
-    s3:
-      bucket-name:
-        users-upload: photosend-server
-        app-img: photosend-server-app-img
-
-      upload-path:
-        prefix:
-          users-upload: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
-          app-img: https://photosend-server-app-img.s3.ap-northeast-2.amazonaws.com/
-
-  file:
-    upload-path:
 
 ---
 
@@ -102,53 +103,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+
   main:
     allow-bean-definition-overriding: true
 
   servlet:
     multipart:
       max-file-size: 10MB
-
-# DB for test ###
-#  h2:
-#    console:
-#      path: /h2-console
-#      enabled: true
-
-### photo send application setting ###
-photosend:
-  bundle: org.reactjs.native.PhotoSend
-
-  credential:
-    admin:
-      file-path: .photosend/webAdminCredential.txt
-    datasource:
-      file-path: .photosend/databaseAccount.txt
-    mail:
-      file-path: .photosend/mailCredential.txt
-    apns:
-      file-path: .photosend/AuthKey_8NYW4PKBLS.p8
-
-  jwt:
-    secretkey: peoplus
-    expiredtime: 999999999999999999
-
-  aws:
-    s3:
-      bucket-name:
-        users-upload: photosend-server
-        app-img: photosend-server-app-img
-
-      upload-path:
-        prefix:
-          users-upload: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
-          app-img: https://photosend-server-app-img.s3.ap-northeast-2.amazonaws.com/
-
-  file:
-    upload-path:
-
-
-
 
 ---
 
@@ -182,42 +144,3 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
-
-# DB for test ###
-#  h2:
-#    console:
-#      path: /h2-console
-#      enabled: true
-
-### photo send application setting ###
-photosend:
-  bundle: org.reactjs.native.PhotoSend
-
-  credential:
-    admin:
-      file-path: .photosend/webAdminCredential.txt
-    datasource:
-      file-path: .photosend/databaseAccount.txt
-    mail:
-      file-path: .photosend/mailCredential.txt
-    apns:
-      file-path: .photosend/AuthKey_8NYW4PKBLS.p8
-
-  jwt:
-    secretkey: peoplus
-    expiredtime: 999999999999999999
-
-  aws:
-    s3:
-      bucket-name:
-        users-upload: photosend-server
-        app-img: photosend-server-app-img
-
-      upload-path:
-        prefix:
-          users-upload: https://photosend-server.s3.ap-northeast-2.amazonaws.com/
-          app-img: https://photosend-server-app-img.s3.ap-northeast-2.amazonaws.com/
-
-  file:
-    upload-path:
-
