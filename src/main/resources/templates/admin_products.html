@@ -185,10 +185,6 @@
                 <input type="text" class="brand"> <br>
                 <br>
 
-                상품종류 : <br>
-                <input type="text" class="type"> <br>
-                <br>
-
                 메모 : <br>
                 <textarea class="memo" wrap="virtual"></textarea> <br>
                 <br>
@@ -309,7 +305,6 @@
         let name = productInformations[0].value;
         let price = productInformations[1].value;
         let brand = productInformations[2].value;
-        let type = productInformations[3].value;
         let memo = checkedProduct.getElementsByClassName("memo")[0].value;
         let size = Array.from(checkedProduct.getElementsByClassName("size_input"))
           .map((sizeInput) => {
@@ -321,7 +316,6 @@
           "name": name,
           "price": price,
           "brand": brand,
-          "type": type,
           "memo": memo,
           "sizeList": size
         })
