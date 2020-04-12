@@ -19,13 +19,6 @@ public class AdminWebController {
     @Autowired
     private AdminOrderService adminOrderService;
 
-//    @GetMapping("/admin/{userId}/products")
-//    public String inputProductInformation(@PathVariable("userId") long userId, Model model) {
-//        model.addAttribute("userId", userId);
-//        model.addAttribute("uploadedProductList", adminProductService.getUploadedProductList());
-//        return "admin";
-//    }
-
     @GetMapping("/")
     public String getAdminIndex() {
         return "admin_index";
@@ -39,7 +32,7 @@ public class AdminWebController {
     }
 
     @GetMapping("/admin/products")
-    public String inputProductInformation(HttpServletRequest request, Model model) {
+    public String getInputProductInformationPage(HttpServletRequest request, Model model) {
         model.addAttribute("path", getPath(request));
         model.addAttribute("productListGroupByUploaderId", adminProductService.getUploadedProductListGroupByUploaderId());
 
