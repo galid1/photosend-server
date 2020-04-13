@@ -23,6 +23,11 @@
             background-color: cornflowerblue;
         }
 
+        .filterBarContainerContainer {
+            width: 50%;
+            margin-bottom: 2vh;
+        }
+
         .user_information_container {
             width: 80%;
             display: flex;
@@ -58,6 +63,11 @@
             border-right-color: orchid;
         }
 
+        .modifyBtn {
+            width: 50%;
+            height: 20%;
+        }
+
         .image_container {
             flex: 2;
             margin-left: 20px;
@@ -72,7 +82,12 @@
             flex: 4;
         }
 
-        .size_input_list_container {
+        .sizeContainer {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sizeInputListContainer {
             display: flex;
             flex-direction: column;
         }
@@ -81,8 +96,7 @@
             width: 15vw;
         }
 
-        input[type=checkbox]
-        {
+        input[type=checkbox] {
             /* Double-sized Checkboxes */
             -ms-transform: scale(3.5); /* IE */
             -moz-transform: scale(3.5); /* FF */
@@ -91,7 +105,7 @@
             padding: 5px;
         }
 
-        .remove_size_btn {
+        .removeSizeBtn {
             width: 5vw;
             border-radius: 100%;
         }
@@ -114,13 +128,6 @@
 </div>
 
 
-<!--<div claass="userinfo_container"-->
-<!--     style="height: 20vh; display: flex; flex-direction: column; justify-content: space-evenly">-->
-<!--  <h3>사용자 정보</h3>-->
-<!--  사용자 번호 : <div id="user_id" th:text="${userId}"></div>-->
-<!--</div>-->
-
-
 <div class="upload_btn_container"
      style="height: 25vh; display: flex; flex-direction: column; justify-content: space-evenly">
     <button id="top" class="upload_btn" style="width: 50vw; height: 10vh;">상품정보 업로드</button>
@@ -134,6 +141,10 @@
 
 <div>
     <h3> 상품정보 입력란 </h3>
+</div>
+
+<div class="filterBarContainerContainer">
+    <div th:replace="fragments/product/filterBar"/>
 </div>
 
 <div th:if="${productListGroupByUploaderId.isEmpty()}"> 정보가 입력되지 않은 상품이 존재하지 않습니다.</div>
@@ -153,8 +164,11 @@
         </div>
 
         <div class="product_information_container" th:each="product : ${entry.value}">
-            <div class="checkbox_container" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <input class="checkbox" type="checkbox">
+            <div class="checkbox_container"
+                 style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <input th:if="${product.getProductState().toString() eq 'UPLOADED'}" class="checkbox" type="checkbox">
+                <button class="modifyBtn" th:unless="${product.getProductState().toString() eq 'UPLOADED'}">수정하기
+                </button>
                 <a href="#top" style="font-size: 1vw; margin-top: 5vh; font-weight: bold">맨 위로</a>
             </div>
 
@@ -174,30 +188,40 @@
                 </div>
 
                 상품이름 : <br>
-                <input type="text" class="name"> <br>
-                <br>
+                <input th:if="${product.getProductState().toString() eq 'UPLOADED'}" type="text" class="name">
+                <span th:unless="${product.getProductState().toString() eq 'UPLOADED'}"
+                      th:text="${product.getProductInformation().getName()}"/>
+                <br><br>
 
                 가격 : <br>
-                <input type="number" class="price"> <br>
-                <br>
-
-                브랜드 : <br>
-                <input type="text" class="brand"> <br>
-                <br>
+                <input th:if="${product.getProductState().toString() eq 'UPLOADED'}" type="number" class="price">
+                <span th:unless="${product.getProductState().toString() eq 'UPLOADED'}"
+                      th:text="${product.getProductInformation().getPrice()}"/>
+                <br><br>
 
                 메모 : <br>
-                <textarea class="memo" wrap="virtual"></textarea> <br>
-                <br>
+                <textarea th:if="${product.getProductState().toString() eq 'UPLOADED'}" class="memo"
+                          wrap="virtual"></textarea>
+                <span th:unless="${product.getProductState().toString() eq 'UPLOADED'}"
+                      th:text="${product.getProductInformation().getMemo()}"/>
+                <br><br>
 
-                <div style="display: flex; flex-direction: column; ">
-                    <button class="add_size_btn" style="width: 80%; background-color: yellow; height: auto;">사이즈 추가
+                <div th:if="${product.getProductState().toString() eq 'UPLOADED'}" class="sizeContainer">
+                    <button class="addSizeBtn" style="width: 80%; background-color: yellow; height: auto;">
+                        사이즈 추가
                     </button>
 
-                    <div class="size_input_list_container">
-                        <div class="size_container">
+                    <div class="sizeInputListContainer">
+                        <div class="sizeInputContainer">
                             사이즈 :<input type="text" class="size_input">
-                            <button class="remove_size_btn" style="width: 5vw; border-radius: 100%; "> -</button>
+                            <button class="removeSizeBtn" style="width: 5vw; border-radius: 100%; "> -</button>
                         </div>
+                    </div>
+                </div>
+                <div th:unless="${product.getProductState().toString() eq 'UPLOADED'}" class="sizeContainer">
+                    사이즈 :
+                    <div th:each="size : ${product.getProductInformation().getSize()}">
+                        <span th:text="${size}"></span>
                     </div>
                 </div>
 
@@ -304,7 +328,6 @@
         let pid = checkedProduct.getElementsByClassName("product_id")[0].innerText;
         let name = productInformations[0].value;
         let price = productInformations[1].value;
-        let brand = productInformations[2].value;
         let memo = checkedProduct.getElementsByClassName("memo")[0].value;
         let size = Array.from(checkedProduct.getElementsByClassName("size_input"))
           .map((sizeInput) => {
@@ -315,7 +338,6 @@
           "pid": pid,
           "name": name,
           "price": price,
-          "brand": brand,
           "memo": memo,
           "sizeList": size
         })
@@ -334,7 +356,7 @@
       return productIdList;
     }
 
-    $(".add_size_btn").on("click", function () {
+    $(".addSizeBtn").on("click", function () {
       let parentElement = this.parentNode;
       let sizeContainer = createSizeNode();
 
@@ -342,11 +364,11 @@
     });
 
 
-    $(".remove_size_btn").on("click", removeSizeContainerEvent);
+    $(".removeSizeBtn").on("click", removeSizeContainerEvent);
 
     function createSizeNode() {
       let sizeContainer = document.createElement("div");
-      sizeContainer.className = "size_container";
+      sizeContainer.className = "sizeInputContainer";
       sizeContainer.innerText = "사이즈 : ";
 
       let sizeInput = document.createElement("input");
@@ -354,7 +376,7 @@
 
       let removeSizeBtn = document.createElement("button");
       removeSizeBtn.innerText = " - ";
-      removeSizeBtn.className = "remove_size_btn";
+      removeSizeBtn.className = "removeSizeBtn";
       removeSizeBtn.addEventListener("click", removeSizeContainerEvent);
 
       sizeContainer.appendChild(sizeInput);
@@ -365,7 +387,7 @@
 
     function removeSizeContainerEvent() {
       let removeTarget = this.parentNode;
-      let sizeInputCount = this.parentNode.parentNode.getElementsByClassName("size_container").length;
+      let sizeInputCount = this.parentNode.parentNode.getElementsByClassName("sizeInputContainer").length;
 
       if (sizeInputCount <= 1) {
         alert("최소 한개 이상의 사이즈를 입력해야합니다.");
