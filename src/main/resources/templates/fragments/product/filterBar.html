@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>filterBar</title>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous">
+    </script>
+
+    <style>
+        #filterBarContainer {
+            margin-top: 3vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filterBtn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filterBtn:hover {
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .filterBtn > img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .filterBtn > span {
+            font-size: 1vw;
+            margin-left: 10px;
+        }
+
+    </style>
+
+    <script>
+      $(function() {
+        $(".filterBtn").on("click", function() {
+          $(".filterBtn > img").attr("src", "/images/common/check_off.png");
+          $(this).find("img").attr("src", "/images/common/check_on.png");
+        });
+
+        let uploadedProductContainer = $(".uploadedProductContainer");
+        let populatedProductContainer = $(".populatedProductContainer");
+
+        $(".filterBtn").on("click", function() {
+          uploadedProductContainer.hide();
+          populatedProductContainer.hide();
+        });
+
+        $("#wholeBtn").on("click", function() {
+          uploadedProductContainer.show();
+          populatedProductContainer.show();
+        });
+
+        $("#uploadedBtn").on('click', function() {
+          uploadedProductContainer.show();
+        });
+
+        $("#populatedBtn").on('click', function() {
+          populatedProductContainer.show();
+        })
+      });
+    </script>
+</head>
+<body>
+
+<div id="filterBarContainer">
+    <div id="wholeBtn" class="filterBtn">
+        <img src="/images/common/check_on.png" alt="">
+        <span> 전체 </span>
+    </div>
+    <div id="uploadedBtn" class="filterBtn">
+        <img src="/images/common/check_off.png" alt="">
+        <span> 미입력 상품 </span>
+    </div>
+    <div id="populatedBtn" class="filterBtn">
+        <img src="/images/common/check_off.png" alt="">
+        <span> 입력 상품 </span>
+    </div>
+</div>
+
+</body>
+</html>
