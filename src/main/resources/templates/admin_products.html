@@ -255,7 +255,9 @@
                     <br><br>
 
                     메모 : <br>
-                    <span th:text="${product.getProductInformation().getMemo()}"/>
+                    <a th:href="@{${product.getProductInformation().getMemo()}}">
+                        <span th:text="${product.getProductInformation().getMemo()}"/>
+                    </a>
                     <br><br>
 
                     <div class="sizeContainer">
