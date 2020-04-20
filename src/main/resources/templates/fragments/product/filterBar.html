@@ -69,6 +69,12 @@
         $("#populatedBtn").on('click', function() {
           populatedProductContainer.show();
         })
+
+        initFilter();
+
+        function initFilter() {
+          populatedProductContainer.hide();
+        }
       });
     </script>
 </head>
@@ -76,11 +82,11 @@
 
 <div id="filterBarContainer">
     <div id="wholeBtn" class="filterBtn">
-        <img src="/images/common/check_on.png" alt="">
+        <img src="/images/common/check_off.png" alt="">
         <span> 전체 </span>
     </div>
     <div id="uploadedBtn" class="filterBtn">
-        <img src="/images/common/check_off.png" alt="">
+        <img src="/images/common/check_on.png" alt="">
         <span> 미입력 상품 </span>
     </div>
     <div id="populatedBtn" class="filterBtn">
