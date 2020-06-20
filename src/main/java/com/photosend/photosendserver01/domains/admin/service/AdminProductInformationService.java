@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminProductInformationService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     public void inputProductInformation(List<FoundProductInformation> foundProductInformationList) {
