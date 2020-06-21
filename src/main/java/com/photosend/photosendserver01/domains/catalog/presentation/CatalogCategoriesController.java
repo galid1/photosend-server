@@ -11,9 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/catalog")
+@RequiredArgsConstructor
 public class CatalogCategoriesController {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @GetMapping("/categories")
     public List<Category> getCategories() {
