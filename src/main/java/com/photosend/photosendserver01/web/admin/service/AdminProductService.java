@@ -2,7 +2,6 @@ package com.photosend.photosendserver01.web.admin.service;
 
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEntity;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
-import com.photosend.photosendserver01.domains.catalog.domain.product.ProductState;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +23,6 @@ public class AdminProductService {
         List<ProductEntity> allProductList = productRepository.findAll();
 
         Map<Long, List<ProductEntity>> productListGroupByUploaderId = allProductList.stream()
-                .filter(productEntity -> {
-                    if(productEntity.getProductState() == ProductState.POPULATED
-                            && productEntity.getProductInformation().getName().equals("COUPON")) {
-                        return false;
-                    }
-                    return true;
-                })
                 .collect(Collectors.groupingBy(productEntity -> productEntity.getUploaderId()));
 
         Map<User, List<ProductEntity>> productListGroupByUploader = productListGroupByUploaderId.entrySet().stream()
