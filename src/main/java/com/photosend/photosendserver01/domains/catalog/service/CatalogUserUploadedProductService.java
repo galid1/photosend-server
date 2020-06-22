@@ -5,6 +5,7 @@ import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRep
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.FoundProductInformation;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.UserUploadedProduct;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +13,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CatalogUserUploadedProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<UserUploadedProduct> getUsersUploadProductList(long uploaderId) {
         return productRepository.findByUploaderIdOrderByProductState(uploaderId)

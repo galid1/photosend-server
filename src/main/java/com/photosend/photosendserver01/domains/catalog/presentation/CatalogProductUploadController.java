@@ -6,7 +6,7 @@ import com.photosend.photosendserver01.domains.catalog.presentation.request_resp
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.UploadedProduct;
 import com.photosend.photosendserver01.domains.catalog.service.CatalogProductUploadService;
 import com.photosend.photosendserver01.domains.catalog.service.FileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,12 +17,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/catalog")
+@RequiredArgsConstructor
 public class CatalogProductUploadController {
-    @Autowired
-    private CatalogProductUploadService catalogProductUploadService;
+    private final CatalogProductUploadService catalogProductUploadService;
 
-    @Autowired
-    private FileUtil fileUtil;
+    private final FileUtil fileUtil;
 
     @PostMapping(value = "/products/users/{userId}/pictures", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public List<ProductUploadResponse> uploadProductImages(@PathVariable("userId") long userId,

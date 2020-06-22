@@ -1,6 +1,7 @@
 package com.photosend.photosendserver01.web.admin.presentation;
 
 import com.photosend.photosendserver01.web.admin.service.AdminOrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class AdminOrderController {
-    @Autowired
-    private AdminOrderService orderService;
+    private final AdminOrderService orderService;
 
     @PutMapping("/{orderId}/cancel")
     public ResponseEntity cancel(@PathVariable("orderId") long orderId) {

@@ -1,6 +1,9 @@
 package com.photosend.photosendserver01.common.config;
 
 import com.photosend.photosendserver01.common.config.interceptor.CheckTokenInterceptor;
+import com.photosend.photosendserver01.common.util.token.JwtTokenVerifier;
+import com.photosend.photosendserver01.common.util.token.JwtTokenVerifierImpl;
+import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -26,8 +29,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public CheckTokenInterceptor checkTokenInterceptor() {
-        return new CheckTokenInterceptor();
+    public CheckTokenInterceptor checkTokenInterceptor(UserRepository userRepository) {
+        return new CheckTokenInterceptor(jwtTokenVerifier(userRepository));
+    }
+
+    @Bean
+    public JwtTokenVerifier jwtTokenVerifier(UserRepository userRepository) {
+        return new JwtTokenVerifierImpl(userRepository);
     }
 
 }

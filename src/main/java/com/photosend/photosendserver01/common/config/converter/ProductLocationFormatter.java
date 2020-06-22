@@ -2,7 +2,7 @@ package com.photosend.photosendserver01.common.config.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductLocation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +11,10 @@ import java.text.ParseException;
 import java.util.Locale;
 
 @Component
+@RequiredArgsConstructor
 public class ProductLocationFormatter implements Formatter<ProductLocation[]> {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Override
     public ProductLocation[] parse(String text, Locale locale) throws ParseException {

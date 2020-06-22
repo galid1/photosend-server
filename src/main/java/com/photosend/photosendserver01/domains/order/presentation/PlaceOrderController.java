@@ -3,14 +3,14 @@ package com.photosend.photosendserver01.domains.order.presentation;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderRequest;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderResponse;
 import com.photosend.photosendserver01.domains.order.service.PlaceOrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
+@RequiredArgsConstructor
 public class PlaceOrderController {
-    @Autowired
-    private PlaceOrderService placeOrderService;
+    private final PlaceOrderService placeOrderService;
 
     @PostMapping("/{userId}")
     public PlaceOrderResponse placeOrder(@RequestBody PlaceOrderRequest placeOrderRequest, @PathVariable("userId")Long ordererId) {

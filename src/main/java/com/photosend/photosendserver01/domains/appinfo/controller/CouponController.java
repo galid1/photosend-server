@@ -4,7 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.photosend.photosendserver01.common.util.aws.SimpleS3Client;
 import com.photosend.photosendserver01.domains.appinfo.controller.request_response.CouponDetailImageResponse;
 import com.photosend.photosendserver01.domains.appinfo.controller.request_response.CouponImageResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/appinfo/coupons")
+@RequiredArgsConstructor
 public class CouponController {
-    @Autowired
-    private SimpleS3Client s3Client;
+    private final SimpleS3Client s3Client;
 
     @Value("${photosend.aws.s3.upload-path.prefix.app-img}")
     private String s3AppImgPrefix;

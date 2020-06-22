@@ -1,7 +1,6 @@
 package com.photosend.photosendserver01.common.util.email;
 
 import com.photosend.photosendserver01.common.util.file.KeyValueFileLoader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -18,8 +17,7 @@ import java.util.Properties;
 @Component
 @Primary
 public class EmailUtilImpl implements EmailUtil {
-    @Autowired
-    private KeyValueFileLoader keyValueFileLoader;
+    private final KeyValueFileLoader keyValueFileLoader;
     @Value("${photosend.credential.mail.file-path}")
     private String mailCredentialFilePath;
     private final String MAIL_ID_KEY = "mail_id";
@@ -36,7 +34,8 @@ public class EmailUtilImpl implements EmailUtil {
     private String IMAGE_UPLOADED_LIST_URL = "https://rest.phsend.com/admin/products";
     private String ORDERED_LIST_URL = "https://rest.phsend.com/admin/orders";
 
-    public EmailUtilImpl() {
+    public EmailUtilImpl(KeyValueFileLoader keyValueFileLoader) {
+        this.keyValueFileLoader = keyValueFileLoader;
         initRecipients();
     }
 

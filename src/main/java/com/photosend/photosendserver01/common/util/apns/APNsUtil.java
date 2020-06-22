@@ -8,7 +8,7 @@ import com.turo.pushy.apns.util.ApnsPayloadBuilder;
 import com.turo.pushy.apns.util.SimpleApnsPushNotification;
 import com.turo.pushy.apns.util.TokenUtil;
 import com.turo.pushy.apns.util.concurrent.PushNotificationFuture;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Component
+@RequiredArgsConstructor
 public class APNsUtil {
-    @Autowired
-    private Environment env;
+    private final Environment env;
 
     private String KEY_ID = "8NYW4PKBLS";
     private String TEAM_ID = "4WJY57P5H9";

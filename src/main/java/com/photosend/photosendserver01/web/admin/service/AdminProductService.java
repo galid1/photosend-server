@@ -4,7 +4,7 @@ import com.photosend.photosendserver01.domains.catalog.domain.product.ProductEnt
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,12 +12,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AdminProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public Map<User, List<ProductEntity>> getUploadedProductListGroupByUploaderId() {
 //        List<ProductEntity> byProductState = productRepository.findByProductState(ProductState.UPLOADED);

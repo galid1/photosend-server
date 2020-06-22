@@ -1,7 +1,7 @@
 package com.photosend.photosendserver01.common.config.interceptor;
 
 import com.photosend.photosendserver01.common.util.token.JwtTokenVerifier;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+@RequiredArgsConstructor
 public class CheckTokenInterceptor implements HandlerInterceptor {
-    @Autowired
-    private JwtTokenVerifier jwtTokenVerifier;
+    private final JwtTokenVerifier jwtTokenVerifier;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
