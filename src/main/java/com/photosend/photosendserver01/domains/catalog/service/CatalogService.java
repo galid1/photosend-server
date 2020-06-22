@@ -34,7 +34,6 @@ public class CatalogService {
                         , PageRequest.of(getPaginationCatalogRequest.getPage()
                                 , getPaginationCatalogRequest.getCount()))
                 .stream()
-                .filter(productEntity -> !productEntity.getProductInformation().getName().equals("COUPON"))
                 .map((productEntity) -> toSummary(productEntity))
                 .collect(Collectors.toList());
     }
