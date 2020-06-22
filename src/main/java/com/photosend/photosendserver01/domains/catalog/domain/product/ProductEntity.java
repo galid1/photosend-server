@@ -25,11 +25,9 @@ public class ProductEntity extends BaseTimeEntity {
 
     // Optional Field
     @Embedded
-    @Setter
     private ProductInformation productInformation;
 
     @Enumerated(EnumType.STRING)
-    @Setter
     private ProductState productState;
 
     @Builder
