@@ -11,7 +11,7 @@ import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderProduct;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderRequest;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.PlaceOrderResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +20,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PlaceOrderService {
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    private final ApplicationEventPublisher eventPublisher;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     public PlaceOrderResponse placeOrder(PlaceOrderRequest placeOrderRequest, long ordererId) {

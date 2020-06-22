@@ -5,20 +5,19 @@ import com.photosend.photosendserver01.domains.user.exception.TokenWrongAudience
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterRequest;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserRegisterResponse;
 import com.photosend.photosendserver01.domains.user.service.UserRegisterService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class UserRegisterController {
 
-    @Autowired
-    private UserRegisterService userRegisterService;
+    private final UserRegisterService userRegisterService;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @PostMapping("/users")
     public UserRegisterResponse registerUser(@RequestBody UserRegisterRequest request) {

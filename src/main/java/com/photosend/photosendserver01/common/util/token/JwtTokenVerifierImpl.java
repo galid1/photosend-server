@@ -5,16 +5,16 @@ import com.photosend.photosendserver01.domains.user.exception.TokenExpiredExcept
 import com.photosend.photosendserver01.domains.user.exception.TokenWrongAudienceException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtTokenVerifierImpl implements JwtTokenVerifier {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Value("${photosend.jwt.secretkey}")
     private String secretKey;

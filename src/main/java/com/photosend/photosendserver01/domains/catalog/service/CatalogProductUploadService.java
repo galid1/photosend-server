@@ -9,7 +9,7 @@ import com.photosend.photosendserver01.domains.catalog.presentation.request_resp
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.UploadedProduct;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,18 +18,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CatalogProductUploadService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final FileUtil fileUtil;
 
-    @Autowired
-    private FileUtil fileUtil;
-
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public List<ProductUploadResponse> uploadProductImages(long uploaderId, List<UploadedProduct> usersUploadProductList) {

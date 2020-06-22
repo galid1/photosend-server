@@ -2,7 +2,7 @@ package com.photosend.photosendserver01.common.config.security;
 
 
 import com.photosend.photosendserver01.common.util.file.KeyValueFileLoader;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,9 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private KeyValueFileLoader keyValueFileLoader;
+    private final KeyValueFileLoader keyValueFileLoader;
 
     @Value("${photosend.credential.admin.file-path}")
     private String WEB_ADMIN_CREDENTIAL_FILE_PATH;

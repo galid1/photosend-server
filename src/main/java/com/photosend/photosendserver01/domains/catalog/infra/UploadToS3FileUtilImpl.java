@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.photosend.photosendserver01.common.util.aws.SimpleS3Client;
 import com.photosend.photosendserver01.domains.catalog.service.FileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
@@ -18,9 +18,9 @@ import java.util.UUID;
 
 @Component
 @Primary
+@RequiredArgsConstructor
 public class UploadToS3FileUtilImpl implements FileUtil {
-    @Autowired
-    private SimpleS3Client simpleS3Client;
+    private final SimpleS3Client simpleS3Client;
 
     @Value("${photosend.aws.s3.bucket-name.users-upload}")
     private String bucketName;

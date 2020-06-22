@@ -3,14 +3,14 @@ package com.photosend.photosendserver01.domains.user.service;
 import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.RenewApnsDeviceTokenRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserApnsDeviceTokenService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void renewApnsDeviceToken(long userId, RenewApnsDeviceTokenRequest request) {

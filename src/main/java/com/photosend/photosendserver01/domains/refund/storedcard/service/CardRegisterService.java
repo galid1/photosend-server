@@ -6,16 +6,15 @@ import com.photosend.photosendserver01.domains.refund.storedcard.domain.StoredCa
 import com.photosend.photosendserver01.domains.refund.usercard.domain.UserCardEntity;
 import com.photosend.photosendserver01.domains.refund.usercard.domain.UserCardInformation;
 import com.photosend.photosendserver01.domains.refund.usercard.domain.UserCardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class CardRegisterService {
-    @Autowired
-    private StoredCardRepository storedCardRepository;
-    @Autowired
-    private UserCardRepository userCardRepository;
+    private final StoredCardRepository storedCardRepository;
+    private final UserCardRepository userCardRepository;
 
     @Transactional
     public void registerUser(long userId, CardRegisterRequest request) {

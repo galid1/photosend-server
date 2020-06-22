@@ -7,7 +7,7 @@ import com.photosend.photosendserver01.domains.order.domain.OrderLine;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,16 +16,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AdminOrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     public Map<User, List<OrderInformation>> getOrderListGroupingByUser() {
         return orderRepository.findAll().stream()

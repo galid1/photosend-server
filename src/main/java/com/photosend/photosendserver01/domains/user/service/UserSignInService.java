@@ -4,15 +4,15 @@ import com.photosend.photosendserver01.domains.user.domain.user.UserEntity;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserSignInRequest;
 import com.photosend.photosendserver01.domains.user.presentation.request_reponse.UserSignInResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserSignInService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public UserSignInResponse signIn(UserSignInRequest signInRequest) {

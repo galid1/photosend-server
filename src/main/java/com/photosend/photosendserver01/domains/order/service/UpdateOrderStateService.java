@@ -2,14 +2,14 @@ package com.photosend.photosendserver01.domains.order.service;
 
 import com.photosend.photosendserver01.domains.order.domain.OrderEntity;
 import com.photosend.photosendserver01.domains.order.domain.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UpdateOrderStateService {
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     @Transactional
     public void updateToPayComplete(long orderId) {

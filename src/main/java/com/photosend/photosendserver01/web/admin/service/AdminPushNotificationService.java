@@ -4,7 +4,7 @@ import com.photosend.photosendserver01.common.util.apns.APNsUtil;
 import com.photosend.photosendserver01.common.util.apns.NotificationPayload;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,15 +12,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AdminPushNotificationService {
-    @Autowired
-    private APNsUtil apnsUtil;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private final APNsUtil apnsUtil;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     private String ALERT_TITLE = "PHOTOSEND ALERT";
     private String ALERT_BODY = "Product is found.";

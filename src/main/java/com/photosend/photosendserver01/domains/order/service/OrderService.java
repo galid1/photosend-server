@@ -9,7 +9,7 @@ import com.photosend.photosendserver01.domains.order.presentation.request_repons
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderLineResponse;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderResponse;
 import com.photosend.photosendserver01.domains.order.presentation.request_reponse.OrderedProduct;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,11 +17,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     public List<OrderResponse> getUsersOrderList(Long ordererId) {
        // 사용자 주문 리스트

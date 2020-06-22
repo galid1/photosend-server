@@ -2,6 +2,7 @@ package com.photosend.photosendserver01.web.admin.presentation;
 
 import com.photosend.photosendserver01.web.admin.service.AdminOrderService;
 import com.photosend.photosendserver01.web.admin.service.AdminProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,12 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class AdminWebController {
-    @Autowired
-    private AdminProductService adminProductService;
-
-    @Autowired
-    private AdminOrderService adminOrderService;
+    private final AdminProductService adminProductService;
+    private final AdminOrderService adminOrderService;
 
 //    @GetMapping("/admin/{userId}/products")
 //    public String inputProductInformation(@PathVariable("userId") long userId, Model model) {

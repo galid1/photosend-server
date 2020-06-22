@@ -5,7 +5,7 @@ import com.photosend.photosendserver01.domains.catalog.domain.product.ProductInf
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductRepository;
 import com.photosend.photosendserver01.domains.catalog.domain.product.ProductState;
 import com.photosend.photosendserver01.domains.catalog.presentation.request_response.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CatalogService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     private static long ADMIN_ID = 1l;
 

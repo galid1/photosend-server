@@ -2,13 +2,13 @@ package com.photosend.photosendserver01.domains.user.service;
 
 import com.photosend.photosendserver01.domains.user.domain.user.UserInformation;
 import com.photosend.photosendserver01.domains.user.domain.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserInformationService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserInformation getUserInformation(long userId) {
         return userRepository
