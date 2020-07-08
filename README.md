@@ -12,7 +12,7 @@ aws_secret_access_key = ...
 ```
 
 
-#### tourcash 설정(database,  firebase)
+#### photosend 설정(database,  firebase)
 1. /root에 `.photosend` 디렉토리 생성
 
 
