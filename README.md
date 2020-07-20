@@ -1,5 +1,8 @@
 # PhotoSend Server
 
+## Overview
+https://www.notion.so/Photosend-66cb21c479404c9eb86792197e5104b2
+
 ## Setting
 #### aws 설정 (s3)
 1. /root에 `.aws` 디렉토리 생성
