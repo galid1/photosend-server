@@ -16,9 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(checkTokenInterceptor())
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/users/**");
+
     }
 
     @Override
@@ -26,16 +24,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("*");
-    }
-
-    @Bean
-    public CheckTokenInterceptor checkTokenInterceptor(UserRepository userRepository) {
-        return new CheckTokenInterceptor(jwtTokenVerifier(userRepository));
-    }
-
-    @Bean
-    public JwtTokenVerifier jwtTokenVerifier(UserRepository userRepository) {
-        return new JwtTokenVerifierImpl(userRepository);
     }
 
 }
